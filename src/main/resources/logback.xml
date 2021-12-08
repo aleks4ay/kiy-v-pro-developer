@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>UTF-8</charset>
+            <!--<pattern>%d{HH:mm:ss.SSS} %highlight(%-5level) %cyan(%class{50}.%M:%L) - %msg%n</pattern>-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILEINFO" class="ch.qos.logback.core.FileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <file>log/kiyv_info.html</file>
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <charset>UTF-8</charset>
+            <layout class="ch.qos.logback.classic.html.HTMLLayout">
+                <pattern>%date%msg</pattern>
+            </layout>
+        </encoder>
+    </appender>
+    <appender name="FILEWARN" class="ch.qos.logback.core.FileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <file>log/kiyv_warn.html</file>
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <charset>UTF-8</charset>
+            <layout class="ch.qos.logback.classic.html.HTMLLayout">
+                <pattern>%date %-5level %logger{50}.%M:%L - %msg%n</pattern>
+            </layout>
+        </encoder>
+    </appender>
+
+    <appender name="FILEDEBUG" class="ch.qos.logback.core.FileAppender">
+        <file>log/kiyv.log</file>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%date %-5level %logger{50}.%M:%L - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <root level="debug">
+        <appender-ref ref="console" />
+        <appender-ref ref="FILEDEBUG" />
+        <appender-ref ref="FILEINFO" />
+        <appender-ref ref="FILEWARN" />
+    </root>
+
+    <logger name="kiyv" level="debug"/>
+    <logger name="org.springframework.web.servlet" level="debug"/>
+
+</configuration>
