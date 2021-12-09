@@ -1,6 +1,7 @@
 package org.aleks4ay.developer.model;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class Order implements BaseEntity<Order>{
 
@@ -10,6 +11,7 @@ public class Order implements BaseEntity<Order>{
     private int durationTime;
     private Timestamp dateToFactory;
     private double price;
+    private List<Description> descriptions;
 
     public Order(String idDoc, String clientId, String managerId, int durationTime, Timestamp dateToFactory, double price) {
         this.idDoc = idDoc;
@@ -61,6 +63,10 @@ public class Order implements BaseEntity<Order>{
         return dateToFactory;
     }
 
+    public String getDateToFactoryString() {
+        return dateToFactory == null ? "-" : dateToFactory.toString();
+    }
+
     public void setDateToFactory(Timestamp dateToFactory) {
         this.dateToFactory = dateToFactory;
     }
@@ -71,6 +77,14 @@ public class Order implements BaseEntity<Order>{
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public List<Description> getDescriptions() {
+        return descriptions;
+    }
+
+    public void setDescriptions(List<Description> descriptions) {
+        this.descriptions = descriptions;
     }
 
     @Override
