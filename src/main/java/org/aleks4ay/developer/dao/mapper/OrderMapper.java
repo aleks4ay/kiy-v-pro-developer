@@ -11,22 +11,23 @@ public class OrderMapper implements ObjectMapper<Order> {
     public Order extractFromResultSet(ResultSet rs) throws SQLException {
         return new Order(
                 rs.getString("iddoc"),
-                rs.getString("id_client"),
-                rs.getString("id_manager"),
+                rs.getString("docno"),
+                rs.getString("client"),
+                rs.getString("manager"),
                 rs.getInt("duration"),
-                rs.getTimestamp("t_factory"),
-                rs.getDouble("price")
+                rs.getTimestamp("t_create"),
+                rs.getTimestamp("t_factory")
         );
     }
 
     @Override
     public void insertToResultSet(PreparedStatement statement, Order order) throws SQLException {
         statement.setString(6, order.getIdDoc());
-        statement.setString(1, order.getClientId());
-        statement.setString(2, order.getManagerId());
+/*        statement.setString(1, order.getClient());
+        statement.setString(2, order.getManager());
         statement.setInt(3, order.getDurationTime());
         statement.setTimestamp(4, order.getDateToFactory());
-        statement.setDouble(5, order.getPrice());
+        statement.setDouble(5, order.getPrice());*/
     }
 
     @Override

@@ -2,7 +2,7 @@ package org.aleks4ay.developer.model;
 
 public class Page {
     private long position;
-    private long maxPosition;
+    private long size;
     private final long positionOnPage;
 
     public Page(long positionOnPage) {
@@ -18,19 +18,23 @@ public class Page {
     }
 
     public long getMaxPosition() {
-        return maxPosition;
-    }
-
-    public void setMaxPosition(long maxPosition) {
-        this.maxPosition = maxPosition;
+        return size / getPositionOnPage();
     }
 
     public long getPositionOnPage() {
         return positionOnPage;
     }
 
+    public long getSize() {
+        return size;
+    }
+
+    public void setSize(long size) {
+        this.size = size;
+    }
+
     public boolean isLast() {
-        return position == maxPosition;
+        return position == getMaxPosition();
     }
 
     public boolean isFirst() {

@@ -3,7 +3,7 @@ package org.aleks4ay.developer.model;
 public class Description implements BaseEntity<Description> {
 
     private String id;
-    private String idDoc;
+    private String idOrder;
     private int position;
     private String idTmc;
     private int quantity;
@@ -12,12 +12,12 @@ public class Description implements BaseEntity<Description> {
     private int sizeB;
     private int sizeC;
     private String embodiment;
-//    private Status status;
+    private Status status;
 
-    public Description(String id, String idDoc, int position, String idTmc, int quantity,
+    public Description(String id, String idOrder, int position, String idTmc, int quantity,
                        String descrSecond, int sizeA, int sizeB, int sizeC, String embodiment) {
         this.id = id;
-        this.idDoc = idDoc;
+        this.idOrder = idOrder;
         this.position = position;
         this.idTmc = idTmc;
         this.quantity = quantity;
@@ -37,12 +37,12 @@ public class Description implements BaseEntity<Description> {
         this.id = id;
     }
 
-    public String getIdDoc() {
-        return idDoc;
+    public String getIdOrder() {
+        return idOrder;
     }
 
-    public void setIdDoc(String idDoc) {
-        this.idDoc = idDoc;
+    public void setIdOrder(String idOrder) {
+        this.idOrder = idOrder;
     }
 
     public int getPosition() {
@@ -109,6 +109,14 @@ public class Description implements BaseEntity<Description> {
         this.embodiment = embodiment;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     @Override
     public String getEntityName() {
         return "Description";
@@ -118,7 +126,7 @@ public class Description implements BaseEntity<Description> {
     public String toString() {
         return "Description{" +
                 "id='" + id + '\'' +
-                ", idDoc='" + idDoc + '\'' +
+                ", idOrder='" + idOrder + '\'' +
                 ", position=" + position +
                 ", idTmc='" + idTmc + '\'' +
                 ", quantity=" + quantity +
@@ -127,6 +135,7 @@ public class Description implements BaseEntity<Description> {
                 ", sizeB=" + sizeB +
                 ", sizeC=" + sizeC +
                 ", embodiment='" + embodiment + '\'' +
+//                ", status='" + status.toString() + '\'' +
                 '}';
     }
 }

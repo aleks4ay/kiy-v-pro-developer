@@ -5,18 +5,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
-import org.aleks4ay.developer.dao.ConnectionPool;
-import org.aleks4ay.developer.dao.OrderDao;
 import org.aleks4ay.developer.model.Description;
+import org.aleks4ay.developer.model.DescriptionParsing;
 import org.aleks4ay.developer.model.Order;
 import org.aleks4ay.developer.model.Page;
-import org.aleks4ay.developer.service.OrderService;
 import org.aleks4ay.developer.service.ParsingEngine;
 
 import java.net.URL;
@@ -32,7 +27,7 @@ public class Controller implements Initializable {
     private final Page page = new Page(positionOnPage);
 
     private final ObservableList<Order> listOrderParsing = FXCollections.observableArrayList();
-    private final ObservableList<Description> listDescriptionParsing = FXCollections.observableArrayList();
+    private final ObservableList<DescriptionParsing> listDescriptionParsing = FXCollections.observableArrayList();
 
 //---------------------- B U T T O N
     @FXML private Button parsing_save;
@@ -40,7 +35,7 @@ public class Controller implements Initializable {
     @FXML private Button parsing_previous;
 
 //----------------T A B    P A R S I N G  ---------------------------------
-//    @FXML private Label info_parsing;
+    @FXML private Label info_parsing;
 //--------------- Table 1 ---------------
     @FXML private TableView<Order> tableParsingView1;
     @FXML private TableColumn<Order, String> parsing_num;
@@ -50,7 +45,7 @@ public class Controller implements Initializable {
     @FXML private TableColumn<Order, String> parsing_count_position;
 
 //--------------- Table 2 ---------------
-    @FXML private TableView<Description> tableParsingView2;
+    @FXML private TableView<DescriptionParsing> tableParsingView2;
     @FXML private TableColumn<Description, String> parsing_pos;
     @FXML private TableColumn<Description, Text> parsing_description2;
     @FXML private TableColumn<Description, String> parsing_description_size;
@@ -65,46 +60,63 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initParsingTabOne();
-//        System.out.println(info1.getText().toUpperCase());
-//        info1.setText(sortWay + " test");
-//        info1.setText("test 2");
+        initParsingTabTwo();
+
+        tableParsingView1.getSelectionModel().selectedIndexProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                updateSelectedDescription();
+            }
+        });
     }
 
     private void initParsingTabOne() {
         listOrderParsing.clear();
-        listOrderParsing.addAll(parsingEngine.findAllParsing(page));
+        listOrderParsing.addAll(parsingEngine.getOrdersWithDescriptions(page));
 
-        parsing_num.setCellValueFactory(new PropertyValueFactory<Order, String>("clientId"));
-        parsing_client.setCellValueFactory(new PropertyValueFactory<Order, String>("clientId"));
-        parsing_manager.setCellValueFactory(new PropertyValueFactory<Order, String>("managerId"));
-        parsing_data_f.setCellValueFactory(new PropertyValueFactory<Order, String>("dateToFactoryString"));
-        parsing_count_position.setCellValueFactory(new PropertyValueFactory<Order, String>("dateToFactoryString"));
-
+        parsing_num.setCellValueFactory(new PropertyValueFactory<>("docNumber"));
+        parsing_client.setCellValueFactory(new PropertyValueFactory<>("client"));
+        parsing_manager.setCellValueFactory(new PropertyValueFactory<>("manager"));
+        parsing_data_f.setCellValueFactory(new PropertyValueFactory<>("dateToFactoryString"));
+        parsing_count_position.setCellValueFactory(new PropertyValueFactory<>("numberOfPosition"));
 
         tableParsingView1.setItems(listOrderParsing);
         tableParsingView1.getSelectionModel().select(selectedRow);
-//        info_parsing.setText(String.valueOf(listOrderParsing.size()));
+        info_parsing.setText("Заказов: " + page.getSize());
     }
 
-    /*private void initParsingTabTwo() {
+    private void initParsingTabTwo() {
+        updateSelectedDescription();
+
+        parsing_pos.setCellValueFactory(new PropertyValueFactory<>("position"));
+        parsing_description2.setCellValueFactory(new PropertyValueFactory<>("descriptionText"));
+        parsing_description_size.setCellValueFactory(new PropertyValueFactory<>("size"));
+        parsing_amount.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        parsing_type.setCellValueFactory(new PropertyValueFactory<>("type"));
+        parsing_factory.setCellValueFactory(new PropertyValueFactory<>("buttonFactory"));
+        parsing_kb.setCellValueFactory(new PropertyValueFactory<>("buttonKB"));
+        parsing_tehn.setCellValueFactory(new PropertyValueFactory<>("buttonTeh"));
+        parsing_other.setCellValueFactory(new PropertyValueFactory<>("buttonOther"));
+
+        tableParsingView2.setItems(listDescriptionParsing);
+    }
+
+    private void updateSelectedDescription() {
         listDescriptionParsing.clear();
         if (tableParsingView1.getSelectionModel().getSelectedItem() != null) {
             Order selectedOrder = tableParsingView1.getSelectionModel().getSelectedItem();
-            listDescriptionParsing.addAll(selectedOrder.getDescriptions());
+            for (Description d : selectedOrder.getDescriptions()) {
+                listDescriptionParsing.add(new DescriptionParsing(
+                        d.getId(),
+                        d.getPosition(),
+                        d.getDescrSecond(),
+                        (d.getSizeA() + "×" + d.getSizeB() + "×" + d.getSizeC()),
+                        d.getQuantity(),
+                        d.getStatus().getType(),
+                        d.getStatus().getType()
+                ));
+            }
         }
-
-        parsing_pos.setCellValueFactory(new PropertyValueFactory<Description, String>("position"));
-        parsing_description2.setCellValueFactory(new PropertyValueFactory<Description, Text>("descriptionText"));
-        parsing_description_size.setCellValueFactory(new PropertyValueFactory<Description, String>("size"));
-        parsing_amount.setCellValueFactory(new PropertyValueFactory<Description, String>("amount"));
-        parsing_type.setCellValueFactory(new PropertyValueFactory<Description, String>("type"));
-        parsing_factory.setCellValueFactory(new PropertyValueFactory<Description, RadioButton>("buttonFactory"));
-        parsing_kb.setCellValueFactory(new PropertyValueFactory<Description, RadioButton>("buttonKB"));
-        parsing_tehn.setCellValueFactory(new PropertyValueFactory<Description, RadioButton>("buttonTeh"));
-        parsing_other.setCellValueFactory(new PropertyValueFactory<Description, RadioButton>("buttonOther"));
-
-        tableParsingView2.setItems(listDescriptionParsing);
-    }*/
+    }
 
     public void applyParsing(ActionEvent actionEvent) {
         //        thisAppChangeData = true;

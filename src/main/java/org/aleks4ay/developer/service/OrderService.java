@@ -1,10 +1,10 @@
 package org.aleks4ay.developer.service;
 
 import org.aleks4ay.developer.dao.BaseDao;
+import org.aleks4ay.developer.dao.OrderDao;
 import org.aleks4ay.developer.model.Order;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class OrderService extends AbstractService<Order> {
 
@@ -12,12 +12,7 @@ public class OrderService extends AbstractService<Order> {
         super(orderDao);
     }
 
-/*    public List<Order> findAllParsing(long position, long positionOnList) {
-        return findAll().stream()
-                .skip(position * positionOnList)
-                .limit(positionOnList)
-                .collect(Collectors.toList());
-    }*/
-
-
+    public List<Order> findAllFilled() {
+        return ((OrderDao)getDao()).findAllFilled();
+    }
 }

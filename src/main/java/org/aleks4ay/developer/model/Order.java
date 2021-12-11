@@ -1,25 +1,34 @@
 package org.aleks4ay.developer.model;
 
+import org.aleks4ay.developer.tools.Constants;
+
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Order implements BaseEntity<Order>{
 
     private String idDoc;
-    private String clientId;
-    private String managerId;
+    private String docNumber;
+    private String client;
+    private String manager;
     private int durationTime;
+    private Timestamp dateCreate;
     private Timestamp dateToFactory;
     private double price;
-    private List<Description> descriptions;
+    private List<Description> descriptions = new ArrayList<>();
 
-    public Order(String idDoc, String clientId, String managerId, int durationTime, Timestamp dateToFactory, double price) {
+    public Order(String idDoc, String docNumber, String client, String manager, int durationTime, Timestamp dateCreate, Timestamp dateToFactory) {
         this.idDoc = idDoc;
-        this.clientId = clientId;
-        this.managerId = managerId;
+        this.docNumber = docNumber;
+        this.client = client;
+        this.manager = manager;
         this.durationTime = durationTime;
+        this.dateCreate = dateCreate;
         this.dateToFactory = dateToFactory;
-        this.price = price;
     }
 
     @Override
@@ -35,20 +44,28 @@ public class Order implements BaseEntity<Order>{
         this.idDoc = idDoc;
     }
 
-    public String getClientId() {
-        return clientId;
+    public String getDocNumber() {
+        return docNumber;
     }
 
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
+    public void setDocNumber(String docNumber) {
+        this.docNumber = docNumber;
     }
 
-    public String getManagerId() {
-        return managerId;
+    public String getClient() {
+        return client;
     }
 
-    public void setManagerId(String managerId) {
-        this.managerId = managerId;
+    public void setClient(String client) {
+        this.client = client;
+    }
+
+    public String getManager() {
+        return manager;
+    }
+
+    public void setManager(String manager) {
+        this.manager = manager;
     }
 
     public int getDurationTime() {
@@ -59,12 +76,16 @@ public class Order implements BaseEntity<Order>{
         this.durationTime = durationTime;
     }
 
-    public Timestamp getDateToFactory() {
-        return dateToFactory;
+    public Timestamp getDateCreate() {
+        return dateCreate;
     }
 
-    public String getDateToFactoryString() {
-        return dateToFactory == null ? "-" : dateToFactory.toString();
+    public void setDateCreate(Timestamp dateCreate) {
+        this.dateCreate = dateCreate;
+    }
+
+    public Timestamp getDateToFactory() {
+        return dateToFactory;
     }
 
     public void setDateToFactory(Timestamp dateToFactory) {
@@ -87,6 +108,19 @@ public class Order implements BaseEntity<Order>{
         this.descriptions = descriptions;
     }
 
+    public String getNumberOfPosition() {
+        return String.valueOf(descriptions.size());
+    }
+
+    public String getDateToFactoryString() {
+        return dateToFactory == null ? "-" : dateToFactory.toLocalDateTime().format(Constants.dayTimeFormatter);
+    }
+
+    public String getDateCreateString() {
+        return dateCreate.toLocalDateTime().format(Constants.dayTimeFormatter);
+    }
+
+
     @Override
     public String getEntityName() {
         return "Order";
@@ -96,11 +130,32 @@ public class Order implements BaseEntity<Order>{
     public String toString() {
         return "Order{" +
                 "idDoc='" + idDoc + '\'' +
-                ", clientId='" + clientId + '\'' +
-                ", managerId='" + managerId + '\'' +
+                ", docNumber='" + docNumber + '\'' +
+                ", client='" + client + '\'' +
+                ", manager='" + manager + '\'' +
                 ", durationTime=" + durationTime +
+                ", dateCreate=" + dateCreate +
                 ", dateToFactory=" + dateToFactory +
                 ", price=" + price +
+                ", descriptions=" + descriptions +
                 '}';
+    }
+
+    enum  Status {
+        NEW(0),
+        PARSED(1),
+        COMPLETE(2),
+        CANCELED(3);
+
+        private int statusIndex;
+
+        Status(int statusIndex) {
+            this.statusIndex = statusIndex;
+        }
+
+        @Override
+        public String toString() {
+            return "Order." + super.toString();
+        }
     }
 }

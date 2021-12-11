@@ -45,11 +45,37 @@ public class OrderDao extends AbstractDao<Order> implements BaseDao<Order> {
             List<String> entities = new ArrayList<>();
             ResultSet rs = st.executeQuery(ConstantsSql.ORDER_GET_ALL_ID);
             while (rs.next()) {
-                entities.add(rs.getString("iddoc"));
+                entities.add(rs.getString("id"));
             }
             return entities;
         } catch (SQLException e) {
-            log.warn("Exception during reading 'Order.idDoc'. Sql: '{}'.", ConstantsSql.ORDER_GET_ALL_ID, e);
+            log.warn("Exception during reading 'Order.id'. Sql: '{}'.", ConstantsSql.ORDER_GET_ALL_ID, e);
+            return Collections.emptyList();
+        } finally {
+            closeConnection(connection);
+        }
+    }
+
+    public List<Order> findAllFilled() {
+        Connection connection = getConnection();
+        try (Statement st = connection.createStatement()){
+            List<Order> entities = new ArrayList<>();
+            ResultSet rs = st.executeQuery(ConstantsSql.ORDER_GET_ALL_FILLED);
+            while (rs.next()) {
+                Order order = new Order(
+                        rs.getString("id"),
+                        rs.getString("doc_number"),
+                        rs.getString("client"),
+                        rs.getString("manager"),
+                        rs.getInt("duration"),
+                        rs.getTimestamp("t_create"),
+                        rs.getTimestamp("t_factory")
+                );
+                entities.add(order);
+            }
+            return entities;
+        } catch (SQLException e) {
+            log.warn("Exception during reading 'Order.id'. Sql: '{}'.", ConstantsSql.ORDER_GET_ALL_ID, e);
             return Collections.emptyList();
         } finally {
             closeConnection(connection);

@@ -16,7 +16,7 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root;
-        root = FXMLLoader.load(getClass().getResource("/fxml/factory.fxml"));
+        root = FXMLLoader.load(getClass().getResource("/fxml/factory3.fxml"));
         Scene scene = new Scene(root);
         primaryStage.setTitle("KIY-V Production Management 5.0 "/* + DataControl.getCurrentProfile()*/);
         primaryStage.setScene(scene);
