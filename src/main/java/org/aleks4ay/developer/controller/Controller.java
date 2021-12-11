@@ -104,7 +104,15 @@ public class Controller implements Initializable {
         listDescriptionParsing.clear();
         if (tableParsingView1.getSelectionModel().getSelectedItem() != null) {
             Order selectedOrder = tableParsingView1.getSelectionModel().getSelectedItem();
-            for (Description d : selectedOrder.getDescriptions()) {
+            listDescriptionParsing.addAll(DescriptionParsing.makeFromOrderDescription(selectedOrder));
+//            Map<String, String> technoIdAllMap = TmcServiceTechno.getTechnoIdAll();
+/*            for (Description d : selectedOrder.getDescriptions()) {
+                if (technoIdAllMap.containsKey(d.getIdTmc())) {
+                    d.getStatus().setIsTechno(1);
+                    d.getStatus().setType("Техн.");
+                    d.setDescrSecond(technoIdAllMap.get(d.getIdTmc()));
+                }
+
                 listDescriptionParsing.add(new DescriptionParsing(
                         d.getId(),
                         d.getPosition(),
@@ -114,7 +122,7 @@ public class Controller implements Initializable {
                         d.getStatus().getType(),
                         d.getStatus().getType()
                 ));
-            }
+            }*/
         }
     }
 

@@ -1,13 +1,9 @@
 package org.aleks4ay.developer.model;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
 public class Status{
 
     private String id;
-    private String type;
+    private TypeName typeName;
     private StatusName statusName;
     private int isTechno;
     private String designer;
@@ -18,9 +14,9 @@ public class Status{
     public Status() {
     }
 
-    public Status(String id, String type, StatusName statusName, int isTechno, String designer, int isParsing) {
+    public Status(String id, String typeName, StatusName statusName, int isTechno, String designer, int isParsing) {
         this.id = id;
-        this.type = type;
+        this.typeName = TypeName.valueOf(typeName);
         this.statusName = statusName;
         this.isTechno = isTechno;
         this.designer = designer;
@@ -35,12 +31,12 @@ public class Status{
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public TypeName getTypeName() {
+        return typeName;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTypeName(TypeName typeName) {
+        this.typeName = typeName;
     }
 
     public StatusName getStatusName() {
@@ -79,7 +75,7 @@ public class Status{
     public String toString() {
         return "Status{" +
                 "id='" + id + '\'' +
-                ", type='" + type + '\'' +
+                ", type='" + typeName + '\'' +
                 ", statusName=" + statusName +
                 ", isTechno=" + isTechno +
                 ", designer='" + designer + '\'' +

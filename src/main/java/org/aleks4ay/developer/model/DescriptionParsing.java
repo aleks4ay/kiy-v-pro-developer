@@ -3,6 +3,11 @@ package org.aleks4ay.developer.model;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.text.Text;
+import org.aleks4ay.developer.service.TmcServiceTechno;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class DescriptionParsing {
 
@@ -16,7 +21,7 @@ public class DescriptionParsing {
     private String descr;
     private String size;
     private int amount;
-    private String type;
+    private TypeName type;
     private String status;
 
     public DescriptionParsing(String id, int position, String descr, String size, int amount, String type, String status) {
@@ -25,7 +30,7 @@ public class DescriptionParsing {
         this.descr = descr;
         this.size = size;
         this.amount = amount;
-        this.type = type;
+        this.type = TypeName.valueOf(type);
         this.status = status;
 
         this.buttonFactory = new RadioButton();
@@ -39,25 +44,32 @@ public class DescriptionParsing {
         buttonTeh.setToggleGroup(parsingCheckGroup);
         buttonOther.setToggleGroup(parsingCheckGroup);
 
-
-        if (type.equalsIgnoreCase("Техн.")) {
+        if (type.equalsIgnoreCase(TypeName.TECHNO.toString())) {
             buttonTeh.setSelected(true);
         }
-/*        else if (isParsing == 1) {
-            if (type.equalsIgnoreCase("ЦЕХ")) {
-                buttonFactory.setSelected(true);
+    }
+
+    public static List<DescriptionParsing> makeFromOrderDescription(Order order) {
+        Map<String, String> technoIdAllMap = TmcServiceTechno.getTechnoIdAll();
+        List<DescriptionParsing> result = new ArrayList<>();
+        for (Description d : order.getDescriptions()) {
+            if (technoIdAllMap.containsKey(d.getIdTmc())) {
+                d.getStatus().setIsTechno(1);
+                d.getStatus().setTypeName(TypeName.TECHNO);
+                d.setDescrSecond(technoIdAllMap.get(d.getIdTmc()));
             }
-            else if (type.equalsIgnoreCase("КБ")) {
-                buttonKB.setSelected(true);
-            }
-            else if (type.equalsIgnoreCase("Прочее")) {
-                buttonOther.setSelected(true);
-            }
-            buttonFactory.setDisable(true);
-            buttonKB.setDisable(true);
-            buttonOther.setDisable(true);
-            buttonTeh.setDisable(true);
-        }*/
+
+            result.add(new DescriptionParsing(
+                    d.getId(),
+                    d.getPosition(),
+                    d.getDescrSecond(),
+                    (d.getSizeA() + "×" + d.getSizeB() + "×" + d.getSizeC()),
+                    d.getQuantity(),
+                    d.getStatus().getTypeName().toString(),
+                    d.getStatus().getStatusName().toString()
+            ));
+        }
+        return result;
     }
 
     public String getId() {
@@ -100,12 +112,16 @@ public class DescriptionParsing {
         this.amount = amount;
     }
 
-    public String getType() {
+    public TypeName getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(TypeName type) {
         this.type = type;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getStatus() {
