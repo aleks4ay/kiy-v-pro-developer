@@ -1,6 +1,6 @@
 package org.aleks4ay.developer.model;
 
 public interface BaseEntity<T> {
-    String getId();
+    Object getId();
     String getEntityName();
 }

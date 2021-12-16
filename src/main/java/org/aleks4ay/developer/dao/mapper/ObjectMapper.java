@@ -7,6 +7,5 @@ import java.sql.SQLException;
 public interface ObjectMapper<T> {
 
     T extractFromResultSet(ResultSet rs) throws SQLException;
-    void insertToResultSet(PreparedStatement statement, T entity) throws SQLException;
-    void insertIdToResultSet(PreparedStatement statement, T entity) throws SQLException;
+    void insertIdToResultSet(PreparedStatement statement, Object key) throws SQLException;
 }

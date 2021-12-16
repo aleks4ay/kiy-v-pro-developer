@@ -1,6 +1,7 @@
 package org.aleks4ay.developer.dao;
 
 import org.aleks4ay.developer.dao.mapper.ObjectMapper;
+import org.aleks4ay.developer.dao.mapper.ObjectMapperTime;
 import org.aleks4ay.developer.model.BaseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,22 +30,6 @@ abstract class AbstractDao<T extends BaseEntity<T>> {
         connectionBase.closeConnection(connection);
     }
 
-    Optional<T> findAbstractById(String sql, String id) throws SQLException {
-        Connection connection = getConnection();
-        try (PreparedStatement prepStatement = connection.prepareStatement(sql)){
-            prepStatement.setString(1, id);
-            ResultSet rs = prepStatement.executeQuery();
-            if (rs.next()) {
-                return Optional.of(objectMapper.extractFromResultSet(rs));
-            }
-        } catch (SQLException e) {
-            log.warn("Exception during reading '{}'. Sql: '{}'.", getEntityName(), sql, e);
-            throw e;
-        } finally {
-            closeConnection(connection);
-        }
-        return Optional.empty();
-    }
 
     List<T> findAbstractAll(String sql) {
         Connection connection = getConnection();
@@ -85,15 +70,35 @@ abstract class AbstractDao<T extends BaseEntity<T>> {
         }
     }
 
+    boolean updateStringAbstract(String sql, String id, String value) {
+        Connection connection = getConnection();
+        try (PreparedStatement prepStatement = connection.prepareStatement(sql)){
+            prepStatement.setString(1, value);
+            prepStatement.setString(2, id);
+            boolean result = 1 == prepStatement.executeUpdate();
+            if (result) {
+                log.debug("Was updated {}. Id: '{}', new value: '{}'", getEntityName(), id, value);
+            } else {
+                log.debug("{} with id '{}' was not updated.", getEntityName(), id);
+            }
+            return result;
+        } catch (SQLException e) {
+            log.warn("Exception during updating '{}'. Sql: '{}'.", getEntityName(), sql, e);
+        } finally {
+            closeConnection(connection);
+        }
+        return false;
+    }
+
     boolean updateAbstract(String sql, T t) {
         Connection connection = getConnection();
         try (PreparedStatement prepStatement = connection.prepareStatement(sql)){
-            objectMapper.insertToResultSet(prepStatement, t);
-            boolean result =  prepStatement.execute();
+            ((ObjectMapperTime<T>)objectMapper).insertToResultSet(prepStatement, t);
+            boolean result = 1 == prepStatement.executeUpdate();
             if (result) {
                 log.info("Was updated {}. New value: {}", getEntityName(), t.toString());
             } else {
-                log.info("{} with is '{}' was not updated. Entity: {}", getEntityName(), t.getId(), t.toString());
+                log.info("{} with id '{}' was not updated. Entity: {}", getEntityName(), t.getId(), t.toString());
             }
             return result;
         } catch (SQLException e) {

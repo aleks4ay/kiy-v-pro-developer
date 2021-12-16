@@ -3,15 +3,12 @@ package org.aleks4ay.developer.model;
 import org.aleks4ay.developer.tools.Constants;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Order implements BaseEntity<Order>{
 
-    private String idDoc;
+    private String id;
     private String docNumber;
     private String client;
     private String manager;
@@ -19,29 +16,28 @@ public class Order implements BaseEntity<Order>{
     private Timestamp dateCreate;
     private Timestamp dateToFactory;
     private double price;
+    private StatusName status;
     private List<Description> descriptions = new ArrayList<>();
 
-    public Order(String idDoc, String docNumber, String client, String manager, int durationTime, Timestamp dateCreate, Timestamp dateToFactory) {
-        this.idDoc = idDoc;
+    public Order(String id, String docNumber, String client, String manager, int durationTime, Timestamp dateCreate,
+                 Timestamp dateToFactory, StatusName status) {
+        this.id = id;
         this.docNumber = docNumber;
         this.client = client;
         this.manager = manager;
         this.durationTime = durationTime;
         this.dateCreate = dateCreate;
         this.dateToFactory = dateToFactory;
+        this.status = status;
     }
 
     @Override
     public String getId() {
-        return idDoc;
+        return id;
     }
 
-    public String getIdDoc() {
-        return idDoc;
-    }
-
-    public void setIdDoc(String idDoc) {
-        this.idDoc = idDoc;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getDocNumber() {
@@ -108,6 +104,14 @@ public class Order implements BaseEntity<Order>{
         this.descriptions = descriptions;
     }
 
+    public StatusName getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusName status) {
+        this.status = status;
+    }
+
     public String getNumberOfPosition() {
         return String.valueOf(descriptions.size());
     }
@@ -129,7 +133,7 @@ public class Order implements BaseEntity<Order>{
     @Override
     public String toString() {
         return "Order{" +
-                "idDoc='" + idDoc + '\'' +
+                "id='" + id + '\'' +
                 ", docNumber='" + docNumber + '\'' +
                 ", client='" + client + '\'' +
                 ", manager='" + manager + '\'' +
@@ -137,25 +141,8 @@ public class Order implements BaseEntity<Order>{
                 ", dateCreate=" + dateCreate +
                 ", dateToFactory=" + dateToFactory +
                 ", price=" + price +
+                ", status=" + status +
                 ", descriptions=" + descriptions +
                 '}';
-    }
-
-    enum  Status {
-        NEW(0),
-        PARSED(1),
-        COMPLETE(2),
-        CANCELED(3);
-
-        private int statusIndex;
-
-        Status(int statusIndex) {
-            this.statusIndex = statusIndex;
-        }
-
-        @Override
-        public String toString() {
-            return "Order." + super.toString();
-        }
     }
 }

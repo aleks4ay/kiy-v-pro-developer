@@ -1,5 +1,8 @@
 package org.aleks4ay.developer.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Description implements BaseEntity<Description> {
 
     private String id;
@@ -8,24 +11,33 @@ public class Description implements BaseEntity<Description> {
     private String idTmc;
     private int quantity;
     private String descrSecond;
+    private String descrAll;
     private int sizeA;
     private int sizeB;
     private int sizeC;
     private String embodiment;
-    private Status status;
+    private TypeName typeName;
+    private StatusName statusName;
+    private String designer;
+    private List<DescriptionTime> times = new ArrayList<>();
 
-    public Description(String id, String idOrder, int position, String idTmc, int quantity,
-                       String descrSecond, int sizeA, int sizeB, int sizeC, String embodiment) {
+    public Description(String id, String idOrder, int position, String idTmc, int quantity, String descrSecond,
+                       String descrAll, int sizeA, int sizeB, int sizeC, String embodiment, TypeName typeName,
+                       StatusName statusName, String designer) {
         this.id = id;
         this.idOrder = idOrder;
         this.position = position;
         this.idTmc = idTmc;
         this.quantity = quantity;
         this.descrSecond = descrSecond;
+        this.descrAll = descrAll;
         this.sizeA = sizeA;
         this.sizeB = sizeB;
         this.sizeC = sizeC;
         this.embodiment = embodiment;
+        this.typeName = typeName;
+        this.statusName = statusName;
+        this.designer = designer;
     }
 
     @Override
@@ -77,6 +89,14 @@ public class Description implements BaseEntity<Description> {
         this.descrSecond = descrSecond;
     }
 
+    public String getDescrAll() {
+        return descrAll;
+    }
+
+    public void setDescrAll(String descrAll) {
+        this.descrAll = descrAll;
+    }
+
     public int getSizeA() {
         return sizeA;
     }
@@ -109,12 +129,36 @@ public class Description implements BaseEntity<Description> {
         this.embodiment = embodiment;
     }
 
-    public Status getStatus() {
-        return status;
+    public TypeName getTypeName() {
+        return typeName;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setTypeName(TypeName typeName) {
+        this.typeName = typeName;
+    }
+
+    public StatusName getStatusName() {
+        return statusName;
+    }
+
+    public void setStatusName(StatusName statusName) {
+        this.statusName = statusName;
+    }
+
+    public String getDesigner() {
+        return designer;
+    }
+
+    public void setDesigner(String designer) {
+        this.designer = designer;
+    }
+
+    public List<DescriptionTime> getTimes() {
+        return times;
+    }
+
+    public void setTimes(List<DescriptionTime> times) {
+        this.times = times;
     }
 
     @Override
@@ -131,11 +175,15 @@ public class Description implements BaseEntity<Description> {
                 ", idTmc='" + idTmc + '\'' +
                 ", quantity=" + quantity +
                 ", descrSecond='" + descrSecond + '\'' +
+                ", descrAll='" + descrAll + '\'' +
                 ", sizeA=" + sizeA +
                 ", sizeB=" + sizeB +
                 ", sizeC=" + sizeC +
                 ", embodiment='" + embodiment + '\'' +
-//                ", status='" + status.toString() + '\'' +
+                ", typeName=" + typeName +
+                ", statusName=" + statusName +
+                ", designer='" + designer + '\'' +
+                ", times=" + times +
                 '}';
     }
 }

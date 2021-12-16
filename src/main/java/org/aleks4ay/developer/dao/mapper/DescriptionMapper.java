@@ -1,7 +1,8 @@
 package org.aleks4ay.developer.dao.mapper;
 
 import org.aleks4ay.developer.model.Description;
-import org.aleks4ay.developer.model.Status;
+import org.aleks4ay.developer.model.StatusName;
+import org.aleks4ay.developer.model.TypeName;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,40 +18,19 @@ public class DescriptionMapper implements ObjectMapper<Description> {
                 rs.getString("id_tmc"),
                 rs.getInt("quantity"),
                 rs.getString("descr_second"),
+                rs.getString("descr_all"),
                 rs.getInt("size_a"),
                 rs.getInt("size_b"),
                 rs.getInt("size_c"),
-                rs.getString("emb"));
-
-        Status status = new Status(
-                rs.getString("id"),
-                rs.getString("type"),
-                Status.StatusName.valueOf(rs.getString("status")),
-                rs.getInt("is_techno_product"),
-                rs.getString("designer_name"),
-                rs.getInt("is_parsing")
-        );
-        description.setStatus(status);
-
+                rs.getString("emb"),
+                TypeName.valueOf(rs.getString("type")),
+                StatusName.valueOf(rs.getString("status")),
+                rs.getString("designer_name"));
         return description;
     }
 
     @Override
-    public void insertToResultSet(PreparedStatement statement, Description description) throws SQLException {
-        statement.setString(10, description.getId());
-        statement.setString(1, description.getIdOrder());
-        statement.setInt(2, description.getPosition());
-        statement.setString(3, description.getIdTmc());
-        statement.setInt(4, description.getQuantity());
-        statement.setString(5, description.getDescrSecond());
-        statement.setInt(6, description.getSizeA());
-        statement.setInt(7, description.getSizeB());
-        statement.setInt(8, description.getSizeC());
-        statement.setString(9, description.getEmbodiment());
-    }
-
-    @Override
-    public void insertIdToResultSet(PreparedStatement statement, Description description) throws SQLException {
-        statement.setString(1, description.getId());
+    public void insertIdToResultSet(PreparedStatement statement, Object key) throws SQLException {
+        statement.setString(1, String.valueOf(key));
     }
 }

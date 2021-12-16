@@ -21,21 +21,7 @@ public class TmcMapper implements ObjectMapper<Tmc> {
     }
 
     @Override
-    public void insertToResultSet(PreparedStatement statement, Tmc tmc) throws SQLException {
-        statement.setString(10, tmc.getId());
-        statement.setString(1, tmc.getIdParent());
-        statement.setString(2, tmc.getCode());
-        statement.setString(3, tmc.getDescr());
-        statement.setInt(4, tmc.getSizeA());
-        statement.setInt(5, tmc.getSizeB());
-        statement.setInt(6, tmc.getSizeC());
-        statement.setInt(7, tmc.getIsFolder());
-        statement.setString(8, tmc.getDescrAll());
-        statement.setString(9, tmc.getType());
-    }
-
-    @Override
-    public void insertIdToResultSet(PreparedStatement statement, Tmc tmc) throws SQLException {
-        statement.setString(1, tmc.getId());
+    public void insertIdToResultSet(PreparedStatement statement, Object key) throws SQLException {
+        statement.setString(1, String.valueOf(key));
     }
 }

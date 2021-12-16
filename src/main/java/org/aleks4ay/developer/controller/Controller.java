@@ -1,24 +1,28 @@
 package org.aleks4ay.developer.controller;
 
+import javafx.application.Platform;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleLongProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
-import org.aleks4ay.developer.model.Description;
-import org.aleks4ay.developer.model.DescriptionParsing;
-import org.aleks4ay.developer.model.Order;
-import org.aleks4ay.developer.model.Page;
+import org.aleks4ay.developer.model.*;
 import org.aleks4ay.developer.service.ParsingEngine;
+import org.aleks4ay.developer.tools.Constants;
+import org.aleks4ay.developer.tools.FileWriter;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
     private static final long positionOnPage = 10;
+    private static final File file1 = new File(Constants.FILE_CHANGES);
+    private final LongProperty isNewOrderTime = new SimpleLongProperty(new File(Constants.FILE_CHANGES).lastModified());
 
     private final ParsingEngine parsingEngine = new ParsingEngine();
 
@@ -34,9 +38,10 @@ public class Controller implements Initializable {
     @FXML private Button parsing_next;
     @FXML private Button parsing_previous;
 
-//----------------T A B    P A R S I N G  ---------------------------------
+    @FXML private Text timeUpdate;
     @FXML private Label info_parsing;
-//--------------- Table 1 ---------------
+
+//----------------T A B    P A R S I N G   1 ---------------------------------
     @FXML private TableView<Order> tableParsingView1;
     @FXML private TableColumn<Order, String> parsing_num;
     @FXML private TableColumn<Order, String> parsing_client;
@@ -44,7 +49,7 @@ public class Controller implements Initializable {
     @FXML private TableColumn<Order, String> parsing_data_f;
     @FXML private TableColumn<Order, String> parsing_count_position;
 
-//--------------- Table 2 ---------------
+//----------------T A B    P A R S I N G   2 ---------------------------------
     @FXML private TableView<DescriptionParsing> tableParsingView2;
     @FXML private TableColumn<Description, String> parsing_pos;
     @FXML private TableColumn<Description, Text> parsing_description2;
@@ -59,14 +64,54 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Thread main = Thread.currentThread();
+        new Thread(() -> {
+            while (main.isAlive()) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (isNewOrderTime.get() != file1.lastModified()) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    Platform.runLater( () -> isNewOrderTime.setValue(file1.lastModified()));
+                }
+            }
+        }).start();
+
+
         initParsingTabOne();
         initParsingTabTwo();
+
+        isNewOrderTime.addListener((observable, oldValue, newValue) -> {
+            try {
+                System.out.println("Sleep 0.1 c");
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            updateAllView();
+        });
 
         tableParsingView1.getSelectionModel().selectedIndexProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 updateSelectedDescription();
             }
         });
+    }
+
+    private void updateAllView(){
+        try {
+            Thread.sleep(50);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        initParsingTabOne();
+        timeUpdate.setText(FileWriter.readTimeChange());
     }
 
     private void initParsingTabOne() {
@@ -105,31 +150,12 @@ public class Controller implements Initializable {
         if (tableParsingView1.getSelectionModel().getSelectedItem() != null) {
             Order selectedOrder = tableParsingView1.getSelectionModel().getSelectedItem();
             listDescriptionParsing.addAll(DescriptionParsing.makeFromOrderDescription(selectedOrder));
-//            Map<String, String> technoIdAllMap = TmcServiceTechno.getTechnoIdAll();
-/*            for (Description d : selectedOrder.getDescriptions()) {
-                if (technoIdAllMap.containsKey(d.getIdTmc())) {
-                    d.getStatus().setIsTechno(1);
-                    d.getStatus().setType("Техн.");
-                    d.setDescrSecond(technoIdAllMap.get(d.getIdTmc()));
-                }
-
-                listDescriptionParsing.add(new DescriptionParsing(
-                        d.getId(),
-                        d.getPosition(),
-                        d.getDescrSecond(),
-                        (d.getSizeA() + "×" + d.getSizeB() + "×" + d.getSizeC()),
-                        d.getQuantity(),
-                        d.getStatus().getType(),
-                        d.getStatus().getType()
-                ));
-            }*/
         }
     }
 
-    public void applyParsing(ActionEvent actionEvent) {
-        //        thisAppChangeData = true;
-//        Setter.setType (listDescriptionParsing);
-//        selektedRow = tableParsingView1.getSelectionModel().getSelectedIndex();
+    public void applyParsing() {
+        parsingEngine.setType (listDescriptionParsing);
+        selectedRow = tableParsingView1.getSelectionModel().getSelectedIndex();
 
     }
 

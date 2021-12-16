@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class DescriptionParsing {
+public class DescriptionParsing{
 
     private RadioButton buttonFactory;
     private RadioButton buttonKB;
@@ -54,19 +54,17 @@ public class DescriptionParsing {
         List<DescriptionParsing> result = new ArrayList<>();
         for (Description d : order.getDescriptions()) {
             if (technoIdAllMap.containsKey(d.getIdTmc())) {
-                d.getStatus().setIsTechno(1);
-                d.getStatus().setTypeName(TypeName.TECHNO);
-                d.setDescrSecond(technoIdAllMap.get(d.getIdTmc()));
+                d.setTypeName(TypeName.TECHNO);
             }
 
             result.add(new DescriptionParsing(
                     d.getId(),
                     d.getPosition(),
-                    d.getDescrSecond(),
+                    (d.getDescrAll() + " " + d.getDescrSecond()),
                     (d.getSizeA() + "×" + d.getSizeB() + "×" + d.getSizeC()),
                     d.getQuantity(),
-                    d.getStatus().getTypeName().toString(),
-                    d.getStatus().getStatusName().toString()
+                    d.getTypeName().toString(),
+                    d.getStatusName().toString()
             ));
         }
         return result;
@@ -146,7 +144,7 @@ public class DescriptionParsing {
 
     public Text getDescriptionText() {
         Text result = new Text(descr);
-        result.setWrappingWidth(490.0);
+        result.setWrappingWidth(370.0);
         return result;
     }
 

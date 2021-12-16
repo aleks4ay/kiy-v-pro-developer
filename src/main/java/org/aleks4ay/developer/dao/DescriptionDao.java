@@ -4,9 +4,7 @@ import org.aleks4ay.developer.dao.mapper.DescriptionMapper;
 import org.aleks4ay.developer.model.Description;
 import org.aleks4ay.developer.tools.ConstantsSql;
 
-import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 public class DescriptionDao extends AbstractDao<Description> implements BaseDao<Description> {
 
@@ -15,18 +13,8 @@ public class DescriptionDao extends AbstractDao<Description> implements BaseDao<
     }
 
     @Override
-    public Optional<Description> findById(String id) throws SQLException {
-        return findAbstractById(ConstantsSql.DESCRIPTION_GET_ONE, id);
-    }
-
-    @Override
     public List<Description> findAll() {
         return findAbstractAll(ConstantsSql.DESCRIPTION_GET_ALL_NEW);
-    }
-
-    @Override
-    public boolean update(Description description) {
-        return updateAbstract(ConstantsSql.DESCRIPTION_UPDATE, description);
     }
 
     @Override
@@ -36,5 +24,17 @@ public class DescriptionDao extends AbstractDao<Description> implements BaseDao<
 
     public List<Description> findByOrderId(String orderId) {
         return findAbstractAllById(ConstantsSql.DESCRIPTION_GET_BY_ORDER_ID, orderId);
+    }
+
+    public boolean updateStatusName(String id, String statusName) {
+        return updateStringAbstract(ConstantsSql.DESCRIPTION_UPDATE_STATUS, id, statusName);
+    }
+
+    public boolean updateTypeName(String id, String typeName) {
+        return updateStringAbstract(ConstantsSql.DESCRIPTION_UPDATE_TYPE, id, typeName);
+    }
+
+    public boolean updateDesignerName(String id, String designer) {
+        return updateStringAbstract(ConstantsSql.DESCRIPTION_UPDATE_DESIGNER, id, designer);
     }
 }

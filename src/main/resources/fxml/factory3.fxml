@@ -15,31 +15,47 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <VBox prefHeight="900.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aleks4ay.developer.controller.Controller">
   <children>
-    <MenuBar VBox.vgrow="NEVER">
-      <menus>
-        <Menu mnemonicParsing="false" text="File">
-          <items>
-            <MenuItem mnemonicParsing="false" text="New" />
-            <MenuItem mnemonicParsing="false" text="Open…" />
-            <MenuItem mnemonicParsing="false" text="Quit" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Undo" />
-            <MenuItem mnemonicParsing="false" text="Redo" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Help">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-          </items>
-        </Menu>
-      </menus>
-    </MenuBar>
+      <HBox alignment="BOTTOM_LEFT" nodeOrientation="LEFT_TO_RIGHT" VBox.vgrow="NEVER">
+         <children>
+          <MenuBar maxHeight="1.7976931348623157E308" prefWidth="400.0" HBox.hgrow="NEVER">
+            <menus>
+              <Menu mnemonicParsing="false" text="File">
+                <items>
+                  <MenuItem mnemonicParsing="false" text="New" />
+                  <MenuItem mnemonicParsing="false" text="Open…" />
+                  <MenuItem mnemonicParsing="false" text="Quit" />
+                </items>
+              </Menu>
+              <Menu mnemonicParsing="false" text="Edit">
+                <items>
+                  <MenuItem mnemonicParsing="false" text="Undo" />
+                  <MenuItem mnemonicParsing="false" text="Redo" />
+                </items>
+              </Menu>
+              <Menu mnemonicParsing="false" text="Help">
+                <items>
+                  <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+                </items>
+              </Menu>
+            </menus>
+          </MenuBar>
+      
+            <Text disable="true" fill="#b21919" lineSpacing="1.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kiy-V Management 5" textAlignment="CENTER" underline="true" wrappingWidth="244">
+                <font>
+                    <Font size="22.0" />
+                </font>
+            </Text>
+         </children>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+      </HBox>
+
+
       <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
          <children>
             <SplitPane dividerPositions="0.4" orientation="VERTICAL">
@@ -61,15 +77,15 @@
 
                         <VBox alignment="BOTTOM_LEFT" prefHeight="200.0" prefWidth="150.0">
                            <children>
-                              <Label alignment="TOP_LEFT" minWidth="100.0" style="&#10;" text="Details" textAlignment="CENTER" wrapText="false" fx:id="info_parsing">
-                                 <font>
-                                    <Font size="18.0" fx:id="x11" />
-                                 </font>
-                                 <textFill>
-                                    <Color blue="0.624" green="0.624" fx:id="x21" />
-                                 </textFill>
-                              </Label>
-                              <Button fx:id="parsing_previous" mnemonicParsing="false" onAction="#applyPrevious" prefHeight="45.0" text="Предыдущие" disable="true">
+                               <Label fx:id="info_parsing" alignment="TOP_LEFT" minWidth="100.0" style="&#10;" text="Details" textAlignment="CENTER" wrapText="false">
+                                   <font>
+                                       <Font size="18.0" fx:id="x11" />
+                                   </font>
+                                   <textFill>
+                                       <Color blue="0.624" green="0.624" fx:id="x21" />
+                                   </textFill>
+                               </Label>
+                              <Button fx:id="parsing_previous" disable="true" mnemonicParsing="false" onAction="#applyPrevious" prefHeight="45.0" prefWidth="115.0" text="Предыдущие">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
@@ -77,10 +93,10 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                                  <VBox.margin>
-                                    <Insets />
+                                    <Insets bottom="2.0" />
                                  </VBox.margin>
                               </Button>
-                               <Button fx:id="parsing_next" mnemonicParsing="false" onAction="#applyNext" prefHeight="45.0" text="Следующие">
+                               <Button fx:id="parsing_next" mnemonicParsing="false" onAction="#applyNext" prefHeight="45.0" prefWidth="115.0" text="Следующие">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
@@ -88,7 +104,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                                  <VBox.margin>
-                                    <Insets />
+                                    <Insets bottom="2.0" />
                                  </VBox.margin>
                               </Button>
                            </children>
@@ -103,7 +119,7 @@
                   <TableView fx:id="tableParsingView2">
                     <columns>
                       <TableColumn fx:id="parsing_pos" editable="false" resizable="false" style="-fx-font-size: 14px; -fx-alignment: center;" text=" Номер&#10;позиции" />
-                      <TableColumn fx:id="parsing_description2" editable="false" maxWidth="1.7976931348623157E308" minWidth="380.0" prefWidth="-1.0" style="-fx-font-size: 14px;" text="Описание " />
+                      <TableColumn fx:id="parsing_description2" maxWidth="1.7976931348623157E308" minWidth="380.0" prefWidth="-1.0" style="-fx-font-size: 14px;" text="Описание " />
                       <TableColumn fx:id="parsing_description_size" editable="false" maxWidth="-1.0" minWidth="190.0" prefWidth="-1.0" resizable="false" style="-fx-font-size: 14px; -fx-alignment: center;" text=" Габаритные размеры&#10;(длина/ширина/высота)" />
                       <TableColumn fx:id="parsing_amount" editable="false" prefWidth="60.0" resizable="false" style="-fx-font-size: 14px; -fx-alignment: center;" text="Коли-&#10;чество" />
                       <TableColumn fx:id="parsing_type" editable="false" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="10.0" resizable="false" style="-fx-font-size: 14px; -fx-alignment: center;" text="Тип позиции">
@@ -156,22 +172,22 @@
 
     <HBox id="HBox" alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" spacing="5.0" VBox.vgrow="NEVER">
       <children>
-        <Label maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="Left status" HBox.hgrow="ALWAYS">
+        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-1.0" prefWidth="200.0" text="последнее обновление:" textFill="#5bb980" HBox.hgrow="ALWAYS">
           <font>
-            <Font size="11.0" fx:id="x3" />
+            <Font size="16.0" fx:id="x3" />
           </font>
-          <textFill>
-            <Color blue="0.625" green="0.625" red="0.625" fx:id="x4" />
-          </textFill>
         </Label>
+            <Text fx:id="timeUpdate" disable="true" fill="#5bb980" lineSpacing="1.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00.00.2000  00:00" wrappingWidth="200.0">
+                <font>
+                    <Font size="16.0" />
+                </font>
+            </Text>
         <Pane prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS" />
-        <Label font="$x3" maxWidth="-1.0" text="Right status" textFill="$x4" HBox.hgrow="NEVER" />
       </children>
       <padding>
         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
       </padding>
     </HBox>
-
 
   </children>
 </VBox>

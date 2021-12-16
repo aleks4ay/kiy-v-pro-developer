@@ -15,7 +15,7 @@ dependencies {
 // https://mvnrepository.com/artifact/org.postgresql/postgresql
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
 // https://mvnrepository.com/artifact/org.projectlombok/lombok
-    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.20'
+//    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.20'
 // https://mvnrepository.com/artifact/c3p0/c3p0
     implementation group: 'c3p0', name: 'c3p0', version: '0.9.1.2'
 // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
