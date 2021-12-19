@@ -8,8 +8,10 @@ public final class Constants {
 
     public static final String DBF_PATH;
     public static final String FILE_CHANGES;
-    public static final DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    public static final DateTimeFormatter dayTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    public static final DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    public static final DateTimeFormatter dayTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy  HH:mm");
+    public static final DateTimeFormatter checkBoxTimeFormatter =
+            DateTimeFormatter.ofPattern("dd.MM.yyyy" + System.lineSeparator() + "HH:mm");
 
     static {
         final ResourceBundle config = ResourceBundle

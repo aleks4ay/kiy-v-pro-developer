@@ -127,6 +127,12 @@ public class Controller implements Initializable {
         tableParsingView1.setItems(listOrderParsing);
         tableParsingView1.getSelectionModel().select(selectedRow);
         info_parsing.setText("Заказов: " + page.getSize());
+        if (page.isLast()) {
+            parsing_next.setDisable(true);
+        }
+        if (page.isFirst()) {
+            parsing_previous.setDisable(true);
+        }
     }
 
     private void initParsingTabTwo() {

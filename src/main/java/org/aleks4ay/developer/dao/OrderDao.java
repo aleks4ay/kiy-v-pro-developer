@@ -9,16 +9,14 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 public class OrderDao extends AbstractDao<Order> implements BaseDao<Order> {
-    private static final Logger log = LoggerFactory.getLogger(OrderDao.class);
 
     public OrderDao(ConnectionPool connectionPool) {
         super(new OrderMapper(), connectionPool);
     }
 
-
     @Override
     public List<Order> findAll() {
-        return findAbstractAll(ConstantsSql.ORDER_GET_ALL);
+        return findAbstractAll(ConstantsSql.ORDER_GET_ALL_NEW);
     }
 
     @Override
@@ -28,5 +26,9 @@ public class OrderDao extends AbstractDao<Order> implements BaseDao<Order> {
 
     public boolean updateStatusName(String id, String statusName) {
         return updateStringAbstract(ConstantsSql.ORDER_UPDATE_STATUS, id, statusName);
+    }
+
+    public List<Order> findAllKb(String sort) {
+        return findAbstractAll(ConstantsSql.ORDER_GET_ALL_KB + sort);
     }
 }

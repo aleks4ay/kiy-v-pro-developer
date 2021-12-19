@@ -112,12 +112,12 @@ public class Order implements BaseEntity<Order>{
         this.status = status;
     }
 
-    public String getNumberOfPosition() {
-        return String.valueOf(descriptions.size());
+    public int getNumberOfPosition() {
+        return descriptions.size();
     }
 
     public String getDateToFactoryString() {
-        return dateToFactory == null ? "-" : dateToFactory.toLocalDateTime().format(Constants.dayTimeFormatter);
+        return dateToFactory == null ? "-" : dateToFactory.toLocalDateTime().format(Constants.dayFormatter);
     }
 
     public String getDateCreateString() {

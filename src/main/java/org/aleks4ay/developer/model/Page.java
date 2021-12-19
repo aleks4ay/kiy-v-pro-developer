@@ -18,7 +18,7 @@ public class Page {
     }
 
     public long getMaxPosition() {
-        return size / getPositionOnPage();
+        return (size - 1) / getPositionOnPage();
     }
 
     public long getPositionOnPage() {

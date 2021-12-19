@@ -5,6 +5,8 @@ import org.aleks4ay.developer.dao.OrderDao;
 import org.aleks4ay.developer.model.Order;
 import org.aleks4ay.developer.model.StatusName;
 
+import java.util.List;
+
 public class OrderService extends AbstractService<Order> {
 
     public OrderService(BaseDao<Order> orderDao) {
@@ -13,5 +15,9 @@ public class OrderService extends AbstractService<Order> {
 
     public boolean updateStatus(String orderId, StatusName status) {
         return ((OrderDao)getDao()).updateStatusName(orderId, status.toString());
+    }
+
+    public List<Order> findAllKb(String sort) {
+        return ((OrderDao)getDao()).findAllKb(sort);
     }
 }

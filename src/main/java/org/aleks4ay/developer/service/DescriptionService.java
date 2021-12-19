@@ -60,4 +60,20 @@ public class DescriptionService extends AbstractService<Description> {
         }
         return new ArrayList<>(descriptionMap.values());
     }
+
+    public List<Description> findAllKb() {
+        Map<String, Description> descriptionMap = ((DescriptionDao)getDao()).findAllKb()
+                .stream()
+                .collect(Collectors.toMap(Description::getId, d -> d));
+
+        DescriptionTimeService timeService = new DescriptionTimeService(new DescriptionTimeDao(ConnectionPool.getInstance()));
+
+        for (DescriptionTime time : timeService.findAll()) {
+            Description description = descriptionMap.get(time.getIdDescription());
+            if (description != null) {
+                description.getTimes().add(time);
+            }
+        }
+        return new ArrayList<>(descriptionMap.values());
+    }
 }
