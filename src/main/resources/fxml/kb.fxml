@@ -57,7 +57,7 @@
                             <TableColumn fx:id="client" editable="false" maxWidth="1.7976931348623157E308" minWidth="480.0" prefWidth="-1.0" text="Заказчик" />
                             <TableColumn fx:id="manager" editable="false" maxWidth="-1.0" minWidth="140.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Менеджер" />
                             <TableColumn fx:id="data_f" editable="false" maxWidth="-1.0" minWidth="120.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Когда был отдан&#10;в производство" />
-                            <TableColumn fx:id="count_position" editable="false" maxWidth="-1.0" minWidth="85.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Количество&#10;позиций" />
+                            <TableColumn fx:id="count_position" editable="false" maxWidth="-1.0" minWidth="80.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Количество&#10;позиций" />
                           </columns>
                              <cursor>
                                <Cursor fx:constant="DEFAULT" />
@@ -144,7 +144,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </HBox>
-                              <HBox>
+                              <HBox alignment="CENTER_LEFT">
                                  <VBox.margin>
                                     <Insets bottom="2.0" />
                                  </VBox.margin>
@@ -167,7 +167,15 @@
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
+                                       <HBox.margin>
+                                          <Insets right="5.0" />
+                                       </HBox.margin>
                                     </Button>
+                                    <Label fx:id="info_position" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="1 - 10" textFill="#0080ff" HBox.hgrow="ALWAYS">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                               </HBox>
                            </children>

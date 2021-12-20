@@ -1,7 +1,7 @@
 package org.aleks4ay.developer.dao;
 
 import org.aleks4ay.developer.dao.mapper.ObjectMapper;
-import org.aleks4ay.developer.dao.mapper.ObjectMapperTime;
+import org.aleks4ay.developer.dao.mapper.ObjectMapperWithCreate;
 import org.aleks4ay.developer.model.BaseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,7 +93,7 @@ abstract class AbstractDao<T extends BaseEntity<T>> {
     boolean updateAbstract(String sql, T t) {
         Connection connection = getConnection();
         try (PreparedStatement prepStatement = connection.prepareStatement(sql)){
-            ((ObjectMapperTime<T>)objectMapper).insertToResultSet(prepStatement, t);
+            ((ObjectMapperWithCreate<T>)objectMapper).insertToResultSet(prepStatement, t);
             boolean result = 1 == prepStatement.executeUpdate();
             if (result) {
                 log.info("Was updated {}. New value: {}", getEntityName(), t.toString());

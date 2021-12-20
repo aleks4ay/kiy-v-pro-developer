@@ -5,6 +5,7 @@ import org.aleks4ay.developer.model.Description;
 import org.aleks4ay.developer.model.DescriptionTime;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -24,24 +25,8 @@ public class DescriptionService extends AbstractService<Description> {
         return ((DescriptionDao)getDao()).updateTypeName(id, typeName);
     }
 
-    public boolean updateDesignerName(String id, String designerName) {
-        return ((DescriptionDao)getDao()).updateTypeName(id, designerName);
-    }
-
-    public List<Description> findAllByOrderId(String orderId) {
-        Map<String, Description> descriptionMap = ((DescriptionDao) getDao()).findByOrderId(orderId)
-                .stream()
-                .collect(Collectors.toMap(Description::getId, d -> d));
-
-        DescriptionTimeService timeService = new DescriptionTimeService(new DescriptionTimeDao(ConnectionPool.getInstance()));
-
-        for (DescriptionTime time : timeService.findAllByOrderId(orderId)) {
-            Description description = descriptionMap.get(time.getIdDescription());
-            if (description != null) {
-                description.getTimes().add(time);
-            }
-        }
-        return new ArrayList<>(descriptionMap.values());
+    public void updateDesignerName(String id, String designerName) {
+        ((DescriptionDao)getDao()).updateDesignerName(id, designerName);
     }
 
     @Override
@@ -58,7 +43,10 @@ public class DescriptionService extends AbstractService<Description> {
                 description.getTimes().add(time);
             }
         }
-        return new ArrayList<>(descriptionMap.values());
+        return descriptionMap.values()
+                .stream()
+                .sorted(Comparator.comparing(Description::getPosition))
+                .collect(Collectors.toList());
     }
 
     public List<Description> findAllKb() {
@@ -69,6 +57,33 @@ public class DescriptionService extends AbstractService<Description> {
         DescriptionTimeService timeService = new DescriptionTimeService(new DescriptionTimeDao(ConnectionPool.getInstance()));
 
         for (DescriptionTime time : timeService.findAll()) {
+            Description description = descriptionMap.get(time.getIdDescription());
+            if (description != null) {
+                description.getTimes().add(time);
+            }
+        }
+        return descriptionMap.values()
+                .stream()
+                .sorted(Comparator.comparing(Description::getPosition))
+                .collect(Collectors.toList());
+    }
+
+    public Map<String, String> getDesignerPseudoNames() {
+        return ((DescriptionDao)getDao()).getDesignerPseudoNames();
+    }
+
+    public void createPseudoName(String pseudoName, String name) {
+        ((DescriptionDao)getDao()).createPseudoName(pseudoName, name);
+    }
+
+    public List<Description> findAllByOrderId(String orderId) {
+        Map<String, Description> descriptionMap = ((DescriptionDao) getDao()).findByOrderId(orderId)
+                .stream()
+                .collect(Collectors.toMap(Description::getId, d -> d));
+
+        DescriptionTimeService timeService = new DescriptionTimeService(new DescriptionTimeDao(ConnectionPool.getInstance()));
+
+        for (DescriptionTime time : timeService.findAllByOrderId(orderId)) {
             Description description = descriptionMap.get(time.getIdDescription());
             if (description != null) {
                 description.getTimes().add(time);

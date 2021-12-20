@@ -1,5 +1,6 @@
 package org.aleks4ay.developer.service;
 
+import javafx.scene.control.Alert;
 import org.aleks4ay.developer.dao.*;
 import org.aleks4ay.developer.model.*;
 import org.aleks4ay.developer.tools.FileWriter;
@@ -29,8 +30,12 @@ public class KbEngine {
             comparing = Comparator.comparing(Order::getDateToFactory);
         }
 
+        Map<String, String> designerPseudoName = descriptionService.getDesignerPseudoNames();
         Map<String, Order> orderMap = findAllAsMap(page, sortOrder);
         for (Description d : descriptionService.findAllKb()) {
+            if (designerPseudoName.containsKey(d.getDesigner())) {
+                d.setDesigner(designerPseudoName.get(d.getDesigner()));
+            }
             String key = d.getIdOrder();
             if (orderMap.containsKey(key)) {
                 orderMap.get(key).getDescriptions().add(d);
@@ -57,22 +62,33 @@ public class KbEngine {
         List<DescriptionTime> times = new ArrayList<>();
         LocalDateTime newTime = LocalDateTime.now();
         Map<String, StatusName> statusMap = new HashMap<>();
+        Map<String, String> designerMap = new HashMap<>();
         for (DescriptionKb descr : listKb) {
             if (descr.getCheckBoxKbStart().isSelected() && descr.isNewStatusBigger(StatusName.KB_START)) {
                 descr.setStatus(StatusName.KB_START.toString());
                 addNewStatus(times, newTime, descr, statusMap);
+                if (System.getenv().containsKey("USERNAME")) {
+                    descr.setDesigner(System.getenv().get("USERNAME"));
+                }
+                else {
+                    descr.setDesigner(System.getProperty("user.name"));
+                }
+                designerMap.put(descr.getId(), descr.getDesigner());
             }
-            if (descr.getCheckBoxKbQuestion().isSelected() && descr.isNewStatusBigger(StatusName.KB_QUESTION)) {
-                descr.setStatus(StatusName.KB_QUESTION.toString());
-                addNewStatus(times, newTime, descr, statusMap);
+            if (descr.getCheckBoxKbQuestion().isSelected()) {
+                if (setStatusIfEnable(StatusName.KB_QUESTION, descr)) {
+                    addNewStatus(times, newTime, descr, statusMap);
+                }
             }
-            if (descr.getCheckBoxKbContinued().isSelected() && descr.isNewStatusBigger(StatusName.KB_CONTINUED)) {
-                descr.setStatus(StatusName.KB_CONTINUED.toString());
-                addNewStatus(times, newTime, descr, statusMap);
+            if (descr.getCheckBoxKbContinued().isSelected()) {
+                if (setStatusIfEnable(StatusName.KB_CONTINUED, descr)) {
+                    addNewStatus(times, newTime, descr, statusMap);
+                }
             }
-            if (descr.getCheckBoxKbEnd().isSelected() && descr.isNewStatusBigger(StatusName.KB_END)) {
-                descr.setStatus(StatusName.KB_END.toString());
-                addNewStatus(times, newTime, descr, statusMap);
+            if (descr.getCheckBoxKbEnd().isSelected()) {
+                if (setStatusIfEnable(StatusName.KB_END, descr)) {
+                    addNewStatus(times, newTime, descr, statusMap);
+                }
             }
         }
 
@@ -82,7 +98,36 @@ public class KbEngine {
 
             saveNewOrderStatus(listKb, times);
 
+            saveNewDesigner(designerMap);
+
             FileWriter.writeTimeChange("kb");
+        }
+    }
+
+    private boolean setStatusIfEnable(StatusName statusName, DescriptionKb descr) {
+        if (descr.getDesigner() == null || descr.isNewStatusLess(statusName)) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("INFO");
+            alert.setHeaderText("Заказ еще не взят в работу конструктором!" + System.lineSeparator() +
+                    "или находится на более поздней стадии");
+            alert.showAndWait();
+            return false;
+        } else {
+            descr.setStatus(statusName.toString());
+            return true;
+//            addNewStatus(times, newTime, descr, statusMap);
+        }
+    }
+
+    private void saveNewDesigner(Map<String, String> designerMap) {
+        Map<String, String> designerPseudoName = descriptionService.getDesignerPseudoNames();
+        if (!designerMap.isEmpty()) {
+            for (Map.Entry<String, String> entry : designerMap.entrySet()) {
+                if (! designerPseudoName.containsKey(entry.getValue())) {
+                    descriptionService.createPseudoName(entry.getValue(), entry.getValue());
+                }
+                descriptionService.updateDesignerName(entry.getKey(), entry.getValue());
+            }
         }
     }
 

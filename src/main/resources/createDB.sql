@@ -10,6 +10,22 @@ CREATE TABLE worker
     name VARCHAR
 );
 
+CREATE TABLE developer
+(
+    pseudo_name VARCHAR(28) PRIMARY KEY NOT NULL,
+    name VARCHAR
+);
+insert into developer (pseudo_name, name) VALUES
+('Sergienko', 'Сергієнко О. І.'),
+('Mosienko', 'Мосієнко В. І.'),
+('Diachok', 'Дячок Д. М.'),
+('aser', 'Сергієнко О. І.'),
+('Alex', 'Сергієнко О. І.'),
+('Drogovoz', 'Дроговоз'),
+('aleksChay', 'Сергієнко О. І.'),
+('WIN-S73248V9KQV', 'Дячок Д. М.'),
+('KEV-PC', 'Дячок Д. М.');
+
 CREATE TABLE embodiment
 (
     id VARCHAR(9) PRIMARY KEY NOT NULL,

@@ -26,11 +26,12 @@ public class DescriptionKb {
     private int amount;
     private String status;
     private LocalDateTime endDay;
+    private String designer;
     private List<DescriptionTime> times;
 
 
-    public DescriptionKb(String id, int position, String descr, int sizeA, int sizeB, int sizeC, int amount, String status,
-                         List<DescriptionTime> times) {
+    public DescriptionKb(String id, int position, String descr, int sizeA, int sizeB, int sizeC, int amount,
+                         String status, String designer, List<DescriptionTime> times) {
         this.id = id;
         this.position = position;
         this.descr = descr;
@@ -39,6 +40,7 @@ public class DescriptionKb {
         this.sizeC = sizeC;
         this.amount = amount;
         this.status = status;
+        this.designer = designer;
         this.checkBoxKbStart = new CheckBox();
         this.checkBoxKbQuestion = new CheckBox();
         this.checkBoxKbContinued = new CheckBox();
@@ -59,6 +61,7 @@ public class DescriptionKb {
                     d.getSizeC(),
                     d.getQuantity(),
                     d.getStatusName().toString(),
+                    d.getDesigner(),
                     d.getTimes()
             );
             newDescription.setEndDay();
@@ -129,6 +132,14 @@ public class DescriptionKb {
 
     public String getStatus() {
         return status;
+    }
+
+    public String getDesigner() {
+        return designer;
+    }
+
+    public void setDesigner(String designer) {
+        this.designer = designer;
     }
 
     public CheckBox getCheckBoxKbStart() {
@@ -232,5 +243,9 @@ public class DescriptionKb {
 
     public boolean isNewStatusBigger(StatusName newStatusName) {
         return newStatusName.getStatusIndex() > StatusName.valueOf(status).getStatusIndex();
+    }
+
+    public boolean isNewStatusLess(StatusName newStatusName) {
+        return newStatusName.getStatusIndex() < StatusName.valueOf(status).getStatusIndex();
     }
 }

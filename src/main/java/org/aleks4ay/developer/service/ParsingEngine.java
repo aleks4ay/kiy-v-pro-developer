@@ -17,19 +17,35 @@ public class ParsingEngine {
     DescriptionTimeService descriptionTimeService = new DescriptionTimeService(new DescriptionTimeDao(connectionPool));
 
 
-    public List<Order> getOrdersWithDescriptions(Page page) {
-        Map<String, Order> orderMap = findAllAsMap(page);
+    public List<Order> getOrdersWithDescriptions(Page page, String sort) {
+        String sortOrder;
+        Comparator<Order> comparing;
+
+        if (sort.equalsIgnoreCase("По номеру заказа")) {
+            sortOrder = " order by j.doc_number;";
+            comparing = Comparator.comparing(Order::getDocNumber);
+        } else {
+            sortOrder = " order by o.t_factory;";
+            comparing = Comparator.comparing(Order::getDateToFactory);
+        }
+
+        Map<String, Order> orderMap = findAllAsMap(page, sortOrder);
+//        Map<String, Order> orderMap = findAllAsMap(page);
         for (Description d : descriptionService.findAll()) {
             String key = d.getIdOrder();
             if (orderMap.containsKey(key)) {
                 orderMap.get(key).getDescriptions().add(d);
             }
         }
-        return new ArrayList<>(orderMap.values());
+//        return new ArrayList<>(orderMap.values());
+        return orderMap.values().stream()
+                .sorted(comparing)
+                .collect(Collectors.toList());
     }
 
-    public Map<String, Order> findAllAsMap(Page page) {
-        List<Order> orders = orderService.findAll();
+
+    public Map<String, Order> findAllAsMap(Page page, String sort) {
+        List<Order> orders = orderService.findAllParsing(sort);
         page.setSize(orders.size());
         if (page.getPosition() > page.getMaxPosition()) {
             return Collections.emptyMap();

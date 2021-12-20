@@ -11,7 +11,12 @@ import java.sql.SQLException;
 public class DescriptionMapper implements ObjectMapper<Description> {
     @Override
     public Description extractFromResultSet(ResultSet rs) throws SQLException {
-        Description description = new Description(
+
+/*        String designerName = rs.getString("designer") != null
+                ? rs.getString("designer")
+                : rs.getString("designer_name");
+        System.out.println("designerName = " + designerName);*/
+        return new Description(
                 rs.getString("id"),
                 rs.getString("id_order"),
                 rs.getInt("position"),
@@ -26,7 +31,6 @@ public class DescriptionMapper implements ObjectMapper<Description> {
                 TypeName.valueOf(rs.getString("type")),
                 StatusName.valueOf(rs.getString("status")),
                 rs.getString("designer_name"));
-        return description;
     }
 
     @Override

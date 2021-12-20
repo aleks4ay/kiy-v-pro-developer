@@ -50,6 +50,7 @@ public class ControllerKb implements Initializable {
     @FXML private Label info_client;
     @FXML private Label info_data_f;
     @FXML private Label info_manag;
+    @FXML private Label info_position;
 
 //----------------T A B    P A R S I N G   1 ---------------------------------
     @FXML private TableView<Order> tableKbView1;
@@ -145,6 +146,7 @@ public class ControllerKb implements Initializable {
         tableKbView1.setItems(listOrderKb);
         tableKbView1.getSelectionModel().select(selectedRow);
         info_ord.setText(String.valueOf(page.getSize()));
+        info_position.setText(page.getInterval());
         if (page.isLast()) {
             parsing_next.setDisable(true);
         }
@@ -153,6 +155,7 @@ public class ControllerKb implements Initializable {
         }
 
         info_descr.setText(getNumberOfDescriptionAsString());
+        info_ord_now.setText(getNumberOfWorkedOrderAsString());
     }
 
     private void initKbTabTwo() {
@@ -214,7 +217,7 @@ public class ControllerKb implements Initializable {
 
     public void sortingKb(ActionEvent actionEvent) {
         sortWayKb = ((RadioButton) actionEvent.getSource()).getText();
-        System.out.println("sortWayKb = " + sortWayKb);
+//        System.out.println("sortWayKb = " + sortWayKb);
         initKbTabOne();
     }
 
@@ -228,5 +231,18 @@ public class ControllerKb implements Initializable {
                 .mapToInt(Order::getNumberOfPosition)
                 .sum();
         return String.valueOf(sumDescription);
+    }
+
+    private String getNumberOfWorkedOrderAsString() {
+        int result = 0;
+        for (Order o : listOrderKb) {
+            for (Description d : o.getDescriptions()) {
+                if (d.getDesigner() != null) {
+                    result ++;
+                    break;
+                }
+            }
+        }
+        return String.valueOf(result);
     }
 }

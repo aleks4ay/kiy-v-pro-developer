@@ -56,4 +56,15 @@ public class Page {
         position --;
         return true;
     }
+
+    public String getInterval() {
+        if (isLast()) {
+            if (size - positionOnPage * position <= 1) {
+                return String.valueOf(size);
+            } else {
+                return (position * positionOnPage + 1) + " - " + size;
+            }
+        }
+        return (position * positionOnPage + 1) + " - " + ((position + 1) * positionOnPage);
+    }
 }

@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
-public class OrderTimeMapper implements ObjectMapperTime<OrderTime> {
+public class OrderTimeMapper implements ObjectMapperWithCreate<OrderTime> {
 
     @Override
     public OrderTime extractFromResultSet(ResultSet rs) throws SQLException {

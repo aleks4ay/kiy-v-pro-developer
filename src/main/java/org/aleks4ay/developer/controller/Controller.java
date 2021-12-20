@@ -5,6 +5,7 @@ import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -26,7 +27,7 @@ public class Controller implements Initializable {
 
     private final ParsingEngine parsingEngine = new ParsingEngine();
 
-    private static final String sortWay = "По номеру заказа";
+    private static String sortWay = "По номеру заказа";
     private int selectedRow = 0;
     private final Page page = new Page(positionOnPage);
 
@@ -116,7 +117,12 @@ public class Controller implements Initializable {
 
     private void initParsingTabOne() {
         listOrderParsing.clear();
-        listOrderParsing.addAll(parsingEngine.getOrdersWithDescriptions(page));
+        listOrderParsing.addAll(parsingEngine.getOrdersWithDescriptions(page, sortWay));
+
+        if (listOrderParsing.size() == 0 && page.getPosition() > 0) {
+            applyPrevious();
+            return;
+        }
 
         parsing_num.setCellValueFactory(new PropertyValueFactory<>("docNumber"));
         parsing_client.setCellValueFactory(new PropertyValueFactory<>("client"));
@@ -187,5 +193,10 @@ public class Controller implements Initializable {
             }
             initParsingTabOne();
         }
+    }
+
+    public void sortingParsing(ActionEvent actionEvent) {
+        sortWay = ((RadioButton) actionEvent.getSource()).getText();
+        initParsingTabOne();
     }
 }

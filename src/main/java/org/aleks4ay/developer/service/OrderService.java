@@ -20,4 +20,8 @@ public class OrderService extends AbstractService<Order> {
     public List<Order> findAllKb(String sort) {
         return ((OrderDao)getDao()).findAllKb(sort);
     }
+
+    public List<Order> findAllParsing(String sort) {
+        return ((OrderDao)getDao()).findAllParsing(sort);
+    }
 }

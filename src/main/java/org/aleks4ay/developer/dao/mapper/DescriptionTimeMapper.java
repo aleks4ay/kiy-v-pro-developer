@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
-public class DescriptionTimeMapper implements ObjectMapperTime<DescriptionTime> {
+public class DescriptionTimeMapper implements ObjectMapperWithCreate<DescriptionTime> {
 
     @Override
     public DescriptionTime extractFromResultSet(ResultSet rs) throws SQLException {
