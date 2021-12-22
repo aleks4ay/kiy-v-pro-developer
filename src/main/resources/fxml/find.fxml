@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<!--<TabPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aleks4ay.developer.controller.ControllerKbFind"> <Tab closable="false" text="Поиск">-->
+<Tab xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aleks4ay.developer.controller.ControllerKbFind" style="-fx-pref-height: 30px; -fx-font-size: 16px;" closable="false" text="Поиск">
+      <content>
+            <VBox prefHeight="700.0" prefWidth="1280.0">
+                <children>
+                    <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
+                        <children>
+                            <SplitPane dividerPositions="0.3" orientation="VERTICAL" HBox.hgrow="ALWAYS">
+                                <items>
+                                    <HBox alignment="TOP_CENTER">
+                                        <children>
+                                            <TableView fx:id="tableFind1" prefWidth="990.0">
+                                                <columns>
+                                                    <TableColumn fx:id="f_num" editable="false" maxWidth="500.0" prefWidth="100.0" resizable="false" style="-fx-alignment: center;" text="Номер заказа" />
+                                                    <TableColumn fx:id="f_client" editable="false" maxWidth="1.7976931348623157E308" minWidth="440.0" prefWidth="-1.0" text="Заказчик" />
+                                                    <TableColumn fx:id="f_manager" editable="false" maxWidth="-1.0" minWidth="120.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Менеджер" />
+                                                    <TableColumn fx:id="f_data_cr" editable="false" maxWidth="-1.0" minWidth="110.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Дата&#10;создания" />
+                                                    <TableColumn fx:id="f_data_f" editable="false" maxWidth="-1.0" minWidth="120.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Когда был отдан&#10;в производство" />
+                                                    <TableColumn fx:id="f_count_position" editable="false" maxWidth="-1.0" minWidth="80.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Количество&#10;позиций" />
+                                                </columns>
+                                                <cursor>
+                                                    <Cursor fx:constant="DEFAULT" />
+                                                </cursor>
+                                   <HBox.margin>
+                                      <Insets top="2.0" />
+                                   </HBox.margin>
+                                            </TableView>
+                                <VBox prefWidth="150.0">
+                                   <children>
+                                      <HBox>
+                                         <children>
+                                               <Label alignment="CENTER" maxHeight="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" text="Год:" textFill="#5bb980">
+                                                   <font> <Font name="System Bold" size="16.0" /> </font>
+                                                   <HBox.margin> <Insets right="5.0" /> </HBox.margin>
+                                               </Label>
+                                               <TextField fx:id="find_year" maxWidth="-Infinity" prefWidth="60.0" />
+                                         </children>
+                                         <VBox.margin>
+                                            <Insets bottom="10.0" top="40.0" />
+                                         </VBox.margin>
+                                      </HBox>
+                                      <VBox prefHeight="200.0" prefWidth="100.0">
+                                         <children>
+                                           <Label alignment="CENTER" maxHeight="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" text="Номер заказа:" textFill="#5bb980">
+                                              <font>
+                                                 <Font name="System Bold" size="16.0" />
+                                              </font>
+                                           </Label>
+                                           <TextField fx:id="find_number" onKeyPressed="#searchOrderByEnter">
+                                               <VBox.margin> <Insets right="5.0" /> </VBox.margin>
+                                           </TextField>
+                                         </children>
+                                      </VBox>
+                                      <Button fx:id="find" mnemonicParsing="false" onAction="#showFoundedOrder" prefHeight="30.0" text="НАЙТИ">
+                                          <font>
+                                              <Font name="System Bold" size="14.0" />
+                                          </font>
+                                          <cursor>
+                                              <Cursor fx:constant="HAND" />
+                                          </cursor>
+                                         <VBox.margin>
+                                            <Insets bottom="5.0" />
+                                         </VBox.margin>
+                                      </Button>
+                                   </children>
+                                   <HBox.margin>
+                                      <Insets left="5.0" />
+                                   </HBox.margin>
+                                </VBox>
+                                        </children>
+                                    </HBox>
+
+                                    <HBox alignment="TOP_CENTER">
+                                        <children>
+
+                                            <TableView fx:id="tableFind2" prefWidth="1345.0">
+                                                <columns>
+                                                    <TableColumn fx:id="f_pos" editable="false" prefWidth="30.0" resizable="false" style="-fx-alignment: center;" text="№&#10;поз." />
+                                                    <TableColumn fx:id="f_description" editable="false" maxWidth="1.7976931348623157E308" minWidth="300.0" prefWidth="-1.0" style="-fx-alignment: center;" text="Описание" />
+<!--                                                    <TableColumn fx:id="f_description" maxWidth="1.7976931348623157E308" minWidth="300.0" prefWidth="-1.0" style="-fx-alignment: center;" text="Описание " />-->
+                                                    <TableColumn editable="false" maxWidth="-1.0" minWidth="190.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Размеры, мм">
+                                                        <columns>
+                                                            <TableColumn fx:id="f_size_a" editable="false" prefWidth="45.0" resizable="false" style="-fx-alignment: center;" text="Длина" />
+                                                            <TableColumn fx:id="f_size_b" editable="false" prefWidth="55.0" resizable="false" style="-fx-alignment: center;" text="Ширина" />
+                                                            <TableColumn fx:id="f_size_c" editable="false" prefWidth="50.0" resizable="false" style="-fx-alignment: center;" text="Высота" />
+                                                        </columns>
+                                                    </TableColumn>
+                                                    <TableColumn fx:id="f_amount" editable="false" prefWidth="35.0" resizable="false" style="-fx-alignment: center;" text="Кол-&#10;во" />
+                                                    <TableColumn fx:id="f_type" editable="false" prefWidth="60.0" resizable="false" style="-fx-alignment: center;" text="Тип" />
+                                                    <TableColumn fx:id="f_status" editable="false" styleClass="status" prefWidth="85.0" resizable="false" style="-fx-alignment: center;" text="  Где&#10; заказ&#10;сейчас" />
+                                                    <TableColumn fx:id="f_designer" editable="false" prefWidth="85.0" resizable="false" style="-fx-alignment: center;" text="Конструктор" />
+                                                    <TableColumn fx:id="f_time2" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Поступил&#10;в КБ" />
+                                                    <TableColumn fx:id="f_time3" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Начало&#10;разра-&#10;ботки" />
+                                                    <TableColumn fx:id="f_time4" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Задан&#10;вопрос&#10;менедж." />
+                                                    <TableColumn fx:id="f_time5" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Получен&#10;ответ" />
+                                                    <TableColumn fx:id="f_time7" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Запуск&#10;в цехе" />
+                                                    <TableColumn fx:id="f_time19" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Отгрузка" />
+                                                    <TableColumn fx:id="f_time20" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Выполнен" />
+                                                    <TableColumn fx:id="f_time24" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Не&#10;отслеж." />
+                                                    <TableColumn fx:id="f_time30" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Отменен" />
+                                                </columns>
+                                            </TableView>
+                                        </children>
+                                    </HBox>
+                                </items>
+                            </SplitPane>
+                        </children>
+                    </HBox>
+
+                </children>
+            </VBox>
+      </content>
+</Tab>
+<!--</TabPane>-->

@@ -4,6 +4,10 @@ public final class ConstantsSql {
 
     public static final String TMC_GET_ALL = "SELECT * FROM tmc;";
 
+    public static final String ORDER_GET_ALL_LIKE = "select o.id, j.doc_number, j.t_create, o.t_factory, o.duration, " +
+            "c.name as client, w.name as manager, o.status" +
+            " from orders o, journal j, client c, worker w WHERE o.id = j.id and o.id_client = c.id and o.id_manager = w.id" +
+            " and EXTRACT(year FROM j.t_create) = ";
     public static final String ORDER_GET_ALL_NEW = "select o.id, j.doc_number, j.t_create, o.t_factory, o.duration," +
             "    c.name as client, w.name as manager, o.status" +
             "    from orders o, journal j, client c, worker w WHERE o.status = 'NEW'" +
@@ -17,6 +21,9 @@ public final class ConstantsSql {
 
     public static final String DESCRIPTION_GET_BY_ORDER_ID = "SELECT d.*, e.description as emb FROM descriptions d " +
             "LEFT JOIN embodiment e on d.embodiment = e.id and id_order = ?;";
+    public static final String DESCRIPTION_GET_ALL = "select d1.*, t.descr, t.descr_all from" +
+            " (SELECT d.*, e.description as emb FROM descriptions d LEFT JOIN embodiment e on d.embodiment = e.id) as d1" +
+            " inner join tmc t on d1.id_tmc = t.id  order by d1.id;";
     public static final String DESCRIPTION_GET_ALL_NEW = "select d1.*, t.descr, t.descr_all from" +
             " (SELECT d.*, e.description as emb FROM descriptions d LEFT JOIN embodiment e on d.embodiment = e.id" +
             " where d.status = 'NEW') as d1" +

@@ -217,7 +217,7 @@ public class DescriptionKb {
                 .map(DescriptionTime::getTime)
                 .findFirst();
         return time.isPresent()
-                ? time.get().format(Constants.checkBoxTimeFormatter)
+                ? time.get().format(Constants.tableCellTimeFormatter)
                 : checkBox;
     }
 

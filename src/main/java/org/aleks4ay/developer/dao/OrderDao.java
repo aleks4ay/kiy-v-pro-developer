@@ -33,4 +33,8 @@ public class OrderDao extends AbstractDao<Order> implements BaseDao<Order> {
     public List<Order> findAllParsing(String sort) {
         return findAbstractAll(ConstantsSql.ORDER_GET_ALL_NEW + sort);
     }
+
+    public List<Order> findAllLike(String yearText, String numberText) {
+        return findAbstractAll(ConstantsSql.ORDER_GET_ALL_LIKE + yearText + " and j.doc_number like '%" + numberText + "%';");
+    }
 }

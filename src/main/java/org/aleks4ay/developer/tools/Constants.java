@@ -10,7 +10,7 @@ public final class Constants {
     public static final String FILE_CHANGES;
     public static final DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     public static final DateTimeFormatter dayTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy  HH:mm");
-    public static final DateTimeFormatter checkBoxTimeFormatter =
+    public static final DateTimeFormatter tableCellTimeFormatter =
             DateTimeFormatter.ofPattern("dd.MM.yyyy" + System.lineSeparator() + "HH:mm");
 
     static {

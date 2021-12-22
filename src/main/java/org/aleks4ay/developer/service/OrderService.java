@@ -6,6 +6,8 @@ import org.aleks4ay.developer.model.Order;
 import org.aleks4ay.developer.model.StatusName;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class OrderService extends AbstractService<Order> {
 
@@ -23,5 +25,11 @@ public class OrderService extends AbstractService<Order> {
 
     public List<Order> findAllParsing(String sort) {
         return ((OrderDao)getDao()).findAllParsing(sort);
+    }
+
+    public Map<String, Order> findAllLike(String yearText, String numberText) {
+        return ((OrderDao)getDao()).findAllLike(yearText, numberText)
+                .stream()
+                .collect(Collectors.toMap(Order::getId, o -> o));
     }
 }

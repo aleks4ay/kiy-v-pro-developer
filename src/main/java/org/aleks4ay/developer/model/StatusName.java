@@ -64,7 +64,11 @@ public enum StatusName implements Comparable<StatusName>{
     NOT_TRACKED(24) {
         @Override
         public String toStringRus() {
-            return "Выполнен";
+            return "Не отслеживается";
+        }
+        @Override
+        public String toStringRusToCell() {
+            return "Не отсле-" + System.lineSeparator() + "живается";
         }
     },
     CANCELED(30) {
@@ -86,5 +90,9 @@ public enum StatusName implements Comparable<StatusName>{
 
     public String toStringRus() {
         return "";
+    }
+
+    public String toStringRusToCell() {
+        return toStringRus().replaceFirst(" ", System.lineSeparator());
     }
 }

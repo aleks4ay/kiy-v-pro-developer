@@ -46,6 +46,22 @@ public class KbEngine {
                 .collect(Collectors.toList());
     }
 
+    public List<Order> getOrdersWithDescriptionsFind(String yearText, String numberText) {
+        Map<String, String> designerPseudoName = descriptionService.getDesignerPseudoNames();
+        Map<String, Order> orderMap = orderService.findAllLike(yearText, numberText);
+
+        for (Description d : descriptionService.findAll()) {
+            if (designerPseudoName.containsKey(d.getDesigner())) {
+                d.setDesigner(designerPseudoName.get(d.getDesigner()));
+            }
+            String key = d.getIdOrder();
+            if (orderMap.containsKey(key)) {
+                orderMap.get(key).getDescriptions().add(d);
+            }
+        }
+        return new ArrayList<>(orderMap.values());
+    }
+
     public Map<String, Order> findAllAsMap(Page page, String sort) {
         List<Order> orders = orderService.findAllKb(sort);
         page.setSize(orders.size());
@@ -115,7 +131,6 @@ public class KbEngine {
         } else {
             descr.setStatus(statusName.toString());
             return true;
-//            addNewStatus(times, newTime, descr, statusMap);
         }
     }
 

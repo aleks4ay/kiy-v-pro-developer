@@ -30,14 +30,12 @@ public class ParsingEngine {
         }
 
         Map<String, Order> orderMap = findAllAsMap(page, sortOrder);
-//        Map<String, Order> orderMap = findAllAsMap(page);
-        for (Description d : descriptionService.findAll()) {
+        for (Description d : descriptionService.findAllNew()) {
             String key = d.getIdOrder();
             if (orderMap.containsKey(key)) {
                 orderMap.get(key).getDescriptions().add(d);
             }
         }
-//        return new ArrayList<>(orderMap.values());
         return orderMap.values().stream()
                 .sorted(comparing)
                 .collect(Collectors.toList());
@@ -90,7 +88,7 @@ public class ParsingEngine {
             String orderId = listParsing.get(0).getId().split("-")[0];
             DescriptionTime minDescriptionTime = getMinimumDescriptionTime(times);
             OrderTime minOrderTime = new OrderTime(minDescriptionTime);
-            System.out.println("minOrderTime = " + minOrderTime);
+
             orderService.updateStatus(orderId, minOrderTime.getStatusName());
             orderTimeService.create(minOrderTime);
         }

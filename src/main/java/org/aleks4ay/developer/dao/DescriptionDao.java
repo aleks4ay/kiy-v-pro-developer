@@ -19,6 +19,10 @@ public class DescriptionDao extends AbstractDao<Description> implements BaseDao<
 
     @Override
     public List<Description> findAll() {
+        return findAbstractAll(ConstantsSql.DESCRIPTION_GET_ALL);
+    }
+
+    public List<Description> findAllNew() {
         return findAbstractAll(ConstantsSql.DESCRIPTION_GET_ALL_NEW);
     }
 

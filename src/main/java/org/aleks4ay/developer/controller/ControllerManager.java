@@ -23,7 +23,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ControllerKb implements Initializable {
+public class ControllerManager implements Initializable {
     private static final long positionOnPage = 10;
     private static final File file1 = new File(Constants.FILE_CHANGES);
     private final LongProperty isNewOrderTime = new SimpleLongProperty(new File(Constants.FILE_CHANGES).lastModified());

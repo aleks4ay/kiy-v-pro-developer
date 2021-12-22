@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.TabPane?>
 
 <TabPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
     <tabs>
-        <fx:include fx:id="kb_tab1" source="kb_tab1.fxml"/>
+        <fx:include fx:id="factory_tab1" source="factory_tab1.fxml"/>
         <fx:include fx:id="find" source="find.fxml"/>
     </tabs>
 </TabPane>

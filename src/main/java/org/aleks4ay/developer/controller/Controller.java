@@ -90,7 +90,6 @@ public class Controller implements Initializable {
 
         isNewOrderTime.addListener((observable, oldValue, newValue) -> {
             try {
-                System.out.println("Sleep 0.1 c");
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();

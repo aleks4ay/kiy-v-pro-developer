@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Tab xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+     fx:controller="org.aleks4ay.developer.controller.ControllerKb" style="-fx-pref-height: 30px; -fx-font-size: 16px;"
+        closable="false" text="Конструкторам">
+     <content>
+        <VBox prefHeight="700.0" prefWidth="1280.0">
+          <children>
+              <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
+                 <children>
+                    <SplitPane dividerPositions="0.3" orientation="VERTICAL">
+                      <items>
+                          <HBox>
+                             <children>
+                                <TableView fx:id="tableKbView1" prefWidth="936.0">
+                                  <columns>
+                                    <TableColumn fx:id="num" editable="false" maxWidth="500.0" prefWidth="100.0" resizable="false" style="-fx-alignment: center;" text="Номер заказа" />
+                                    <TableColumn fx:id="client" editable="false" maxWidth="1.7976931348623157E308" minWidth="480.0" prefWidth="-1.0" text="Заказчик" />
+                                    <TableColumn fx:id="manager" editable="false" maxWidth="-1.0" minWidth="140.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Менеджер" />
+                                    <TableColumn fx:id="data_f" editable="false" maxWidth="-1.0" minWidth="120.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Когда был отдан&#10;в производство" />
+                                    <TableColumn fx:id="count_position" editable="false" maxWidth="-1.0" minWidth="80.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Количество&#10;позиций" />
+                                  </columns>
+                                     <cursor>
+                                       <Cursor fx:constant="DEFAULT" />
+                                     </cursor>
+                                </TableView>
+
+                                      <VBox alignment="BOTTOM_LEFT" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                                   <children>
+                                      <VBox alignment="TOP_CENTER" style="-fx-border-style: solid; -fx-border-color: grey; -fx-border-width: 1px; -fx-border-radius: 15px;">
+                                         <children>
+                                             <Label text="Сортировка:" textAlignment="CENTER" underline="true">
+                                                 <font> <Font name="System Bold Italic" size="14.0" /> </font>
+                                             </Label>
+                                             <RadioButton fx:id="radio_kb_1" mnemonicParsing="false" onAction="#sortingKb" selected="true" text="по № заказа" wrapText="true">
+                                                 <font> <Font size="14.0" /> </font>
+                                               <toggleGroup>
+                                                     <ToggleGroup fx:id="group_kb" />
+                                               </toggleGroup>
+                                               <VBox.margin>
+                                                  <Insets bottom="3.0" right="35.0" />
+                                               </VBox.margin>
+                                             </RadioButton>
+                                             <RadioButton fx:id="radio_kb_2" mnemonicParsing="false" onAction="#sortingKb" text="по дате пост. в КБ" toggleGroup="$group_kb" wrapText="true">
+                                                 <font> <Font size="14.0" /> </font>
+                                               <VBox.margin>
+                                                  <Insets bottom="3.0" />
+                                               </VBox.margin>
+                                             </RadioButton>
+                                         </children>
+                                         <VBox.margin>
+                                            <Insets bottom="5.0" right="30.0" />
+                                         </VBox.margin>
+                                         <opaqueInsets>
+                                            <Insets />
+                                         </opaqueInsets>
+                                      </VBox>
+                                      <HBox>
+                                         <children>
+                                            <Label alignment="TOP_LEFT" minWidth="100.0" style="&#10;" text="Заказов в КБ:  " textAlignment="CENTER">
+                                               <font> <Font size="18.0" /> </font>
+                                               <textFill> <Color blue="0.624" green="0.624" /> </textFill>
+                                               <HBox.margin> <Insets /> </HBox.margin>
+                                            </Label>
+                                             <Label fx:id="info_ord" alignment="TOP_LEFT" style="&#10;" text="#5" textAlignment="CENTER">
+                                                 <font> <Font size="18.0" /> </font>
+                                                 <textFill>
+                                                     <Color blue="0.624" green="0.624" />
+                                                 </textFill>
+                                             </Label>
+                                         </children>
+                                      </HBox>
+                                      <HBox>
+                                         <children>
+                                            <Label alignment="TOP_LEFT" minWidth="100.0" style="&#10;" text="Заказов в работе:  " textAlignment="CENTER" textFill="#c51aaf">
+                                               <font> <Font size="18.0" /> </font>
+                                            </Label>
+                                            <Label fx:id="info_ord_now" alignment="TOP_LEFT" style="&#10;" text="#6" textAlignment="CENTER" textFill="#c51aaf">
+                                               <font> <Font size="18.0" /> </font>
+                                            </Label>
+                                         </children>
+                                         <VBox.margin> <Insets /> </VBox.margin>
+                                      </HBox>
+                                      <HBox>
+                                         <children>
+
+                                                  <Label alignment="TOP_LEFT" minWidth="100.0" style="&#10;" text="Изделий в заказах:  " textAlignment="CENTER">
+                                               <font>
+                                                  <Font size="18.0" />
+                                               </font>
+                                               <textFill>
+                                                  <Color blue="0.624" green="0.624" />
+                                               </textFill>
+                                            </Label>
+                                            <Label fx:id="info_descr" alignment="TOP_LEFT" style="&#10;" text="#7" textAlignment="CENTER">
+                                               <font>
+                                                  <Font size="18.0" />
+                                               </font>
+                                               <textFill>
+                                                  <Color blue="0.624" green="0.624" />
+                                               </textFill>
+                                            </Label>
+                                         </children>
+                                         <VBox.margin>
+                                            <Insets bottom="5.0" />
+                                         </VBox.margin>
+                                      </HBox>
+                                      <HBox alignment="CENTER_LEFT">
+                                         <VBox.margin>
+                                            <Insets bottom="2.0" />
+                                         </VBox.margin>
+                                         <children>
+                                            <Button fx:id="parsing_previous" disable="true" mnemonicParsing="false" onAction="#applyPrevious" text="Предыдущие">
+                                               <font>
+                                                  <Font name="System Bold" size="14.0" />
+                                               </font>
+                                               <cursor>
+                                                  <Cursor fx:constant="HAND" />
+                                               </cursor>
+                                               <HBox.margin>
+                                                  <Insets right="5.0" />
+                                               </HBox.margin>
+                                            </Button>
+                                             <Button fx:id="parsing_next" mnemonicParsing="false" onAction="#applyNext" text="Следующие">
+                                               <font>
+                                                  <Font name="System Bold" size="14.0" />
+                                               </font>
+                                               <cursor>
+                                                  <Cursor fx:constant="HAND" />
+                                               </cursor>
+                                               <HBox.margin>
+                                                  <Insets right="5.0" />
+                                               </HBox.margin>
+                                            </Button>
+                                            <Label fx:id="info_position" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="1 - 10" textFill="#0080ff" HBox.hgrow="ALWAYS">
+                                               <font>
+                                                  <Font name="System Bold" size="14.0" />
+                                               </font>
+                                            </Label>
+                                         </children>
+                                      </HBox>
+                                   </children>
+                                   <padding>
+                                      <Insets left="5.0" right="5.0" />
+                                   </padding>
+                                </VBox>
+                             </children>
+                          </HBox>
+
+                                <HBox>
+                            <children>
+                                <VBox prefWidth="200.0">
+                                   <children>
+                                      <HBox alignment="BOTTOM_LEFT">
+                                         <VBox.margin>
+                                            <Insets bottom="5.0" />
+                                         </VBox.margin>
+                                         <children>
+                                            <Label maxWidth="1.7976931348623157E308" text="№ заказа:" textFill="#0080ff" underline="true">
+                                               <font>
+                                                  <Font size="16.0" />
+                                               </font>
+                                               <HBox.margin>
+                                                  <Insets right="5.0" />
+                                               </HBox.margin>
+                                            </Label>
+                                            <Label fx:id="info_docnum" maxWidth="1.7976931348623157E308" text="#1">
+                                               <font>
+                                                  <Font name="System Bold" size="16.0" />
+                                               </font>
+                                            </Label>
+                                         </children>
+                                      </HBox>
+                                      <Label maxWidth="1.7976931348623157E308" text="Мереджер:" textFill="#0080ff" underline="true">
+                                         <font>
+                                            <Font size="16.0" />
+                                         </font>
+                                      </Label>
+                                      <Label fx:id="info_manag" maxWidth="1.7976931348623157E308" text="#2">
+                                         <font>
+                                            <Font size="16.0" />
+                                         </font>
+                                         <VBox.margin>
+                                            <Insets bottom="10.0" />
+                                         </VBox.margin>
+                                      </Label>
+                                      <Label layoutX="10.0" layoutY="55.0" maxWidth="1.7976931348623157E308" text="Поступил на распределение:" textFill="#0080ff" underline="true">
+                                         <font>
+                                            <Font size="14.0" />
+                                         </font>
+                                      </Label>
+                                      <Label fx:id="info_data_f" layoutX="10.0" layoutY="96.0" maxWidth="1.7976931348623157E308" text="#3">
+                                         <font>
+                                            <Font size="16.0" />
+                                         </font>
+                                         <VBox.margin>
+                                            <Insets bottom="10.0" />
+                                         </VBox.margin>
+                                      </Label>
+                                      <Label maxWidth="1.7976931348623157E308" text="Клиент:" textFill="#0080ff" underline="true">
+                                         <font>
+                                            <Font size="16.0" />
+                                         </font>
+                                         <VBox.margin>
+                                            <Insets top="10.0" />
+                                         </VBox.margin>
+                                      </Label>
+                                      <Label fx:id="info_client" accessibleRole="TEXT_AREA" alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" prefHeight="120.0" text="#4" wrapText="true">
+                                         <font>
+                                            <Font size="16.0" />
+                                         </font>
+                                         <VBox.margin>
+                                            <Insets bottom="15.0" top="3.0" />
+                                         </VBox.margin>
+                                      </Label>
+                                   </children>
+                                </VBox>
+
+                                    <TableView fx:id="tableKbView2" prefWidth="1045.0">
+                                <columns>
+                                  <TableColumn fx:id="pos" editable="false" prefWidth="30.0" resizable="false" style="-fx-alignment: center;" text="№&#10;поз." />
+                                  <TableColumn fx:id="description" maxWidth="1.7976931348623157E308" minWidth="300.0" prefWidth="-1.0" style="-fx-alignment: center;" text="Описание " />
+                                  <TableColumn editable="false" maxWidth="-1.0" minWidth="190.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Габаритные размеры, мм">
+                                    <columns>
+                                      <TableColumn fx:id="size_a" editable="false" prefWidth="55.0" resizable="false" style="-fx-alignment: center;" text="Длина" />
+                                      <TableColumn fx:id="size_b" editable="false" prefWidth="55.0" resizable="false" style="-fx-alignment: center;" text="Ширина" />
+                                      <TableColumn fx:id="size_c" editable="false" prefWidth="55.0" resizable="false" style="-fx-alignment: center;" text="Высота" />
+                                    </columns>
+                                  </TableColumn>
+                                  <TableColumn fx:id="amount" editable="false" prefWidth="50.0" resizable="false" style="-fx-alignment: center;" text="Коли-&#10;чество" />
+                                  <TableColumn fx:id="designer" editable="false" prefWidth="90.0" resizable="false" style="-fx-alignment: center;" text="Конструктор" />
+                                  <TableColumn fx:id="time2" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Поступил&#10;в КБ" />
+                                  <TableColumn fx:id="time3" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Начало&#10;разра-&#10;ботки" />
+                                  <TableColumn fx:id="time4" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Задан&#10;вопрос&#10;менедж." />
+                                  <TableColumn fx:id="time5" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Получен&#10;ответ" />
+                                  <TableColumn fx:id="time6" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Отдать&#10;в цех" />
+                                  <TableColumn fx:id="time7" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Срок для&#10;отдачи&#10;в цех" />
+                                </columns>
+                              </TableView>
+                            </children>
+                          </HBox>
+                      </items>
+                    </SplitPane>
+                 </children>
+              </HBox>
+
+
+            <HBox id="HBox" alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="40.0" spacing="5.0" VBox.vgrow="NEVER">
+              <children>
+                    <SplitPane dividerPositions="0.1, 0.9" HBox.hgrow="ALWAYS">
+                      <items>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+                          <AnchorPane>
+                             <children>
+                            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="200.0" text="последнее обновление:" textFill="#5bb980" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0">
+                              <font>
+                                <Font size="16.0" />
+                              </font>
+                            </Label>
+                                <Text fx:id="timeUpdate" disable="true" fill="#5bb980" lineSpacing="1.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00.00.2000  00:00" wrappingWidth="220.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="237.0">
+                                    <font>
+                                        <Font size="16.0" />
+                                    </font>
+                                </Text>
+                                <Button fx:id="kb_save" mnemonicParsing="false" onAction="#applyKb" prefHeight="30.0" text="ВЫПОЛНИТЬ" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="10.0">
+                                   <font>
+                                      <Font name="System Bold" size="14.0" />
+                                   </font>
+                                   <cursor>
+                                      <Cursor fx:constant="HAND" />
+                                   </cursor>
+                                </Button>
+                             </children>
+                          </AnchorPane>
+                          <AnchorPane layoutX="10.0" layoutY="10.0" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+                      </items>
+                    </SplitPane>
+              </children>
+              <padding>
+                <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+              </padding>
+            </HBox>
+
+                </children>
+        </VBox>
+     </content>
+</Tab>
