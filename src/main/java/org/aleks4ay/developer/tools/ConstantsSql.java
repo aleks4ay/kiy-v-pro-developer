@@ -33,6 +33,8 @@ public final class ConstantsSql {
             " where d.status in ('KB_NEW','KB_START','KB_QUESTION','KB_CONTINUED') ) as d1" +
             " inner join tmc t on d1.id_tmc = t.id order by d1.id;";
     public static final String DESCRIPTION_UPDATE_STATUS = "update descriptions set status = ? where id = ?;";
+    public static final String CREATE_IMAGE = "insert into descr_image (id_description, image) VALUES (?, ?);";
+    public static final String FIND_IMAGE = "select * from descr_image where id_description = ?;";
     public static final String DESCRIPTION_UPDATE_TYPE = "update descriptions set type = ? where id = ?;";
     public static final String DESCRIPTION_UPDATE_DESIGNER = "update descriptions set designer_name = ? where id = ?;";
 

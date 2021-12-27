@@ -4,6 +4,7 @@ import org.aleks4ay.developer.dao.*;
 import org.aleks4ay.developer.model.Description;
 import org.aleks4ay.developer.model.DescriptionTime;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -12,9 +13,17 @@ import java.util.stream.Collectors;
 
 public class DescriptionService extends AbstractService<Description> {
 
-
     public DescriptionService(BaseDao<Description> descriptionDao) {
         super(descriptionDao);
+    }
+
+    public static void main(String[] args) {
+        String fileName = "j:\\KiyV Projects\\img\\frases_03.png";
+        String idDescr = "  EYSJ-1";
+        new DescriptionService(new DescriptionDao(ConnectionPool.getInstance())).createImage(fileName, idDescr);
+
+        List<byte[]> imagesByte = new DescriptionService(new DescriptionDao(ConnectionPool.getInstance())).getImagesByte(idDescr);
+        System.out.println("size = " + imagesByte.size());
     }
 
     public boolean updateStatusName(String id, String statusName) {
@@ -109,5 +118,13 @@ public class DescriptionService extends AbstractService<Description> {
             }
         }
         return new ArrayList<>(descriptionMap.values());
+    }
+
+    public boolean createImage(String fileName, String id) {
+        return ((DescriptionDao)getDao()).createImage(fileName, id);
+    }
+
+    public List<byte[]> getImagesByte(String id) {
+        return ((DescriptionDao)getDao()).findImages(id);
     }
 }

@@ -105,3 +105,10 @@ CREATE TABLE description_time
     FOREIGN KEY (id_description) REFERENCES descriptions (id) ON DELETE CASCADE
 );
 CREATE UNIQUE INDEX description_times_idx ON description_time (id_description, status);
+
+CREATE TABLE descr_image (
+    id bigint PRIMARY KEY DEFAULT nextval('times_id_seq'),
+    id_description VARCHAR(13) NOT NULL,
+    image bytea,
+    FOREIGN KEY (id_description) REFERENCES descriptions (id) ON DELETE CASCADE
+);
