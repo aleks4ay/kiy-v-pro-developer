@@ -4,7 +4,6 @@ import org.aleks4ay.developer.dao.*;
 import org.aleks4ay.developer.model.Description;
 import org.aleks4ay.developer.model.DescriptionTime;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -18,7 +17,7 @@ public class DescriptionService extends AbstractService<Description> {
     }
 
     public static void main(String[] args) {
-        String fileName = "j:\\KiyV Projects\\img\\frases_03.png";
+        String fileName = "J:\\__Temp___\\Ава.jpg";
         String idDescr = "  EYSJ-1";
         new DescriptionService(new DescriptionDao(ConnectionPool.getInstance())).createImage(fileName, idDescr);
 

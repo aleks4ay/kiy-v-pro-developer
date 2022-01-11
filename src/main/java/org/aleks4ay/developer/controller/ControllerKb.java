@@ -5,12 +5,23 @@ import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.aleks4ay.developer.model.Description;
 import org.aleks4ay.developer.model.DescriptionKb;
 import org.aleks4ay.developer.model.Order;
@@ -18,10 +29,15 @@ import org.aleks4ay.developer.model.Page;
 import org.aleks4ay.developer.service.KbEngine;
 import org.aleks4ay.developer.tools.Constants;
 import org.aleks4ay.developer.tools.FileWriter;
+import org.aleks4ay.developer.tools.ScreenSize;
+import org.aleks4ay.learn_Image.ImageViewDemo;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 public class ControllerKb implements Initializable {
     private static final long positionOnPage = 30;
@@ -215,7 +231,6 @@ public class ControllerKb implements Initializable {
 
     public void sortingKb(ActionEvent actionEvent) {
         sortWayKb = ((RadioButton) actionEvent.getSource()).getText();
-//        System.out.println("sortWayKb = " + sortWayKb);
         initKbTabOne();
     }
 
@@ -242,5 +257,77 @@ public class ControllerKb implements Initializable {
             }
         }
         return String.valueOf(result);
+    }
+
+    public void addImage() {
+        if (tableKbView1.getSelectionModel().getSelectedItem() != null) {
+            String id = tableKbView2.getSelectionModel().getSelectedItem().getId();
+            System.out.println("id = " + id);
+            Parent root = null;
+            try {
+                root = FXMLLoader.load(getClass().getResource("/fxml/imagePane.fxml"));
+
+                Set<Node> labels = (root.getChildrenUnmodifiable().get(0)).lookupAll("Label");
+                for (Node n : labels) {
+                    if (n.getId().equalsIgnoreCase("description_id")) {
+                        ((Label)n).setText(id);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            Scene secondScene = new Scene(root, 730, 500);
+
+            Stage newWindow = new Stage();
+            newWindow.setTitle("Добавление рисунков");
+            newWindow.setScene(secondScene);
+
+            newWindow.show();
+
+
+ /*           FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Open Resource File");
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("Картинки", "*.png", "*.jpg", "*.gif", "*.bmp", "*.bmp"),
+                    new FileChooser.ExtensionFilter("Файлы txt", "*.txt"),
+                    new FileChooser.ExtensionFilter("Все файлы", "*.*"));
+            File selectedFile = fileChooser.showOpenDialog(null);
+            if (selectedFile != null) {
+                Scene secondScene = null;
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("/fxml/imagePane.fxml"));
+                    secondScene = new Scene(root, 730, 500);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+
+                *//*Label secondLabel = new Label("Выбран файл: " + selectedFile);
+
+                StackPane secondaryLayout = new StackPane();
+                secondaryLayout.getChildren().add(secondLabel);
+
+                Scene secondScene = new Scene(secondaryLayout, 730, 500);
+                Button button = new Button();
+                button.setText("Сохранить");
+                secondaryLayout.getChildren().add(button);*//*
+
+                Stage newWindow = new Stage();
+                newWindow.setTitle("Second Stage");
+                newWindow.setScene(secondScene);
+//                button.setOnAction(event -> newWindow.close());
+                newWindow.show();
+
+//                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//                alert.setTitle("INFO");
+//                System.out.println(selectedFile);
+//                viewImage(selectedFile);
+//                alert.setHeaderText("Выбран файл: " + selectedFile);
+
+//                alert.showAndWait();
+            }*/
+        }
     }
 }

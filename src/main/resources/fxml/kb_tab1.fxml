@@ -17,9 +17,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Tab xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-     fx:controller="org.aleks4ay.developer.controller.ControllerKb" style="-fx-pref-height: 30px; -fx-font-size: 16px;"
-        closable="false" text="Конструкторам">
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TabPane?>
+<TabPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+    <tabs>
+<Tab xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<!--     fx:controller="org.aleks4ay.developer.controller.ControllerKb" style="-fx-pref-height: 30px; -fx-font-size: 16px;"-->
+<!--     closable="false" text="Конструкторам">-->
      <content>
         <VBox prefHeight="700.0" prefWidth="1280.0">
           <children>
@@ -164,7 +169,7 @@
                              </children>
                           </HBox>
 
-                                <HBox>
+                          <HBox>
                             <children>
                                 <VBox prefWidth="200.0">
                                    <children>
@@ -233,26 +238,34 @@
                                    </children>
                                 </VBox>
 
-                                    <TableView fx:id="tableKbView2" prefWidth="1045.0">
-                                <columns>
-                                  <TableColumn fx:id="pos" editable="false" prefWidth="30.0" resizable="false" style="-fx-alignment: center;" text="№&#10;поз." />
-                                  <TableColumn fx:id="description" maxWidth="1.7976931348623157E308" minWidth="300.0" prefWidth="-1.0" style="-fx-alignment: center;" text="Описание " />
-                                  <TableColumn editable="false" maxWidth="-1.0" minWidth="190.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Габаритные размеры, мм">
+
+                                <TableView fx:id="tableKbView2" prefWidth="1045.0">
+                                    <contextMenu>
+                                        <ContextMenu>
+                                            <items>
+                                                <MenuItem mnemonicParsing="false" onAction="#addImage" style="-fx-font-size: 14px;" text="Добавить картинку" />
+                                            </items>
+                                        </ContextMenu>
+                                    </contextMenu>
                                     <columns>
-                                      <TableColumn fx:id="size_a" editable="false" prefWidth="55.0" resizable="false" style="-fx-alignment: center;" text="Длина" />
-                                      <TableColumn fx:id="size_b" editable="false" prefWidth="55.0" resizable="false" style="-fx-alignment: center;" text="Ширина" />
-                                      <TableColumn fx:id="size_c" editable="false" prefWidth="55.0" resizable="false" style="-fx-alignment: center;" text="Высота" />
+                                      <TableColumn fx:id="pos" editable="false" prefWidth="30.0" resizable="false" style="-fx-alignment: center;" text="№&#10;поз." />
+                                      <TableColumn fx:id="description" maxWidth="1.7976931348623157E308" minWidth="300.0" prefWidth="-1.0" style="-fx-alignment: center;" text="Описание " />
+                                      <TableColumn editable="false" maxWidth="-1.0" minWidth="190.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Габаритные размеры, мм">
+                                        <columns>
+                                          <TableColumn fx:id="size_a" editable="false" prefWidth="55.0" resizable="false" style="-fx-alignment: center;" text="Длина" />
+                                          <TableColumn fx:id="size_b" editable="false" prefWidth="55.0" resizable="false" style="-fx-alignment: center;" text="Ширина" />
+                                          <TableColumn fx:id="size_c" editable="false" prefWidth="55.0" resizable="false" style="-fx-alignment: center;" text="Высота" />
+                                        </columns>
+                                      </TableColumn>
+                                      <TableColumn fx:id="amount" editable="false" prefWidth="50.0" resizable="false" style="-fx-alignment: center;" text="Коли-&#10;чество" />
+                                      <TableColumn fx:id="designer" editable="false" prefWidth="90.0" resizable="false" style="-fx-alignment: center;" text="Конструктор" />
+                                      <TableColumn fx:id="time2" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Поступил&#10;в КБ" />
+                                      <TableColumn fx:id="time3" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Начало&#10;разра-&#10;ботки" />
+                                      <TableColumn fx:id="time4" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Задан&#10;вопрос&#10;менедж." />
+                                      <TableColumn fx:id="time5" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Получен&#10;ответ" />
+                                      <TableColumn fx:id="time6" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Отдать&#10;в цех" />
+                                      <TableColumn fx:id="time7" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Срок для&#10;отдачи&#10;в цех" />
                                     </columns>
-                                  </TableColumn>
-                                  <TableColumn fx:id="amount" editable="false" prefWidth="50.0" resizable="false" style="-fx-alignment: center;" text="Коли-&#10;чество" />
-                                  <TableColumn fx:id="designer" editable="false" prefWidth="90.0" resizable="false" style="-fx-alignment: center;" text="Конструктор" />
-                                  <TableColumn fx:id="time2" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Поступил&#10;в КБ" />
-                                  <TableColumn fx:id="time3" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Начало&#10;разра-&#10;ботки" />
-                                  <TableColumn fx:id="time4" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Задан&#10;вопрос&#10;менедж." />
-                                  <TableColumn fx:id="time5" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Получен&#10;ответ" />
-                                  <TableColumn fx:id="time6" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Отдать&#10;в цех" />
-                                  <TableColumn fx:id="time7" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Срок для&#10;отдачи&#10;в цех" />
-                                </columns>
                               </TableView>
                             </children>
                           </HBox>
@@ -302,3 +315,5 @@
         </VBox>
      </content>
 </Tab>
+    </tabs>
+</TabPane>
