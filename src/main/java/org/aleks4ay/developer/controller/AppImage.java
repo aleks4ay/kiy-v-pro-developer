@@ -17,7 +17,7 @@ public class AppImage extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root;
-        root = FXMLLoader.load(getClass().getResource("/fxml/kb_new.fxml"));
+        root = FXMLLoader.load(getClass().getResource("/fxml/kb.fxml"));
 //        root = FXMLLoader.load(getClass().getResource("/fxml/imagePane.fxml"));
         Scene scene = new Scene(root);
         primaryStage.setTitle("KIY-V Production Management 5.0 ");

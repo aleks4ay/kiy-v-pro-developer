@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import org.aleks4ay.developer.tools.ScreenSize;
 
 public class AppKb extends Application {
+    private Parent root;
 
     public static void main(String[] args) {
         launch(args);
@@ -18,6 +19,7 @@ public class AppKb extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root;
         root = FXMLLoader.load(getClass().getResource("/fxml/kb.fxml"));
+        this.root = root;
         Scene scene = new Scene(root);
         primaryStage.setTitle("KIY-V Production Management 5.0 ");
         primaryStage.setScene(scene);
@@ -27,5 +29,9 @@ public class AppKb extends Application {
         primaryStage.getScene().getStylesheets().add("/css/StyleForPaneOne.css");
         primaryStage.getIcons().add(new Image(this.getClass().getResourceAsStream("/icon.png")));
         primaryStage.show();
+    }
+
+    public Parent getRoot() {
+        return root;
     }
 }

@@ -100,11 +100,11 @@ public class DescriptionDao extends AbstractDao<Description> implements BaseDao<
             List<byte[]> entities = new ArrayList<>();
             prepStatement.setString(1, id);
             ResultSet rs = prepStatement.executeQuery();
+//            int x = 0;
             while (rs.next()) {
                 byte[] bFile = rs.getBytes("image");
                 entities.add(bFile);
-/*                System.out.println("size = " + bFile.length);
-                try (FileOutputStream fos = new FileOutputStream(new File("J:\\test2.jpg"))){
+/*                try (FileOutputStream fos = new FileOutputStream(new File("J:\\test" + ++x + ".jpg"))){
                     fos.write(bFile);
                 } catch (IOException e) {
                     e.printStackTrace();

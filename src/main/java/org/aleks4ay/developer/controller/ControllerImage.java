@@ -3,13 +3,14 @@ package org.aleks4ay.developer.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
+import org.aleks4ay.developer.dao.ConnectionPool;
+import org.aleks4ay.developer.dao.DescriptionDao;
+import org.aleks4ay.developer.service.DescriptionService;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,11 +18,11 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 public class ControllerImage implements Initializable {
 
     @FXML private ImageView image1;
+    @FXML private Label description;
     @FXML private Label description_id;
     @FXML private Label file_name;
 
@@ -55,21 +56,19 @@ public class ControllerImage implements Initializable {
     }
 
     @FXML
-    private void saveImage(ActionEvent event){
-        String fileName = "";
-        Set<Node> labels = ((Node) event.getSource()).getParent().lookupAll("Label");
-        for (Node n : labels) {
-            if (n.getId().equalsIgnoreCase("description_id")) {
-                System.out.println("id=" + ((Label)n).getText());
-            }
-            if (n.getId().equalsIgnoreCase("file_name")) {
-                System.out.println("file=" + ((Label)n).getText().replaceAll("\\\\", "/"));
-                fileName = ((Label)n).getText();
-            }
-        }
-        ((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
+    private void saveImage(){
+        String id = description_id.getText();
+        String fileName = file_name.getText();
+        new DescriptionService(new DescriptionDao(ConnectionPool.getInstance())).createImage(fileName, id);
+        cancelImage();
     }
 
-    public void cancelImage(ActionEvent event) {
+    public void cancelImage() {
+        UtilController utilController = UtilController.getInstance();
+        Parent rootNode = file_name.getScene().getRoot();
+        image1.setImage(null);
+        utilController.setOrder(null);
+        utilController.setDescriptionKb(null);
+        utilController.setImagePaneInvisible(rootNode);
     }
 }

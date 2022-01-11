@@ -17,12 +17,9 @@ public class DescriptionService extends AbstractService<Description> {
     }
 
     public static void main(String[] args) {
-        String fileName = "J:\\__Temp___\\Ава.jpg";
-        String idDescr = "  EYSJ-1";
-        new DescriptionService(new DescriptionDao(ConnectionPool.getInstance())).createImage(fileName, idDescr);
-
+        String idDescr = "  FYGO-1";
         List<byte[]> imagesByte = new DescriptionService(new DescriptionDao(ConnectionPool.getInstance())).getImagesByte(idDescr);
-        System.out.println("size = " + imagesByte.size());
+        System.out.println("numbers of images = " + imagesByte.size());
     }
 
     public boolean updateStatusName(String id, String statusName) {
