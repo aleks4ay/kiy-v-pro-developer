@@ -11,6 +11,7 @@ import javafx.stage.FileChooser;
 import org.aleks4ay.developer.dao.ConnectionPool;
 import org.aleks4ay.developer.dao.DescriptionDao;
 import org.aleks4ay.developer.service.DescriptionService;
+import org.aleks4ay.developer.tools.FileWriter;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -60,6 +61,7 @@ public class ControllerImage implements Initializable {
         String id = description_id.getText();
         String fileName = file_name.getText();
         new DescriptionService(new DescriptionDao(ConnectionPool.getInstance())).createImage(fileName, id);
+        FileWriter.writeTimeChange("image");
         cancelImage();
     }
 

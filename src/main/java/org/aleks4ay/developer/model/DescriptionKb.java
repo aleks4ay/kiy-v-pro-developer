@@ -1,5 +1,6 @@
 package org.aleks4ay.developer.model;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.text.Text;
 import org.aleks4ay.developer.tools.Constants;
@@ -28,6 +29,7 @@ public class DescriptionKb {
     private LocalDateTime endDay;
     private String designer;
     private List<DescriptionTime> times;
+    private Button imageButton = null;
 
 
     public DescriptionKb(String id, int position, String descr, int sizeA, int sizeB, int sizeC, int amount,
@@ -65,6 +67,9 @@ public class DescriptionKb {
                     d.getTimes()
             );
             newDescription.setEndDay();
+            if (d.isExistImages()) {
+                newDescription.setImageButton(createButton(newDescription.getId()));
+            }
             result.add(newDescription);
         }
         return result;
@@ -247,5 +252,23 @@ public class DescriptionKb {
 
     public boolean isNewStatusLess(StatusName newStatusName) {
         return newStatusName.getStatusIndex() < StatusName.valueOf(status).getStatusIndex();
+    }
+
+    public void setEndDay(LocalDateTime endDay) {
+        this.endDay = endDay;
+    }
+
+    public Object getImageButton() {
+        return imageButton != null ? imageButton : "";
+    }
+
+    public void setImageButton(Button imageButton) {
+        this.imageButton = imageButton;
+    }
+
+    public static Button createButton(String id) {
+        Button button = new Button("V");
+        button.setId(id);
+        return button;
     }
 }

@@ -6,12 +6,15 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
+import org.aleks4ay.developer.model.Description;
 import org.aleks4ay.developer.model.DescriptionKb;
 import org.aleks4ay.developer.model.Order;
 
 import java.util.Set;
 
 public final class UtilController {
+    private static final String SEPARATOR = ",  ";
+    private static final String SEPARATOR_2 = " × ";
     private TabPane rootTabPane;
     private AnchorPane rootImagePane;
     private Label labelId;
@@ -76,13 +79,8 @@ public final class UtilController {
     }
 
     public void setLabelDescription() {
-        final String SEPARATOR = ",  ";
-        final String SEPARATOR_2 = " × ";
-        if (UtilController.getInstance().getOrder() != null) {
-            DescriptionKb descriptionKb = UtilController.getInstance().getDescription();
-            Order order = UtilController.getInstance().getOrder();
-            labelDescription.setText(order.getDocNumber() + SEPARATOR + descriptionKb.getDescr() + SEPARATOR +
-                    descriptionKb.getSizeA() + SEPARATOR_2 + descriptionKb.getSizeB() + SEPARATOR_2 + descriptionKb.getSizeC());
+        if (order != null && descriptionKb != null) {
+            labelDescription.setText(getSelectedDescriptionText(order, descriptionKb.getId()));
             labelId.setText(descriptionKb.getId());
         }
     }
@@ -101,5 +99,22 @@ public final class UtilController {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    public static String getSelectedDescriptionText(Order order, String descriptionId) {
+        StringBuilder sb = new StringBuilder();
+        if (order != null) {
+            sb.append(order.getDocNumber()).append(SEPARATOR);
+            for (Description d : order.getDescriptions()) {
+                if (d.getId().equals(descriptionId)) {
+                    sb.append(d.getDescrAll()).append(" ").append(d.getDescrSecond())
+                            .append(SEPARATOR).append(d.getSizeA())
+                            .append(SEPARATOR_2).append(d.getSizeB())
+                            .append(SEPARATOR_2).append(d.getSizeC());
+                    break;
+                }
+            }
+        }
+        return sb.toString();
     }
 }

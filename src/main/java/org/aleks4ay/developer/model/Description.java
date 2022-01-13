@@ -20,6 +20,8 @@ public class Description implements BaseEntity<Description> {
     private StatusName statusName;
     private String designer;
     private List<DescriptionTime> times = new ArrayList<>();
+    private List<DescriptionImage> descriptionImages = new ArrayList<>();
+    private boolean existImages;
 
     public Description(String id, String idOrder, int position, String idTmc, int quantity, String descrSecond,
                        String descrAll, int sizeA, int sizeB, int sizeC, String embodiment, TypeName typeName,
@@ -161,6 +163,22 @@ public class Description implements BaseEntity<Description> {
         this.times = times;
     }
 
+    public List<DescriptionImage> getDescriptionImages() {
+        return descriptionImages;
+    }
+
+    public void setDescriptionImages(List<DescriptionImage> descriptionImages) {
+        this.descriptionImages = descriptionImages;
+    }
+
+    public boolean isExistImages() {
+        return existImages;
+    }
+
+    public void setExistImages(boolean existImages) {
+        this.existImages = existImages;
+    }
+
     @Override
     public String getEntityName() {
         return "Description";
@@ -184,6 +202,7 @@ public class Description implements BaseEntity<Description> {
                 ", statusName=" + statusName +
                 ", designer='" + designer + '\'' +
                 ", times=" + times +
+                ", existImages=" + existImages +
                 '}';
     }
 }

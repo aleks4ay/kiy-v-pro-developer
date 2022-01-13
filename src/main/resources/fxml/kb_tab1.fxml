@@ -3,10 +3,13 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.ToggleGroup?>
@@ -17,13 +20,10 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.scene.control.ContextMenu?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TabPane?>
 <!--<TabPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">-->
 <!--    <tabs>-->
-<Tab fx:id="kb_tab1" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" closable="false" text="Конструкторам"
-     fx:controller="org.aleks4ay.developer.controller.ControllerKb" style="-fx-pref-height: 30px; -fx-font-size: 16px;">
+<Tab fx:id="kb_tab1" closable="false" style="-fx-pref-height: 30px; -fx-font-size: 16px;" text="Конструкторам" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+     fx:controller="org.aleks4ay.developer.controller.ControllerKb" >
      <content>
         <VBox prefHeight="700.0" prefWidth="1280.0">
           <children>
@@ -170,7 +170,7 @@
 
                           <HBox>
                             <children>
-                                <VBox prefWidth="200.0">
+                                <VBox prefWidth="180.0">
                                    <children>
                                       <HBox alignment="BOTTOM_LEFT">
                                          <VBox.margin>
@@ -205,7 +205,7 @@
                                             <Insets bottom="10.0" />
                                          </VBox.margin>
                                       </Label>
-                                      <Label layoutX="10.0" layoutY="55.0" maxWidth="1.7976931348623157E308" text="Поступил на распределение:" textFill="#0080ff" underline="true">
+                                      <Label layoutX="10.0" layoutY="55.0" maxWidth="1.7976931348623157E308" text="Поступил на&#10;распределение:" textFill="#0080ff" underline="true">
                                          <font>
                                             <Font size="14.0" />
                                          </font>
@@ -238,7 +238,7 @@
                                 </VBox>
 
 
-                                <TableView fx:id="tableKbView2" prefWidth="1045.0">
+                                <TableView fx:id="tableKbView2" prefWidth="1095.0">
                                     <contextMenu>
                                         <ContextMenu>
                                             <items>
@@ -264,6 +264,7 @@
                                       <TableColumn fx:id="time5" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Получен&#10;ответ" />
                                       <TableColumn fx:id="time6" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Отдать&#10;в цех" />
                                       <TableColumn fx:id="time7" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Срок для&#10;отдачи&#10;в цех" />
+                                      <TableColumn fx:id="add_item" editable="false" prefWidth="50.0" resizable="false" style="-fx-alignment: center;" text=" Ри-&#10;сунки" />
                                     </columns>
                               </TableView>
                             </children>

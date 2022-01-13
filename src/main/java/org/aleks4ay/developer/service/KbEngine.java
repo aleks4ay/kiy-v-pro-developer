@@ -102,7 +102,7 @@ public class KbEngine {
                 }
             }
             if (descr.getCheckBoxKbEnd().isSelected()) {
-                if (setStatusIfEnable(StatusName.KB_END, descr)) {
+                if (setStatusIfEnable(StatusName.FACTORY, descr)) {
                     addNewStatus(times, newTime, descr, statusMap);
                 }
             }

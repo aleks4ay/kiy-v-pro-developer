@@ -109,6 +109,8 @@ CREATE UNIQUE INDEX description_times_idx ON description_time (id_description, s
 CREATE TABLE descr_image (
     id bigint PRIMARY KEY DEFAULT nextval('times_id_seq'),
     id_description VARCHAR(13) NOT NULL,
+    name VARCHAR(255) NOT NULL,
     image bytea,
+    time TIMESTAMP default now(),
     FOREIGN KEY (id_description) REFERENCES descriptions (id) ON DELETE CASCADE
 );

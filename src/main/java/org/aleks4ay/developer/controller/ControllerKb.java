@@ -1,28 +1,40 @@
 package org.aleks4ay.developer.controller;
 
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.fxml.JavaFXBuilderFactory;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
-import org.aleks4ay.developer.model.Description;
-import org.aleks4ay.developer.model.DescriptionKb;
-import org.aleks4ay.developer.model.Order;
-import org.aleks4ay.developer.model.Page;
+import javafx.stage.Stage;
+import org.aleks4ay.developer.dao.ConnectionPool;
+import org.aleks4ay.developer.dao.DescriptionDao;
+import org.aleks4ay.developer.model.*;
+import org.aleks4ay.developer.service.DescriptionService;
 import org.aleks4ay.developer.service.KbEngine;
 import org.aleks4ay.developer.tools.Constants;
 import org.aleks4ay.developer.tools.FileWriter;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 public class ControllerKb implements Initializable {
     private static final long positionOnPage = 30;
@@ -30,10 +42,12 @@ public class ControllerKb implements Initializable {
     private final LongProperty isNewOrderTime = new SimpleLongProperty(new File(Constants.FILE_CHANGES).lastModified());
 
     private final KbEngine kbEngine = new KbEngine();
+    private final DescriptionService descriptionService = new DescriptionService(new DescriptionDao(ConnectionPool.getInstance()));
 
     public static String sortWayKb = "по № заказа";
     private int selectedRow = 0;
     private final Page page = new Page(positionOnPage);
+    private Order selectedOrder = null;
 
     private final ObservableList<Order> listOrderKb = FXCollections.observableArrayList();
     private final ObservableList<DescriptionKb> listDescriptionKb = FXCollections.observableArrayList();
@@ -62,19 +76,20 @@ public class ControllerKb implements Initializable {
 
 //----------------T A B    P A R S I N G   2 ---------------------------------
     @FXML private TableView<DescriptionKb> tableKbView2;
-    @FXML private TableColumn<Description, String> pos;
-    @FXML private TableColumn<Description, Text> description;
-    @FXML private TableColumn<Description, String> size_a;
-    @FXML private TableColumn<Description, String> size_b;
-    @FXML private TableColumn<Description, String> size_c;
-    @FXML private TableColumn<Description, String> amount;
-    @FXML private TableColumn<Description, String> designer;
-    @FXML private TableColumn<Description, String> time2;
-    @FXML private TableColumn<Description, Object> time3;
-    @FXML private TableColumn<Description, Object> time4;
-    @FXML private TableColumn<Description, Object> time5;
-    @FXML private TableColumn<Description, Object> time6;
-    @FXML private TableColumn<Description, String> time7;
+    @FXML private TableColumn<DescriptionKb, String> pos;
+    @FXML private TableColumn<DescriptionKb, Text> description;
+    @FXML private TableColumn<DescriptionKb, String> size_a;
+    @FXML private TableColumn<DescriptionKb, String> size_b;
+    @FXML private TableColumn<DescriptionKb, String> size_c;
+    @FXML private TableColumn<DescriptionKb, String> amount;
+    @FXML private TableColumn<DescriptionKb, String> designer;
+    @FXML private TableColumn<DescriptionKb, String> time2;
+    @FXML private TableColumn<DescriptionKb, Object> time3;
+    @FXML private TableColumn<DescriptionKb, Object> time4;
+    @FXML private TableColumn<DescriptionKb, Object> time5;
+    @FXML private TableColumn<DescriptionKb, Object> time6;
+    @FXML private TableColumn<DescriptionKb, String> time7;
+    @FXML private TableColumn<DescriptionKb, Button> add_item;
 
 
     @Override
@@ -97,7 +112,6 @@ public class ControllerKb implements Initializable {
                 }
             }
         }).start();
-
 
         initKbTabOne();
         initKbTabTwo();
@@ -173,6 +187,7 @@ public class ControllerKb implements Initializable {
         time5.setCellValueFactory(new PropertyValueFactory<>("timeKbContinued"));
         time6.setCellValueFactory(new PropertyValueFactory<>("timeKbEnd"));
         time7.setCellValueFactory(new PropertyValueFactory<>("endDayString"));
+        add_item.setCellValueFactory(new PropertyValueFactory<>("imageButton"));
 
         tableKbView2.setItems(listDescriptionKb);
     }
@@ -181,13 +196,65 @@ public class ControllerKb implements Initializable {
         listDescriptionKb.clear();
         if (tableKbView1.getSelectionModel().getSelectedItem() != null) {
             selectedRow = tableKbView1.getSelectionModel().getSelectedIndex();
-            Order selectedOrder = tableKbView1.getSelectionModel().getSelectedItem();
-            listDescriptionKb.addAll(DescriptionKb.makeFromOrderDescription(selectedOrder));
+            selectedOrder = tableKbView1.getSelectionModel().getSelectedItem();
+            List<DescriptionKb> descriptionKbList = DescriptionKb.makeFromOrderDescription(selectedOrder);
+            addButtonListener(descriptionKbList);
+            listDescriptionKb.addAll(descriptionKbList);
+
             info_docnum.setText(selectedOrder.getDocNumber());
             info_client.setText(selectedOrder.getClient());
             info_data_f.setText(selectedOrder.getDateToFactoryString());
             info_manag.setText(selectedOrder.getManager());
+        } else {
+            selectedOrder = null;
         }
+    }
+
+    private void addButtonListener(List<DescriptionKb> descriptionKbList) {
+        for (DescriptionKb d : descriptionKbList) {
+            if (d.getImageButton() instanceof Button) {
+                Button button = (Button)d.getImageButton();
+                button.setOnAction(event -> viewImages(((Button)event.getSource()).getId()));
+            }
+        }
+    }
+
+    private void viewImages(String id) {
+        Parent root = null;
+        URL location = getClass().getResource("/fxml/imagePaneView.fxml");
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(location);
+        fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+        try {
+            root = fxmlLoader.load(location.openStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ControllerImageView controller = fxmlLoader.getController();
+        List<DescriptionImage> images = descriptionService.findImagesByDescriptionId(id);
+        controller.setImages(images);
+        controller.updateValues();
+
+/*//        System.out.println("controller.page = " + controller.getPage());
+
+//            root = FXMLLoader.load(getClass().getResource("/fxml/imagePaneView.fxml"));
+//            ObservableList<Node> childrenUnmodifiable = root.getChildrenUnmodifiable();
+        Set<Node> labels = root.getChildrenUnmodifiable().get(0).lookupAll("Label");
+        for (Node n : labels) {
+            if (n.getId().equalsIgnoreCase("description")) {
+                ((Label)n).setText(UtilController.getSelectedDescriptionText(selectedOrder, id));
+            }
+            if (n.getId().equalsIgnoreCase("id_hid")) {
+                ((Label)n).setText(id);
+            }
+        }*/
+
+
+        Stage newWindow = new Stage();
+        newWindow.setTitle("Просмотр рисунков");
+        newWindow.setScene(new Scene(root));
+
+        newWindow.show();
     }
 
     public void applyNext() {
@@ -248,6 +315,7 @@ public class ControllerKb implements Initializable {
     public void addImage() {
         if (tableKbView2.getSelectionModel().getSelectedItem() != null) {
             Order selectedOrder = tableKbView1.getSelectionModel().getSelectedItem();
+//            descriptionService.fillOrderWithImage(selectedOrder);
             DescriptionKb descriptionKb = tableKbView2.getSelectionModel().getSelectedItem();
 
             UtilController utilController = UtilController.getInstance();

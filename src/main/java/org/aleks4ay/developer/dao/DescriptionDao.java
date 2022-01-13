@@ -1,5 +1,6 @@
 package org.aleks4ay.developer.dao;
 
+import javafx.scene.image.Image;
 import org.aleks4ay.developer.dao.mapper.DescriptionMapper;
 import org.aleks4ay.developer.model.Description;
 import org.aleks4ay.developer.model.PseudoName;
@@ -67,7 +68,8 @@ public class DescriptionDao extends AbstractDao<Description> implements BaseDao<
     }
 
 
-    public boolean createImage(String fileName, String id) {
+/*    public boolean createImage(String fileName, String id) {
+
         Connection connection = getConnection();
         File file = new File(fileName);
         byte[] bFile = new byte[(int) file.length()];
@@ -77,6 +79,7 @@ public class DescriptionDao extends AbstractDao<Description> implements BaseDao<
             fileInputStream.close();
             prepStatement.setString(1, id);
             prepStatement.setBytes(2, bFile);
+            prepStatement.setString(3, fileName);
             boolean result = 1 == prepStatement.executeUpdate();
             if (result) {
                 log.info("Was create an Image for Description with id '{}'.", id);
@@ -93,22 +96,23 @@ public class DescriptionDao extends AbstractDao<Description> implements BaseDao<
     }
 
 
-    public List<byte[]> findImages(String id) {
+    public List<byte[]> findImages(String idDescription) {
+        String idOrder = idDescription.split("-")[0];
         Connection conn = getConnection();
 
         try (PreparedStatement prepStatement = conn.prepareStatement(ConstantsSql.FIND_IMAGE)){
             List<byte[]> entities = new ArrayList<>();
-            prepStatement.setString(1, id);
+            prepStatement.setString(1, idOrder + "-%");
             ResultSet rs = prepStatement.executeQuery();
 //            int x = 0;
             while (rs.next()) {
                 byte[] bFile = rs.getBytes("image");
                 entities.add(bFile);
-/*                try (FileOutputStream fos = new FileOutputStream(new File("J:\\test" + ++x + ".jpg"))){
+*//*                try (FileOutputStream fos = new FileOutputStream(new File("J:\\test" + ++x + ".jpg"))){
                     fos.write(bFile);
                 } catch (IOException e) {
                     e.printStackTrace();
-                }*/
+                }*//*
             }
             return entities;
 
@@ -119,4 +123,31 @@ public class DescriptionDao extends AbstractDao<Description> implements BaseDao<
         }
         return null;
     }
+
+    public Map<String, Image> findMapImages(String id) {
+        Connection conn = getConnection();
+
+        try (PreparedStatement prepStatement = conn.prepareStatement(ConstantsSql.FIND_IMAGE)){
+            List<byte[]> entities = new ArrayList<>();
+            prepStatement.setString(1, id);
+            ResultSet rs = prepStatement.executeQuery();
+//            int x = 0;
+            while (rs.next()) {
+                byte[] bFile = rs.getBytes("image");
+                entities.add(bFile);
+*//*                try (FileOutputStream fos = new FileOutputStream(new File("J:\\test" + ++x + ".jpg"))){
+                    fos.write(bFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }*//*
+            }
+            return entities;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection(conn);
+        }
+        return null;
+    }*/
 }
