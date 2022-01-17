@@ -32,4 +32,12 @@ public class DescriptionTimeMapper implements ObjectMapperWithCreate<Description
     public void insertIdToResultSet(PreparedStatement statement, Object key) throws SQLException {
         statement.setLong(1, (long) key);
     }
+
+    public void insertToResultSetFromOld(PreparedStatement statement, DescriptionTime descriptionTime) throws SQLException {
+        statement.setString(1, descriptionTime.getIdDescription());
+        statement.setString(2, descriptionTime.getStatusName().toString());
+        statement.setTimestamp(3, Timestamp.valueOf(descriptionTime.getTime()));
+        statement.setString(4, descriptionTime.getIdDescription());
+        statement.setString(5, descriptionTime.getStatusName().toString());
+    }
 }
