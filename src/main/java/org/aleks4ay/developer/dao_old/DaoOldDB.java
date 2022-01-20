@@ -1,6 +1,8 @@
 package org.aleks4ay.developer.dao_old;
 
 import org.aleks4ay.developer.dao.ConnectionBase;
+import org.aleks4ay.developer.model.StatusName;
+import org.aleks4ay.developer.model.TypeName;
 import org.aleks4ay.developer.tools.ConstantsSql;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +37,10 @@ public class DaoOldDB {
             List<OldDboObject> entities = new ArrayList<>();
             ResultSet rs = st.executeQuery(ConstantsSql.GET_ALL_FROM_OLD_DB);
             while (rs.next()) {
-                entities.add(extractFromResultSet(rs));
+                OldDboObject newOldDboObject = extractFromResultSet(rs);
+                if (newOldDboObject != null) {
+                    entities.add(newOldDboObject);
+                }
             }
             return entities;
 
@@ -54,15 +59,21 @@ public class DaoOldDB {
                 rs.getInt("status_index"),
                 rs.getString("designer")
         );
-        for (int i = 0; i <= 24; i++) {
-            if (i > 7 && i < 22) {
-                continue;
-            }
+        for (int i = 2; i <= 7; i++) {
             long oldTime = rs.getLong("time_" + i);
             if (oldTime != 0L) {
                 dbo.addTime(i, new Timestamp(oldTime).toLocalDateTime());
             }
         }
-        return dbo;
+        if (dbo.getStatusName() == StatusName.FACTORY && rs.getLong("time_7") == 0L && rs.getLong("time_2") != 0L) {
+            dbo.addTime(7, new Timestamp(rs.getLong("time_2")).toLocalDateTime());
+        }
+        if (dbo.getTypeName() == TypeName.FACTORY && rs.getLong("time_7") == 0L && rs.getLong("time_2") != 0L) {
+            dbo.addTime(7, new Timestamp(rs.getLong("time_2")).toLocalDateTime());
+        }
+        if (dbo.getTypeName() == TypeName.OTHER && rs.getLong("time_24") != 0L) {
+            dbo.addTime(24, new Timestamp(rs.getLong("time_24")).toLocalDateTime());
+        }
+        return dbo.getTimes().size() > 0 ? dbo : null;
     }
 }

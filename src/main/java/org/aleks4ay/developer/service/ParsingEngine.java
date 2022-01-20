@@ -37,6 +37,7 @@ public class ParsingEngine {
             }
         }
         return orderMap.values().stream()
+                .filter(order -> order.getDescriptions().size() > 0)
                 .sorted(comparing)
                 .collect(Collectors.toList());
     }

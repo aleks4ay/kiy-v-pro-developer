@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <property name="APP_NAME" value="Kiy-V Pro developer" />
-    <property name="LOG_PATH" value="./logs" />
+    <property name="LOG_PATH" value="./logs_dev" />
     <property name="LOG_FILE" value="${LOG_PATH}/kiyv5_developer.log" />
 
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">

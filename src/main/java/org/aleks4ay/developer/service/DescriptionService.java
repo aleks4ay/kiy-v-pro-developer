@@ -112,4 +112,12 @@ public class DescriptionService extends AbstractService<Description> {
     public List<DescriptionImage> findImagesByDescriptionId(String id) {
         return descriptionImageDao.findImagesByDescriptionId(id);
     }
+
+    public void updateImageDescriptionDDL() {
+        descriptionImageDao.updateImageDescriptionDDL();
+    }
+
+    public void emptyMainTables() {
+        descriptionImageDao.emptyMainTables();
+    }
 }

@@ -41,6 +41,7 @@ public class ConnectionPoolOldData implements ConnectionBase {
     }
 
     static void initDataSource() {
+//        System.out.println("Start init connection");
         try {
             pooledDataSource.setDriverClass(DRIVER_NAME);
         } catch (PropertyVetoException e) {
@@ -52,10 +53,12 @@ public class ConnectionPoolOldData implements ConnectionBase {
         pooledDataSource.setMinPoolSize(5);
         pooledDataSource.setAcquireIncrement(5);
         pooledDataSource.setMaxPoolSize(5);
+//        System.out.println("End init connection");
     }
 
     @Override
     public Connection getConnection() {
+//        System.out.println("Start getConnection");
         try {
             return pooledDataSource.getConnection();
         } catch (SQLException e) {

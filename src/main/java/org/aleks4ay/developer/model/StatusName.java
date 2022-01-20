@@ -76,6 +76,12 @@ public enum StatusName implements Comparable<StatusName>{
         public String toStringRus() {
             return "Отменен";
         }
+    },
+    UNKNOWN(66) {
+        @Override
+        public String toStringRus() {
+            return "Не опознан";
+        }
     };
 
     private int statusIndex;

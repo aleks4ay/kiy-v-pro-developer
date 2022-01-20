@@ -63,8 +63,8 @@ public class ControllerKbFind implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initFindTabOne();
-        initFindTabTwo();
+//        initFindTabOne();
+//        initFindTabTwo();
         tableFind1.getSelectionModel().selectedIndexProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 viewSelectedDescription();

@@ -30,17 +30,11 @@ public class DescriptionImageDao {
             while (rs.next()) {
                 result.add(rs.getString("id_description"));
             }
-            if (!result.isEmpty()) {
-                log.info("Was read {} 'description id' with Image.", result.size());
-            } else {
-                log.info("Description with images was not readed.");
-            }
         } catch (SQLException e) {
-            log.warn("Exception during creating Description.", e);
+            log.warn("Exception during reading 'id' Descriptions with images.", e);
         } finally {
             connectionBase.closeConnection(connection);
         }
-        System.out.println("result.size() = " + result.size());
         return new ArrayList<>(result);
     }
 
@@ -80,5 +74,29 @@ public class DescriptionImageDao {
             connectionBase.closeConnection(conn);
         }
         return entities;
+    }
+
+    public void updateImageDescriptionDDL() {
+        Connection connection = connectionBase.getConnection();
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate(ConstantsSql.DESCRIPTION_IMAGE_TABLE_CREATE);
+            log.info("Was create table 'descr_image' with Image.");
+        } catch (SQLException e) {
+            log.warn("Exception during creating table 'descr_image' with Image.", e);
+        } finally {
+            connectionBase.closeConnection(connection);
+        }
+    }
+
+    public void emptyMainTables() {
+        Connection connection = connectionBase.getConnection();
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate(ConstantsSql.EMPTY_TABLES);
+            log.info("Was empty 6 main tables.");
+        } catch (SQLException e) {
+            log.warn("Exception during empty 6 main tables.", e);
+        } finally {
+            connectionBase.closeConnection(connection);
+        }
     }
 }

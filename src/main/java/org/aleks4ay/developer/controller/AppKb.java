@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.aleks4ay.developer.tools.ScreenSize;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AppKb extends Application {
     private Parent root;

@@ -3,12 +3,16 @@ package org.aleks4ay.developer.dao_old;
 import org.aleks4ay.developer.model.DescriptionTime;
 import org.aleks4ay.developer.model.StatusName;
 import org.aleks4ay.developer.model.TypeName;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OldDboObject {
+    private static final Logger log = LoggerFactory.getLogger(OldDboObject.class);
+
     private String id;
     private TypeName typeName;
     private StatusName statusName;
@@ -73,18 +77,23 @@ public class OldDboObject {
             return StatusName.values()[statusIndex].toString();
         }
         if (statusIndex == 22) {
-            return StatusName.values()[8].toString();
+            return StatusName.values()[8].toString(); //SHIPMENT
         }
         if (statusIndex == 24) {
-            return StatusName.values()[9].toString();
+            return StatusName.values()[9].toString(); //COMPLETE
         }
         if (statusIndex == 26) {
-            return StatusName.values()[10].toString();
+            return StatusName.values()[10].toString(); //NOT_TRACKED
         }
         if (statusIndex == 23) {
-            return StatusName.values()[11].toString();
+            return StatusName.values()[11].toString(); //CANCELED
         }
-        return "";
+        if (statusIndex == 21) {
+            return StatusName.values()[10].toString(); //NOT_TRACKED
+        }
+        log.debug("UNKNOWN StatusName............statusIndex = {}.", statusIndex);
+        log.debug("Object: '{}'", this.toString());
+        return StatusName.valueOf("UNKNOWN").toString();
     }
 
     @Override
