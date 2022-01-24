@@ -77,19 +77,16 @@ public class OldDboObject {
             return StatusName.values()[statusIndex].toString();
         }
         if (statusIndex == 22) {
-            return StatusName.values()[8].toString(); //SHIPMENT
+            return StatusName.SHIPMENT.toString();
         }
         if (statusIndex == 24) {
-            return StatusName.values()[9].toString(); //COMPLETE
+            return StatusName.COMPLETE.toString();
         }
-        if (statusIndex == 26) {
-            return StatusName.values()[10].toString(); //NOT_TRACKED
+        if (statusIndex == 21 || statusIndex == 26) {
+            return StatusName.NOT_TRACKED.toString();
         }
         if (statusIndex == 23) {
-            return StatusName.values()[11].toString(); //CANCELED
-        }
-        if (statusIndex == 21) {
-            return StatusName.values()[10].toString(); //NOT_TRACKED
+            return StatusName.CANCELED.toString();
         }
         log.debug("UNKNOWN StatusName............statusIndex = {}.", statusIndex);
         log.debug("Object: '{}'", this.toString());

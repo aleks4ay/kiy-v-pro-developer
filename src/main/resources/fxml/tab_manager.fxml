@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<!--<TabPane prefHeight="960.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">-->
+<!--    <tabs>-->
+<Tab closable="false" style="-fx-pref-height: 30px; -fx-font-size: 16px;" text="Менеджерам" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+     fx:controller="org.aleks4ay.developer.controller.ControllerManager" >
+     <content>
+        <VBox prefHeight="980.0" prefWidth="1600.0">
+          <children>
+              <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
+                 <children>
+                    <SplitPane dividerPositions="0.7" orientation="VERTICAL">
+                      <items>
+                          <HBox>
+                             <children>
+                                <TableView fx:id="tableManagerView1" prefWidth="990.0">
+                                  <columns>
+                                    <TableColumn fx:id="num" editable="false" maxWidth="500.0" prefWidth="100.0" resizable="false" style="-fx-alignment: center;" text="Номер заказа" />
+                                    <TableColumn fx:id="client" editable="false" maxWidth="1.7976931348623157E308" minWidth="220.0" prefWidth="-1.0" text="Заказчик" />
+                                    <TableColumn fx:id="manager" editable="false" maxWidth="-1.0" minWidth="130.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Менеджер" />
+                                    <TableColumn fx:id="data_f" editable="false" maxWidth="-1.0" minWidth="120.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Когда был отдан&#10;в производство" />
+                                    <TableColumn fx:id="count_position" editable="false" maxWidth="-1.0" minWidth="80.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Количество&#10;позиций" />
+                                    <TableColumn fx:id="time_1s" editable="false" maxWidth="-1.0" minWidth="80.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="   Дата&#10;отгрузки&#10;   из 1С" />
+                                    <TableColumn fx:id="time_18" editable="false" maxWidth="-1.0" minWidth="80.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Реальная&#10;    дата&#10;отгрузки" />
+                                    <TableColumn fx:id="time_19" editable="false" maxWidth="-1.0" minWidth="80.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Изготовлен&#10;   (Выпуск&#10;продукции)" />
+                                    <TableColumn fx:id="time_20" editable="false" maxWidth="-1.0" minWidth="80.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Отгружен&#10;(№ расх.&#10;накладн.)" />
+                                  </columns>
+                                     <cursor>
+                                       <Cursor fx:constant="DEFAULT" />
+                                     </cursor>
+                                </TableView>
+                                 <VBox id="total_info" maxHeight="-Infinity" prefHeight="805.0" prefWidth="340.0">
+                                     <HBox.margin>
+                                         <Insets bottom="10.0" left="10.0" top="10.0" />
+                                     </HBox.margin>
+                                     <children>
+                                          <HBox maxHeight="-Infinity" prefHeight="28.0" style="-fx-border-width: 0 0 2 0; -fx-border-style: solid; -fx-border-color: blue;" VBox.vgrow="ALWAYS">
+                                             <children>
+                                               <Label alignment="CENTER" prefWidth="60.0" text="Поиск">
+                                                   <font>
+                                                       <Font size="16.0" />
+                                                   </font>
+                                               </Label>
+                                                <TextField maxWidth="1.7976931348623157E308" prefWidth="280.0" />
+                                             </children>
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" />
+                                             </VBox.margin>
+                                          </HBox>
+
+                                           <VBox minWidth="290.0" prefHeight="490.0">
+                                               <children>
+                                                <HBox>
+                                                   <VBox.margin>
+                                                      <Insets bottom="10.0" />
+                                                   </VBox.margin>
+                                                   <children>
+                                                      <MenuButton fx:id="menuSorting" alignment="CENTER" mnemonicParsing="false" text="Сортировка:" textAlignment="CENTER">
+                                                         <items>
+                                                             <MenuItem id="m1_1" mnemonicParsing="false" onAction="#menuSorting" text="По номеру заказа" />
+                                                             <MenuItem id="m1_2" mnemonicParsing="false" onAction="#menuSorting" text="По дате заказа" />
+                                                             <MenuItem id="m1_3" mnemonicParsing="false" onAction="#menuSorting" text="По дате 'в производство'" />
+                                                             <MenuItem id="m1_4" mnemonicParsing="false" onAction="#menuSorting" text="По дате отгрузки (из 1С)" />
+                                                             <MenuItem id="m1_5" mnemonicParsing="false" onAction="#menuSorting" text="По скорректированной дате отгрузки" />
+                                                             <MenuItem id="m1_6" mnemonicParsing="false" onAction="#menuSorting" text="По клиенту" />
+                                                             <MenuItem id="m1_7" mnemonicParsing="false" onAction="#menuSorting" text="По менеджеру" />
+                                                             <MenuItem id="m1_8" mnemonicParsing="false" onAction="#menuSorting" text="По конструктору" />
+                                                             <MenuItem id="m1_9" mnemonicParsing="false" onAction="#menuSorting" text="По типу" />
+                                                         </items>
+                                                         <font> <Font size="14.0" /> </font>
+                                                      </MenuButton>
+                                                      <Label fx:id="infoSorting" maxHeight="1.7976931348623157E308" text="по № заказа" textFill="#dd9312">
+                                                         <font> <Font size="14.0" /> </font>
+                                                         <opaqueInsets> <Insets /> </opaqueInsets>
+                                                         <padding> <Insets left="5.0" right="5.0" /> </padding>
+                                                      </Label>
+                                                   </children>
+                                                </HBox>
+                                                <HBox>
+                                                   <children>
+                                                      <VBox prefWidth="160.0">
+                                                         <children>
+                                                            <CheckBox fx:id="check_new" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="22.0" prefWidth="150.0" selected="true" text="Новые"> <font> <Font size="14.0" /> </font> </CheckBox>
+                                                            <CheckBox fx:id="check_kb" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="22.0" selected="true" text="Заказы в КБ"> <font> <Font size="14.0" /> </font> </CheckBox>
+                                                            <CheckBox fx:id="check_ceh" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="22.0" selected="true" text="Заказы в цехе"> <font> <Font size="14.0" /> </font> </CheckBox>
+                                                            <CheckBox fx:id="check_done" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="22.0" selected="true" text="Готовые к отгрузке"> <font> <Font size="14.0" /> </font> </CheckBox>
+                                                            <CheckBox fx:id="check_shipm" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="22.0" text="Отгруженные"> <font> <Font size="14.0" /> </font> </CheckBox>
+                                                            <CheckBox fx:id="check_other" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="22.0" text="Прочие"> <font> <Font size="14.0" /> </font> </CheckBox>
+                                                            <CheckBox fx:id="check_all" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="22.0" text="Все заказы"> <font> <Font size="14.0" /> </font>
+                                                               <padding>
+                                                                  <Insets bottom="5.0" />
+                                                               </padding> </CheckBox>
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox layoutX="10.0" layoutY="10.0">
+                                                         <children>
+                                                            <Label maxWidth="1.7976931348623157E308" text="Номера заказов:" textFill="#8232be">
+                                                               <font> <Font name="System Italic" size="18.0" /> </font>
+                                                            </Label>
+                                                            <CheckBox fx:id="check_kiy_v" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" selected="true" text="KI-000ХХХХ" textFill="#8232be">
+                                                               <font> <Font name="System Italic" size="16.0" /> </font>
+                                                            </CheckBox>
+                                                            <CheckBox fx:id="check_kiy_v_pro" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="50.0" selected="true" text="КП-000ХХХХ&#10;и другие" textFill="#8232be" wrapText="true">
+                                                               <font> <Font name="System Italic" size="16.0" /> </font>
+                                                            </CheckBox>
+                                                         </children>
+                                                         <HBox.margin>
+                                                            <Insets left="20.0" />
+                                                         </HBox.margin>
+                                                      </VBox>
+                                                   </children>
+                                                   <VBox.margin>
+                                                      <Insets bottom="15.0" />
+                                                   </VBox.margin>
+                                                </HBox>
+                                                <HBox>
+                                                   <VBox.margin>
+                                                      <Insets bottom="5.0" />
+                                                   </VBox.margin>
+                                                   <children>
+                                                         <MenuButton fx:id="menuType" alignment="CENTER" mnemonicParsing="false" prefWidth="135.0" text="Тип заказов:" textAlignment="RIGHT">
+                                                             <font>
+                                                                 <Font size="14.0" />
+                                                             </font>
+                                                             <items>
+                                                                 <MenuItem id="m3_1" mnemonicParsing="false" onAction="#menuType" text="ВСЕ" />
+                                                                 <MenuItem id="m3_2" mnemonicParsing="false" onAction="#menuType" text="ЦЕХ, КБ, новый" />
+                                                                 <MenuItem id="m3_3" mnemonicParsing="false" onAction="#menuType" text="ЦЕХ" />
+                                                                 <MenuItem id="m3_4" mnemonicParsing="false" onAction="#menuType" text="КБ" />
+                                                                 <MenuItem id="m3_5" mnemonicParsing="false" onAction="#menuType" text="новый" />
+                                                                 <MenuItem id="m3_6" mnemonicParsing="false" onAction="#menuType" text="ТЕХН" />
+                                                                 <MenuItem id="m3_7" mnemonicParsing="false" onAction="#menuType" text="Прочее" />
+                                                             </items>
+                                                         </MenuButton>
+                                                         <Label fx:id="infoType" maxHeight="1.7976931348623157E308" text="КБ, ЦЕХ, ТЕХН" textFill="BLUE">
+                                                             <font>
+                                                                 <Font size="14.0" />
+                                                             </font>
+                                                             <opaqueInsets>
+                                                                 <Insets />
+                                                             </opaqueInsets>
+                                                             <padding>
+                                                                 <Insets left="5.0" right="5.0" />
+                                                             </padding>
+                                                         </Label>
+                                                   </children>
+                                                </HBox>
+                                                <HBox>
+                                                   <VBox.margin>
+                                                      <Insets bottom="5.0" />
+                                                   </VBox.margin>
+                                                   <children>
+                                                         <MenuButton fx:id="menuManager" alignment="CENTER" mnemonicParsing="false" prefWidth="135.0" text="Менеджеры:" textAlignment="RIGHT">
+                                                             <font>
+                                                                 <Font size="14.0" />
+                                                             </font>
+                                                             <items>
+                                                                 <MenuItem id="m4_1" mnemonicParsing="false" onAction="#menuManager" text="Выбрать всех" />
+                                                                 <MenuItem id="m4_2" mnemonicParsing="false" onAction="#menuManager" text="Вареня Н. Р." />
+                                                                 <MenuItem id="m4_3" mnemonicParsing="false" onAction="#menuManager" text="Соломко Н. О." />
+                                                                 <MenuItem id="m4_4" mnemonicParsing="false" onAction="#menuManager" text="Холохоренко Д. П." />
+                                                                 <MenuItem id="m4_5" mnemonicParsing="false" onAction="#menuManager" text="Саламатова Е. С." />
+                                                             </items>
+                                                         </MenuButton>
+                                                         <Label fx:id="infoManager" maxHeight="1.7976931348623157E308" text="Все" textFill="BLUE" wrapText="true">
+                                                             <font>
+                                                                 <Font size="15.0" />
+                                                             </font>
+                                                             <opaqueInsets>
+                                                                 <Insets />
+                                                             </opaqueInsets>
+                                                             <padding>
+                                                                 <Insets left="5.0" right="5.0" />
+                                                             </padding>
+                                                         </Label>
+                                                   </children>
+                                                </HBox>
+                                                <HBox>
+                                                   <VBox.margin>
+                                                      <Insets bottom="15.0" />
+                                                   </VBox.margin>
+                                                   <children>
+                                                         <MenuButton fx:id="menuDeveloper" alignment="CENTER" mnemonicParsing="false" prefWidth="135.0" text="Конструктора:" textAlignment="RIGHT">
+                                                             <font>
+                                                                 <Font size="14.0" />
+                                                             </font>
+                                                             <items>
+                                                                 <MenuItem id="m5_1" mnemonicParsing="false" onAction="#menuDeveloper" text="Выбрать всех" />
+                                                                 <MenuItem id="m5_2" mnemonicParsing="false" onAction="#menuDeveloper" text="Дячок Д." />
+                                                                 <MenuItem id="m5_3" mnemonicParsing="false" onAction="#menuDeveloper" text="Мосиенко В." />
+                                                                 <MenuItem id="m5_4" mnemonicParsing="false" onAction="#menuDeveloper" text="Сергиенко А." />
+                                                                 <MenuItem id="m5_5" mnemonicParsing="false" onAction="#menuDeveloper" text="Мигашко А." />
+                                                             </items>
+                                                         </MenuButton>
+                                                         <Label fx:id="infoDeveloper" maxHeight="1.7976931348623157E308" text="Все" textFill="BLUE" wrapText="true">
+                                                             <font> <Font size="15.0" /> </font>
+                                                             <opaqueInsets> <Insets /> </opaqueInsets>
+                                                             <padding> <Insets left="5.0" right="5.0" /> </padding>
+                                                         </Label>
+                                                   </children>
+                                                </HBox>
+                                                <HBox>
+                                                   <children>
+                                                      <VBox>
+                                                         <children>
+                                                               <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Выбрано дней:" textAlignment="RIGHT">
+                                                                   <font>
+                                                                       <Font size="14.0" />
+                                                                   </font>
+                                                               <VBox.margin>
+                                                                  <Insets top="20.0" />
+                                                               </VBox.margin>
+                                                               </Label>
+                                                               <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Показано заказов:" textAlignment="RIGHT">
+                                                                   <font>
+                                                                       <Font size="14.0" />
+                                                                   </font>
+                                                               <VBox.margin>
+                                                                  <Insets bottom="15.0" />
+                                                               </VBox.margin>
+                                                               </Label>
+                                                               <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Готовы к отгрузке:" textAlignment="RIGHT">
+                                                                   <font>
+                                                                       <Font size="14.0" />
+                                                                   </font>
+                                                               </Label>
+                                                               <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Сегодня к отгрузке:" textAlignment="RIGHT" textFill="#0080ff">
+                                                                   <font>
+                                                                       <Font size="14.0" />
+                                                                   </font>
+                                                               </Label>
+                                                         </children>
+                                                      </VBox>
+
+            
+                                                      <VBox fx:id="info_list2" prefWidth="60.0">
+                                                           <children>
+                                                               <Label fx:id="info_day" layoutX="10.0" layoutY="330.0" maxWidth="1.7976931348623157E308" text="34" textFill="#990f0f">
+                                                                   <font>
+                                                                       <Font size="14.0" />
+                                                                   </font>
+                                                                   <opaqueInsets>
+                                                                       <Insets />
+                                                                   </opaqueInsets>
+                                                                   <padding>
+                                                                       <Insets left="5.0" right="5.0" />
+                                                                   </padding>
+                                                               <VBox.margin>
+                                                                  <Insets top="20.0" />
+                                                               </VBox.margin>
+                                                               </Label>
+                                                               <Label fx:id="info_ord" layoutX="10.0" layoutY="400.0" maxWidth="1.7976931348623157E308" text="58" textFill="BLUE">
+                                                                   <font>
+                                                                       <Font size="14.0" />
+                                                                   </font>
+                                                                   <opaqueInsets>
+                                                                       <Insets />
+                                                                   </opaqueInsets>
+                                                                   <padding>
+                                                                       <Insets left="5.0" right="5.0" />
+                                                                   </padding>
+                                                               <VBox.margin>
+                                                                  <Insets bottom="15.0" />
+                                                               </VBox.margin>
+                                                               </Label>
+                                                               <Label fx:id="info_shipment" layoutX="10.0" layoutY="430.0" maxWidth="1.7976931348623157E308" text="120">
+                                                                   <font>
+                                                                       <Font size="14.0" />
+                                                                   </font>
+                                                                   <opaqueInsets>
+                                                                       <Insets />
+                                                                   </opaqueInsets>
+                                                                   <padding>
+                                                                       <Insets left="5.0" right="5.0" />
+                                                                   </padding>
+                                                               </Label>
+                                                               <Label fx:id="info_shipment_today" maxWidth="1.7976931348623157E308" text="58" textAlignment="RIGHT" textFill="#0080ff">
+                                                                   <font>
+                                                                       <Font name="System Bold" size="14.0" />
+                                                                   </font>
+                                                                   <padding>
+                                                                       <Insets left="5.0" right="5.0" />
+                                                                   </padding>
+                                                                   <VBox.margin>
+                                                                       <Insets />
+                                                                   </VBox.margin>
+                                                               </Label>
+                                                           </children>
+                                                           <HBox.margin>
+                                                               <Insets />
+                                                           </HBox.margin>
+                                                       </VBox>
+                                                      <VBox layoutX="129.0" layoutY="10.0" prefWidth="100.0">
+                                                         <children>
+                                                            <Button fx:id="b_year" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="За год" />
+                                                            <Button fx:id="b_month" layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="За месяц" />
+                                                            <Button fx:id="b_30_day" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="45.0" text="За последние&#10;30 дней" wrapText="true" />
+                                                            <Button fx:id="b_week" layoutX="10.0" layoutY="35.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="За неделю" />
+                                                            <Button fx:id="b_day" layoutX="10.0" layoutY="60.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="За день" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </HBox>
+                                               </children>
+                                               <padding>
+                                                   <Insets left="5.0" right="5.0" />
+                                               </padding>
+                                           </VBox>
+                                      <HBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
+                                         <VBox.margin>
+                                            <Insets bottom="2.0" />
+                                         </VBox.margin>
+                                         <children>
+                                            <Button fx:id="parsing_previous" disable="true" mnemonicParsing="false" onAction="#applyPrevious" text="Предыдущие">
+                                               <font>
+                                                  <Font name="System Bold" size="14.0" />
+                                               </font>
+                                               <cursor>
+                                                  <Cursor fx:constant="HAND" />
+                                               </cursor>
+                                               <HBox.margin>
+                                                  <Insets right="5.0" />
+                                               </HBox.margin>
+                                            </Button>
+                                             <Button fx:id="parsing_next" mnemonicParsing="false" onAction="#applyNext" text="Следующие">
+                                               <font>
+                                                  <Font name="System Bold" size="14.0" />
+                                               </font>
+                                               <cursor>
+                                                  <Cursor fx:constant="HAND" />
+                                               </cursor>
+                                               <HBox.margin>
+                                                  <Insets right="5.0" />
+                                               </HBox.margin>
+                                            </Button>
+                                            <Label fx:id="info_position" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="1 - 100" textFill="#0080ff" HBox.hgrow="ALWAYS">
+                                               <font>
+                                                  <Font name="System Bold" size="14.0" />
+                                               </font>
+                                                   <HBox.margin>
+                                                      <Insets bottom="3.0" />
+                                                   </HBox.margin>
+                                            </Label>
+                                         </children>
+                                      </HBox>
+                                     </children>
+                                 </VBox>
+                             </children>
+                          </HBox>
+
+                                <HBox>
+                            <children>
+
+                                    <TableView fx:id="tableManagerView2" prefWidth="1350.0">
+                                <columns>
+                                  <TableColumn fx:id="pos" editable="false" prefWidth="30.0" resizable="false" style="-fx-alignment: center;" text="№&#10;поз." />
+                                  <TableColumn fx:id="description" maxWidth="1.7976931348623157E308" minWidth="300.0" prefWidth="-1.0" style="-fx-alignment: center;" text="Описание " />
+                                  <TableColumn editable="false" maxWidth="-1.0" minWidth="190.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Габаритные размеры, мм">
+                                    <columns>
+                                      <TableColumn fx:id="size_a" editable="false" prefWidth="55.0" resizable="false" style="-fx-alignment: center;" text="Длина" />
+                                      <TableColumn fx:id="size_b" editable="false" prefWidth="55.0" resizable="false" style="-fx-alignment: center;" text="Ширина" />
+                                      <TableColumn fx:id="size_c" editable="false" prefWidth="55.0" resizable="false" style="-fx-alignment: center;" text="Высота" />
+                                    </columns>
+                                  </TableColumn>
+                                  <TableColumn fx:id="amount" editable="false" prefWidth="50.0" resizable="false" style="-fx-alignment: center;" text="Коли-&#10;чество" />
+                                  <TableColumn fx:id="designer" editable="false" prefWidth="90.0" resizable="false" style="-fx-alignment: center;" text="Конструктор" />
+                                  <TableColumn fx:id="time2" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Поступил&#10;в КБ" />
+                                  <TableColumn fx:id="time3" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Начало&#10;разра-&#10;ботки" />
+                                  <TableColumn fx:id="time4" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Задан&#10;вопрос&#10;менедж." />
+                                  <TableColumn fx:id="time5" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Получен&#10;ответ" />
+                                  <TableColumn fx:id="time7" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Отдан&#10;в цех" />
+                                  <TableColumn fx:id="time18" editable="false" prefWidth="90.0" resizable="false" style="-fx-alignment: center;" text="Изготовлен&#10;(Выпуск&#10;продукции)" />
+                                  <TableColumn fx:id="time19" editable="false" prefWidth="90.0" resizable="false" style="-fx-alignment: center;" text="Заплани-&#10;рована&#10;отгрузка" />
+                                  <TableColumn fx:id="time20" editable="false" prefWidth="90.0" resizable="false" style="-fx-alignment: center;" text="Отгружен&#10;(№ расх.&#10;накладн.)" />
+                                  <TableColumn fx:id="add_item" editable="false" prefWidth="90.0" resizable="false" style="-fx-alignment: center;" text="Файлы с&#10;изображе-&#10;ниями" />
+                                </columns>
+                              </TableView>
+                            </children>
+                          </HBox>
+                      </items>
+                    </SplitPane>
+                 </children>
+              </HBox>
+
+
+            <HBox id="HBox" alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="40.0" spacing="5.0" VBox.vgrow="NEVER">
+              <children>
+                    <SplitPane dividerPositions="0.1, 0.9" HBox.hgrow="ALWAYS">
+                      <items>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+                          <AnchorPane>
+                             <children>
+                            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="200.0" text="последнее обновление:" textFill="#5bb980" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0">
+                              <font>
+                                <Font size="16.0" />
+                              </font>
+                            </Label>
+                                <Text fx:id="timeUpdate" disable="true" fill="#5bb980" lineSpacing="1.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00.00.2000  00:00" wrappingWidth="220.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="237.0">
+                                    <font>
+                                        <Font size="16.0" />
+                                    </font>
+                                </Text>
+                                <!--<Button fx:id="kb_save" mnemonicParsing="false" onAction="#applyKb" prefHeight="30.0" text="ВЫПОЛНИТЬ" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="10.0">
+                                   <font>
+                                      <Font name="System Bold" size="14.0" />
+                                   </font>
+                                   <cursor>
+                                      <Cursor fx:constant="HAND" />
+                                   </cursor>
+                                </Button>-->
+                             </children>
+                          </AnchorPane>
+                          <AnchorPane layoutX="10.0" layoutY="10.0" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+                      </items>
+                    </SplitPane>
+              </children>
+              <padding>
+                <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+              </padding>
+            </HBox>
+
+                </children>
+        </VBox>
+     </content>
+</Tab>
+<!--</tabs>-->
+<!--</TabPane>-->

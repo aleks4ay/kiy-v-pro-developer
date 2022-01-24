@@ -17,12 +17,13 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root;
-        root = FXMLLoader.load(getClass().getResource("/fxml/factory.fxml"));
+        root = FXMLLoader.load(getClass().getResource("/fxml/main_pain.fxml"));
         Scene scene = new Scene(root);
         primaryStage.setTitle("KIY-V Production Management 5.0 ");
         primaryStage.setScene(scene);
-        primaryStage.setMinHeight(700.0);
-        int width = ScreenSize.getScreenWidth() < 1300 ? 1280 : 1380;
+        int height = ScreenSize.getScreenHeight() - 50;
+        primaryStage.setHeight(height);
+        int width = ScreenSize.getScreenWidth() < 1300 ? 1280 : ScreenSize.getScreenWidth() - 200;
         primaryStage.setWidth(width);
         primaryStage.getScene().getStylesheets().add("/css/StyleForPaneOne.css");
         primaryStage.getIcons().add(new Image(this.getClass().getResourceAsStream("/icon.png")));

@@ -49,16 +49,22 @@ public enum StatusName implements Comparable<StatusName>{
             return "Запуск в цехе";
         }
     },
+    FACTORY_DONE(18) {
+        @Override
+        public String toStringRus() {
+            return "Изготовлен";
+        }
+    },
     SHIPMENT(19) {
         @Override
         public String toStringRus() {
-            return "Отгрузка";
+            return "Готов к отгрузке";
         }
     },
     COMPLETE(20) {
         @Override
         public String toStringRus() {
-            return "Выполнен";
+            return "Отгружен";
         }
     },
     NOT_TRACKED(24) {

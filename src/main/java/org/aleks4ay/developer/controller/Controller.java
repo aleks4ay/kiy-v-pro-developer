@@ -15,6 +15,7 @@ import org.aleks4ay.developer.model.*;
 import org.aleks4ay.developer.service.ParsingEngine;
 import org.aleks4ay.developer.tools.Constants;
 import org.aleks4ay.developer.tools.FileWriter;
+import org.aleks4ay.developer.tools.PropertyListener;
 
 import java.io.File;
 import java.net.URL;
@@ -22,8 +23,9 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
     private static final long positionOnPage = 40;
-    private static final File file1 = new File(Constants.FILE_CHANGES);
-    private final LongProperty isNewOrderTime = new SimpleLongProperty(new File(Constants.FILE_CHANGES).lastModified());
+//    private static final File file1 = new File(Constants.FILE_CHANGES);
+//    private final LongProperty isNewOrderTime = new SimpleLongProperty(new File(Constants.FILE_CHANGES).lastModified());
+    private LongProperty isNewOrderTime = PropertyListener.getOrderTimeProperty();
 
     private final ParsingEngine parsingEngine = new ParsingEngine();
 
@@ -65,25 +67,6 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Thread main = Thread.currentThread();
-        new Thread(() -> {
-            while (main.isAlive()) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                if (isNewOrderTime.get() != file1.lastModified()) {
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    Platform.runLater( () -> isNewOrderTime.setValue(file1.lastModified()));
-                }
-            }
-        }).start();
-
 
         initParsingTabOne();
         initParsingTabTwo();

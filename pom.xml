@@ -101,8 +101,8 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.aleks4ay.developer.run.CopyOldWork</mainClass>
-<!--                            <mainClass>org.aleks4ay.developer.controller.AppKb</mainClass>-->
+<!--                            <mainClass>org.aleks4ay.developer.run.CopyOldWork</mainClass>-->
+                            <mainClass>org.aleks4ay.developer.controller.AppKb</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

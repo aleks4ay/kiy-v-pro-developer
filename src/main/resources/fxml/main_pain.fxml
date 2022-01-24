@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" >
+    <children>
+
+        <TabPane fx:id="tabsPane" xmlns="http://javafx.com/javafx/8.0.171" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <tabs>
+                <fx:include source="tab_manager.fxml"/>
+                <fx:include fx:id="factory_tab1" source="tab_factory.fxml"/>
+                <fx:include source="tab_kb.fxml"/>
+                <fx:include source="tab_find.fxml"/>
+            </tabs>
+        </TabPane>
+
+        <fx:include source="imagePane.fxml"/>
+
+    </children>
+</AnchorPane>
