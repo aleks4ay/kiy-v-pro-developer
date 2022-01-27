@@ -4,10 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -15,13 +12,12 @@ import javafx.scene.text.Text;
 import org.aleks4ay.developer.model.DescriptionFind;
 import org.aleks4ay.developer.model.Order;
 import org.aleks4ay.developer.service.KbEngine;
-import org.aleks4ay.developer.tools.ScreenSize;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-public class ControllerKbFind implements Initializable {
+public class ControllerFind implements Initializable {
     private final KbEngine kbEngine = new KbEngine();
     private final ObservableList<Order> listOrderFind = FXCollections.observableArrayList();
     private final ObservableList<DescriptionFind> listDescriptionFind = FXCollections.observableArrayList();
@@ -60,6 +56,7 @@ public class ControllerKbFind implements Initializable {
     @FXML private TableColumn<DescriptionFind, String> f_time20;
     @FXML private TableColumn<DescriptionFind, String> f_time24;
     @FXML private TableColumn<DescriptionFind, String> f_time30;
+    @FXML private TableColumn<DescriptionFind, Button> add_item;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -116,6 +113,7 @@ public class ControllerKbFind implements Initializable {
         f_time20.setCellValueFactory(new PropertyValueFactory<>("timeComplete"));
         f_time24.setCellValueFactory(new PropertyValueFactory<>("timeNotTracked"));
         f_time30.setCellValueFactory(new PropertyValueFactory<>("timeCanceled"));
+        add_item.setCellValueFactory(new PropertyValueFactory<>("imageButton"));
 
         tableFind2.setItems(listDescriptionFind);
     }
@@ -125,18 +123,25 @@ public class ControllerKbFind implements Initializable {
 
         if (tableFind1.getSelectionModel().getSelectedItem() != null) {
             Order selectedOrder = tableFind1.getSelectionModel().getSelectedItem();
+
             listDescriptionFind.addAll(selectedOrder.getDescriptions().stream()
                     .map(DescriptionFind::new)
                     .collect(Collectors.toList()));
+
+            listDescriptionFind.stream()
+                    .filter(d -> d.getImageButton() instanceof Button)
+                    .forEach(d -> ((Button)d.getImageButton()).setOnAction(
+                            event -> UtilController.getInstance().viewImages(((Button)event.getSource()).getId())));
         }
     }
 
     public void showFoundedOrder() {
         isSearching = true;
-        if (find_year.getText() == null || find_year.getText().equals("")) {
+        if (find_number.getText() == null || find_number.getText().equals("")) {
+
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("INFO");
-            alert.setHeaderText("Год должен быть указан.");
+            alert.setHeaderText("Номер заказа должен содержать минимум один символ.");
             alert.showAndWait();
             return;
         }

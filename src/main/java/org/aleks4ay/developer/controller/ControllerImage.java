@@ -69,6 +69,7 @@ public class ControllerImage implements Initializable {
         UtilController utilController = UtilController.getInstance();
         Parent rootNode = file_name.getScene().getRoot();
         image1.setImage(null);
+        file_name.setText("");
         utilController.setOrder(null);
         utilController.setDescriptionKb(null);
         utilController.setImagePaneInvisible(rootNode);

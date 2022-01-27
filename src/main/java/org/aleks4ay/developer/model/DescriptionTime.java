@@ -59,6 +59,6 @@ public class DescriptionTime implements BaseEntity<DescriptionTime>, Comparable<
 
     @Override
     public int compareTo(DescriptionTime o) {
-        return statusName.getStatusIndex() - o.getStatusName().getStatusIndex();
+        return statusName.ordinal() - o.getStatusName().ordinal();
     }
 }

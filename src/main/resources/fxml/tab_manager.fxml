@@ -79,19 +79,17 @@
                                                    <children>
                                                       <MenuButton fx:id="menuSorting" alignment="CENTER" mnemonicParsing="false" text="Сортировка:" textAlignment="CENTER">
                                                          <items>
-                                                             <MenuItem id="m1_1" mnemonicParsing="false" onAction="#menuSorting" text="По номеру заказа" />
-                                                             <MenuItem id="m1_2" mnemonicParsing="false" onAction="#menuSorting" text="По дате заказа" />
-                                                             <MenuItem id="m1_3" mnemonicParsing="false" onAction="#menuSorting" text="По дате 'в производство'" />
-                                                             <MenuItem id="m1_4" mnemonicParsing="false" onAction="#menuSorting" text="По дате отгрузки (из 1С)" />
-                                                             <MenuItem id="m1_5" mnemonicParsing="false" onAction="#menuSorting" text="По скорректированной дате отгрузки" />
-                                                             <MenuItem id="m1_6" mnemonicParsing="false" onAction="#menuSorting" text="По клиенту" />
-                                                             <MenuItem id="m1_7" mnemonicParsing="false" onAction="#menuSorting" text="По менеджеру" />
-                                                             <MenuItem id="m1_8" mnemonicParsing="false" onAction="#menuSorting" text="По конструктору" />
-                                                             <MenuItem id="m1_9" mnemonicParsing="false" onAction="#menuSorting" text="По типу" />
+                                                             <MenuItem id="m1_0" mnemonicParsing="false" onAction="#menuSorting" text="По номеру заказа" />
+                                                             <MenuItem id="m1_1" mnemonicParsing="false" onAction="#menuSorting" text="По дате заказа" />
+                                                             <MenuItem id="m1_2" mnemonicParsing="false" onAction="#menuSorting" text="По дате 'в производство'" />
+                                                             <MenuItem id="m1_3" mnemonicParsing="false" onAction="#menuSorting" text="По дате отгрузки (из 1С)" />
+                                                             <MenuItem id="m1_4" mnemonicParsing="false" onAction="#menuSorting" text="По реальной дате отгрузки" />
+                                                             <MenuItem id="m1_5" mnemonicParsing="false" onAction="#menuSorting" text="По клиенту" />
+                                                             <MenuItem id="m1_6" mnemonicParsing="false" onAction="#menuSorting" text="По менеджеру" />
                                                          </items>
                                                          <font> <Font size="14.0" /> </font>
                                                       </MenuButton>
-                                                      <Label fx:id="infoSorting" maxHeight="1.7976931348623157E308" text="по № заказа" textFill="#dd9312">
+                                                      <Label fx:id="infoSorting" maxHeight="1.7976931348623157E308" text="По номеру заказа" textFill="#dd9312">
                                                          <font> <Font size="14.0" /> </font>
                                                          <opaqueInsets> <Insets /> </opaqueInsets>
                                                          <padding> <Insets left="5.0" right="5.0" /> </padding>

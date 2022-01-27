@@ -18,20 +18,10 @@ public class KbEngine {
     DescriptionTimeService descriptionTimeService = new DescriptionTimeService(new DescriptionTimeDao(connectionPool));
 
 
-    public List<Order> getOrdersWithDescriptionsKb(Page page, String sort) {
-        String sortOrder;
-        Comparator<Order> comparing;
-
-        if (sort.equalsIgnoreCase("по № заказа")) {
-            sortOrder = " order by j.doc_number;";
-            comparing = Comparator.comparing(Order::getDocNumber);
-        } else {
-            sortOrder = " order by o.t_factory;";
-            comparing = Comparator.comparing(Order::getDateToFactory);
-        }
+    public List<Order> getOrdersWithDescriptionsKb(Page page, SortWay sort) {
 
         Map<String, String> designerPseudoName = descriptionService.getDesignerPseudoNames();
-        Map<String, Order> orderMap = findAllAsMap(page, sortOrder);
+        Map<String, Order> orderMap = findAllAsMap(page, sort);
         for (Description d : descriptionService.findAllKb()) {
             if (designerPseudoName.containsKey(d.getDesigner())) {
                 d.setDesigner(designerPseudoName.get(d.getDesigner()));
@@ -42,7 +32,7 @@ public class KbEngine {
             }
         }
         return orderMap.values().stream()
-                .sorted(comparing)
+                .sorted(Order.getComparator(sort))
                 .collect(Collectors.toList());
     }
 
@@ -62,7 +52,7 @@ public class KbEngine {
         return new ArrayList<>(orderMap.values());
     }
 
-    public Map<String, Order> findAllAsMap(Page page, String sort) {
+    public Map<String, Order> findAllAsMap(Page page, SortWay sort) {
         List<Order> orders = orderService.findAllKb(sort);
         page.setSize(orders.size());
         if (page.getPosition() > page.getMaxPosition()) {
@@ -166,7 +156,7 @@ public class KbEngine {
         String orderId = kbList.get(0).getId().split("-")[0];
         StatusName minStatus = getMinStatus(kbList);
         DescriptionTime minNewDescriptionTime = getMinNewDescriptionTime(timeList);
-        if (minNewDescriptionTime.getStatusName().getStatusIndex() == minStatus.getStatusIndex()) {
+        if (minNewDescriptionTime.getStatusName() == minStatus) {
             orderService.updateStatus(orderId, minNewDescriptionTime.getStatusName());
             orderTimeService.create(new OrderTime(minNewDescriptionTime));
         }

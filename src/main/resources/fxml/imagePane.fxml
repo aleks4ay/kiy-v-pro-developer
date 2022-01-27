@@ -28,10 +28,10 @@
             <Button mnemonicParsing="false" onAction="#saveImage" text="Сохранить">
               <font> <Font size="14.0" /> </font>
             </Button>
-            <Label fx:id="description_id" alignment="CENTER" text="description id">
+            <Label fx:id="description_id" alignment="CENTER" text="description id" visible="false">
               <HBox.margin> <Insets left="10.0" right="10.0" /> </HBox.margin>
             </Label>
-            <Label fx:id="file_name" alignment="CENTER" text="file name" />
+            <Label fx:id="file_name" alignment="CENTER" text="file name" visible="false"/>
           </children>
         </HBox>
         <Button alignment="CENTER" mnemonicParsing="false" onAction="#cancelImage" text="Вернуться без сохранения" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">

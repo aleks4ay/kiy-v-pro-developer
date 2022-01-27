@@ -43,7 +43,7 @@ public class CopyOldWork {
             DescriptionTime actualDescriptionTime = getActualDescriptionTime(oldObject);
             if (orderTimeMap.containsKey(idOrder)) {
                 OrderTime minOrderTime = orderTimeMap.get(idOrder);
-                if (actualDescriptionTime.getStatusName().getStatusIndex() < minOrderTime.getStatusName().getStatusIndex()) {
+                if (actualDescriptionTime.getStatusName().ordinal() < minOrderTime.getStatusName().ordinal()) {
                     orderTimeMap.put(idOrder, new OrderTime(actualDescriptionTime));
                 }
             } else {

@@ -14,8 +14,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<!--<TabPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aleks4ay.developer.controller.ControllerKbFind"> <Tab closable="false" text="Поиск">-->
-<Tab xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aleks4ay.developer.controller.ControllerKbFind" style="-fx-pref-height: 30px; -fx-font-size: 16px;" closable="false" text="Поиск">
+<!--<TabPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aleks4ay.developer.controller.ControllerFind"> <Tab closable="false" text="Поиск">-->
+<Tab xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aleks4ay.developer.controller.ControllerFind" style="-fx-pref-height: 30px; -fx-font-size: 16px;" closable="false" text="Поиск">
       <content>
             <VBox prefHeight="700.0" prefWidth="1280.0">
                 <children>
@@ -89,7 +89,7 @@
                                     <HBox alignment="TOP_CENTER">
                                         <children>
 
-                                            <TableView fx:id="tableFind2" prefWidth="1345.0">
+                                            <TableView fx:id="tableFind2" prefWidth="1395.0">
                                                 <columns>
                                                     <TableColumn fx:id="f_pos" editable="false" prefWidth="30.0" resizable="false" style="-fx-alignment: center;" text="№&#10;поз." />
                                                     <TableColumn fx:id="f_description" editable="false" maxWidth="1.7976931348623157E308" minWidth="300.0" prefWidth="-1.0" style="-fx-alignment: center;" text="Описание" />
@@ -114,6 +114,7 @@
                                                     <TableColumn fx:id="f_time20" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Выполнен" />
                                                     <TableColumn fx:id="f_time24" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Не&#10;отслеж." />
                                                     <TableColumn fx:id="f_time30" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Отменен" />
+                                                    <TableColumn fx:id="add_item" editable="false" prefWidth="50.0" resizable="false" style="-fx-alignment: center;" text=" Ри-&#10;сунки" />
                                                 </columns>
                                             </TableView>
                                         </children>

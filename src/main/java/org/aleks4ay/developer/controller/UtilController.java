@@ -1,15 +1,26 @@
 package org.aleks4ay.developer.controller;
 
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import org.aleks4ay.developer.dao.ConnectionPool;
+import org.aleks4ay.developer.dao.DescriptionDao;
 import org.aleks4ay.developer.model.Description;
+import org.aleks4ay.developer.model.DescriptionImage;
 import org.aleks4ay.developer.model.DescriptionKb;
 import org.aleks4ay.developer.model.Order;
+import org.aleks4ay.developer.service.DescriptionService;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.List;
 import java.util.Set;
 
 public final class UtilController {
@@ -116,5 +127,29 @@ public final class UtilController {
             }
         }
         return sb.toString();
+    }
+
+    public void viewImages(String id) {
+        Parent root = null;
+        URL location = getClass().getResource("/fxml/imagePaneView.fxml");
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(location);
+        fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+        try {
+            root = fxmlLoader.load(location.openStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ControllerImageView controller = fxmlLoader.getController();
+        final DescriptionService descriptionService = new DescriptionService(new DescriptionDao(ConnectionPool.getInstance()));
+        List<DescriptionImage> images = descriptionService.findImagesByDescriptionId(id);
+        controller.setImages(images);
+        controller.updateValues();
+
+        Stage newWindow = new Stage();
+        newWindow.setTitle("Просмотр рисунков");
+        newWindow.setScene(new Scene(root));
+
+        newWindow.show();
     }
 }

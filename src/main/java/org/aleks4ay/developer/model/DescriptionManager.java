@@ -11,12 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class DescriptionKb {
-
-    private CheckBox checkBoxKbStart;
-    private CheckBox checkBoxKbQuestion;
-    private CheckBox checkBoxKbContinued;
-    private CheckBox checkBoxKbEnd;
+public class DescriptionManager {
 
     private String id;
     private int position;
@@ -32,8 +27,8 @@ public class DescriptionKb {
     private Button imageButton = null;
 
 
-    public DescriptionKb(String id, int position, String descr, int sizeA, int sizeB, int sizeC, int amount,
-                         String status, String designer, List<DescriptionTime> times) {
+    public DescriptionManager(String id, int position, String descr, int sizeA, int sizeB, int sizeC, int amount,
+                              String status, String designer, List<DescriptionTime> times) {
         this.id = id;
         this.position = position;
         this.descr = descr;
@@ -43,18 +38,14 @@ public class DescriptionKb {
         this.amount = amount;
         this.status = status;
         this.designer = designer;
-        this.checkBoxKbStart = new CheckBox();
-        this.checkBoxKbQuestion = new CheckBox();
-        this.checkBoxKbContinued = new CheckBox();
-        this.checkBoxKbEnd = new CheckBox();
         this.times = times;
     }
 
 
-    public static List<DescriptionKb> makeFromOrderDescription(Order order) {
-        List<DescriptionKb> result = new ArrayList<>();
+    public static List<DescriptionManager> makeFromOrderDescription(Order order) {
+        List<DescriptionManager> result = new ArrayList<>();
         for (Description d : order.getDescriptions()) {
-            DescriptionKb newDescription = new DescriptionKb(
+            DescriptionManager newDescription = new DescriptionManager(
                     d.getId(),
                     d.getPosition(),
                     (d.getDescrAll() + " " + d.getDescrSecond()),
@@ -147,37 +138,6 @@ public class DescriptionKb {
         this.designer = designer;
     }
 
-    public CheckBox getCheckBoxKbStart() {
-        return checkBoxKbStart;
-    }
-
-    public void setCheckBoxKbStart(CheckBox checkBoxKbStart) {
-        this.checkBoxKbStart = checkBoxKbStart;
-    }
-
-    public CheckBox getCheckBoxKbQuestion() {
-        return checkBoxKbQuestion;
-    }
-
-    public void setCheckBoxKbQuestion(CheckBox checkBoxKbQuestion) {
-        this.checkBoxKbQuestion = checkBoxKbQuestion;
-    }
-
-    public CheckBox getCheckBoxKbContinued() {
-        return checkBoxKbContinued;
-    }
-
-    public void setCheckBoxKbContinued(CheckBox checkBoxKbContinued) {
-        this.checkBoxKbContinued = checkBoxKbContinued;
-    }
-
-    public CheckBox getCheckBoxKbEnd() {
-        return checkBoxKbEnd;
-    }
-
-    public void setCheckBoxKbEnd(CheckBox checkBoxKbEnd) {
-        this.checkBoxKbEnd = checkBoxKbEnd;
-    }
 
     public Text getDescriptionText() {
         Text result = new Text(descr);
@@ -216,34 +176,32 @@ public class DescriptionKb {
         return endDay == null ? "-" : endDay.format(Constants.dayTimeFormatter).replace("  ", System.lineSeparator());
     }
 
-    private Object getTimeBase(StatusName statusName, CheckBox checkBox) {
-        Optional<LocalDateTime> time = times.stream()
+    private LocalDateTime getTimeBase(StatusName statusName) {
+        return times.stream()
                 .filter(t -> t.getStatusName().equals(statusName))
                 .map(DescriptionTime::getTime)
-                .findFirst();
-        return time.isPresent()
-                ? time.get().format(Constants.tableCellTimeFormatter)
-                : checkBox;
+                .findFirst()
+                .orElse(null);
     }
 
-    public Object getTimeKb() {
-        return getTimeBase(StatusName.KB_NEW, null);
+    public LocalDateTime getTimeKb() {
+        return getTimeBase(StatusName.KB_NEW);
     }
 
-    public Object getTimeKbStart() {
-        return getTimeBase(StatusName.KB_START, checkBoxKbStart);
+    public LocalDateTime getTimeKbStart() {
+        return getTimeBase(StatusName.KB_START);
     }
 
-    public Object getTimeKbQuestion() {
-        return getTimeBase(StatusName.KB_QUESTION, checkBoxKbQuestion);
+    public LocalDateTime getTimeKbQuestion() {
+        return getTimeBase(StatusName.KB_QUESTION);
     }
 
-    public Object getTimeKbContinued() {
-        return getTimeBase(StatusName.KB_CONTINUED, checkBoxKbContinued);
+    public LocalDateTime getTimeKbContinued() {
+        return getTimeBase(StatusName.KB_CONTINUED);
     }
 
-    public Object getTimeKbEnd() {
-        return getTimeBase(StatusName.KB_END, checkBoxKbEnd);
+    public LocalDateTime getTimeKbEnd() {
+        return getTimeBase(StatusName.KB_END);
     }
 
     public boolean isNewStatusBigger(StatusName newStatusName) {

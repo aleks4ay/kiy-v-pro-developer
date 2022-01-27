@@ -1,73 +1,79 @@
 package org.aleks4ay.developer.model;
 
 public enum StatusName implements Comparable<StatusName>{
-    NEW(0) {
+    NEW {
         @Override
         public String toStringRus() {
             return "Новый";
         }
     },
-    PARSED(1) {
+    PARSED {
         @Override
         public String toStringRus() {
             return "Поступил на распределение";
         }
     },
-    KB_NEW(2) {
+    KB_NEW {
         @Override
         public String toStringRus() {
             return "Поступил в КБ";
         }
     },
-    KB_START(3) {
+    KB_START {
         @Override
         public String toStringRus() {
             return "Начало разработки";
         }
     },
-    KB_QUESTION(4) {
+    KB_QUESTION {
         @Override
         public String toStringRus() {
             return "Согласование";
         }
     },
-    KB_CONTINUED(5) {
+    KB_CONTINUED {
         @Override
         public String toStringRus() {
             return "Получен ответ";
         }
     },
-    KB_END(6) {
+    KB_END {
         @Override
         public String toStringRus() {
             return "Конец разработки";
         }
     },
-    FACTORY(7) {
+    FACTORY {
         @Override
         public String toStringRus() {
             return "Запуск в цехе";
         }
     },
-    FACTORY_DONE(18) {
+    FACTORY_DONE {
         @Override
         public String toStringRus() {
             return "Изготовлен";
         }
     },
-    SHIPMENT(19) {
+    SHIPMENT {
         @Override
         public String toStringRus() {
             return "Готов к отгрузке";
         }
     },
-    COMPLETE(20) {
+    SHIPMENT_REAL {
+        @Override
+        public String toStringRus() {
+            return "Готов к отгрузке";
+        }
+    },
+    COMPLETE {
         @Override
         public String toStringRus() {
             return "Отгружен";
         }
     },
-    NOT_TRACKED(24) {
+    NOT_TRACKED {
         @Override
         public String toStringRus() {
             return "Не отслеживается";
@@ -77,28 +83,18 @@ public enum StatusName implements Comparable<StatusName>{
             return "Не отсле-" + System.lineSeparator() + "живается";
         }
     },
-    CANCELED(30) {
+    CANCELED {
         @Override
         public String toStringRus() {
             return "Отменен";
         }
     },
-    UNKNOWN(66) {
+    UNKNOWN {
         @Override
         public String toStringRus() {
             return "Не опознан";
         }
     };
-
-    private int statusIndex;
-
-    StatusName(int statusIndex) {
-        this.statusIndex = statusIndex;
-    }
-
-    public int getStatusIndex() {
-        return statusIndex;
-    }
 
     public String toStringRus() {
         return "";

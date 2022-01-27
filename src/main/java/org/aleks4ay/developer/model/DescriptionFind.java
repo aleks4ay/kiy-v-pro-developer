@@ -1,5 +1,6 @@
 package org.aleks4ay.developer.model;
 
+import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import org.aleks4ay.developer.tools.Constants;
 
@@ -9,18 +10,15 @@ import java.util.Optional;
 
 public class DescriptionFind extends Description{
 
-    public DescriptionFind(String id, String idOrder, int position, String idTmc, int quantity, String descrSecond,
-                           String descrAll, int sizeA, int sizeB, int sizeC, String embodiment, TypeName typeName,
-                           StatusName statusName, String designer, List<DescriptionTime> times) {
-        super(id, idOrder, position, idTmc, quantity, descrSecond, descrAll, sizeA, sizeB, sizeC, embodiment, typeName,
-                statusName, designer);
-        super.setTimes(times);
-    }
+    private Button imageButton = null;
 
     public DescriptionFind(Description d) {
         super(d.getId(), d.getIdOrder(), d.getPosition(), d.getIdTmc(), d.getQuantity(), d.getDescrSecond(),
                 d.getDescrAll(), d.getSizeA(), d.getSizeB(), d.getSizeC(), d.getEmbodiment(), d.getTypeName(),
                 d.getStatusName(), d.getDesigner());
+        if (d.isExistImages()) {
+            setImageButton(createButton(d.getId()));
+        }
         super.setTimes(d.getTimes());
     }
 
@@ -87,5 +85,19 @@ public class DescriptionFind extends Description{
 
     public String getTimeCanceled() {
         return getTimeBase(StatusName.CANCELED);
+    }
+
+    public Object getImageButton() {
+        return imageButton != null ? imageButton : "";
+    }
+
+    public void setImageButton(Button imageButton) {
+        this.imageButton = imageButton;
+    }
+
+    public static Button createButton(String id) {
+        Button button = new Button("V");
+        button.setId(id);
+        return button;
     }
 }

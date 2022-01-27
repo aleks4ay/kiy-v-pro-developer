@@ -5,15 +5,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import org.aleks4ay.developer.dao.ConnectionPool;
 import org.aleks4ay.developer.dao.DescriptionDao;
 import org.aleks4ay.developer.model.*;
@@ -22,8 +18,8 @@ import org.aleks4ay.developer.service.KbEngine;
 import org.aleks4ay.developer.tools.FileWriter;
 import org.aleks4ay.developer.tools.PropertyListener;
 
-import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -34,7 +30,7 @@ public class ControllerKb implements Initializable {
     private final KbEngine kbEngine = new KbEngine();
     private final DescriptionService descriptionService = new DescriptionService(new DescriptionDao(ConnectionPool.getInstance()));
 
-    public static String sortWayKb = "по № заказа";
+    public static SortWay sortWayKb = SortWay.NUMBER;
     private int selectedRow = 0;
     private final Page page = new Page(positionOnPage);
     private Order selectedOrder = null;
@@ -183,35 +179,10 @@ public class ControllerKb implements Initializable {
     }
 
     private void addButtonListener(List<DescriptionKb> descriptionKbList) {
-        for (DescriptionKb d : descriptionKbList) {
-            if (d.getImageButton() instanceof Button) {
-                Button button = (Button)d.getImageButton();
-                button.setOnAction(event -> viewImages(((Button)event.getSource()).getId()));
-            }
-        }
-    }
-
-    private void viewImages(String id) {
-        Parent root = null;
-        URL location = getClass().getResource("/fxml/imagePaneView.fxml");
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(location);
-        fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
-        try {
-            root = fxmlLoader.load(location.openStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        ControllerImageView controller = fxmlLoader.getController();
-        List<DescriptionImage> images = descriptionService.findImagesByDescriptionId(id);
-        controller.setImages(images);
-        controller.updateValues();
-
-        Stage newWindow = new Stage();
-        newWindow.setTitle("Просмотр рисунков");
-        newWindow.setScene(new Scene(root));
-
-        newWindow.show();
+        descriptionKbList.stream()
+                .filter(d -> d.getImageButton() instanceof Button)
+                .forEach(d -> ((Button)d.getImageButton()).setOnAction(
+                        event -> UtilController.getInstance().viewImages(((Button)event.getSource()).getId())));
     }
 
     public void applyNext() {
@@ -239,7 +210,10 @@ public class ControllerKb implements Initializable {
     }
 
     public void sortingKb(ActionEvent actionEvent) {
-        sortWayKb = ((RadioButton) actionEvent.getSource()).getText();
+        String text = ((RadioButton) actionEvent.getSource()).getText();
+        sortWayKb = Arrays.stream(SortWay.values())
+                .filter(sortWay -> sortWay.toStringRus().equalsIgnoreCase(text))
+                .findFirst().orElse(SortWay.NUMBER);
         initKbTabOne();
     }
 
@@ -272,7 +246,6 @@ public class ControllerKb implements Initializable {
     public void addImage() {
         if (tableKbView2.getSelectionModel().getSelectedItem() != null) {
             Order selectedOrder = tableKbView1.getSelectionModel().getSelectedItem();
-//            descriptionService.fillOrderWithImage(selectedOrder);
             DescriptionKb descriptionKb = tableKbView2.getSelectionModel().getSelectedItem();
 
             UtilController utilController = UtilController.getInstance();

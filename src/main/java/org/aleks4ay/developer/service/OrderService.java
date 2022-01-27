@@ -3,6 +3,7 @@ package org.aleks4ay.developer.service;
 import org.aleks4ay.developer.dao.BaseDao;
 import org.aleks4ay.developer.dao.OrderDao;
 import org.aleks4ay.developer.model.Order;
+import org.aleks4ay.developer.model.SortWay;
 import org.aleks4ay.developer.model.StatusName;
 
 import java.util.List;
@@ -19,12 +20,12 @@ public class OrderService extends AbstractService<Order> {
         return ((OrderDao)getDao()).updateStatusName(orderId, status.toString());
     }
 
-    public List<Order> findAllKb(String sort) {
-        return ((OrderDao)getDao()).findAllKb(sort);
+    public List<Order> findAllKb(SortWay sortWay) {
+        return ((OrderDao)getDao()).findAllKb(sortWay.getSql());
     }
 
-    public List<Order> findAllParsing(String sort) {
-        return ((OrderDao)getDao()).findAllParsing(sort);
+    public List<Order> findAllParsing() {
+        return ((OrderDao)getDao()).findAllParsing();
     }
 
     public Map<String, Order> findAllLike(String yearText, String numberText) {

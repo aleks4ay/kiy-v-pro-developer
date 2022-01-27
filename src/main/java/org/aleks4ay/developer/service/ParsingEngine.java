@@ -2,6 +2,7 @@ package org.aleks4ay.developer.service;
 
 import org.aleks4ay.developer.dao.*;
 import org.aleks4ay.developer.model.*;
+import org.aleks4ay.developer.tools.ConstantsSql;
 import org.aleks4ay.developer.tools.FileWriter;
 
 import java.time.LocalDateTime;
@@ -18,18 +19,15 @@ public class ParsingEngine {
 
 
     public List<Order> getOrdersWithDescriptions(Page page, String sort) {
-        String sortOrder;
-        Comparator<Order> comparing;
+        Comparator<Order> comparing;// = Order.;
 
-        if (sort.equalsIgnoreCase("По номеру заказа")) {
-            sortOrder = " order by j.doc_number;";
+        if (sort.equalsIgnoreCase(SortWay.NUMBER.toStringRus())) {
             comparing = Comparator.comparing(Order::getDocNumber);
         } else {
-            sortOrder = " order by o.t_factory;";
             comparing = Comparator.comparing(Order::getDateToFactory);
         }
 
-        Map<String, Order> orderMap = findAllAsMap(page, sortOrder);
+        Map<String, Order> orderMap = findAllAsMap(page);
         for (Description d : descriptionService.findAllNew()) {
             String key = d.getIdOrder();
             if (orderMap.containsKey(key)) {
@@ -43,8 +41,8 @@ public class ParsingEngine {
     }
 
 
-    public Map<String, Order> findAllAsMap(Page page, String sort) {
-        List<Order> orders = orderService.findAllParsing(sort);
+    public Map<String, Order> findAllAsMap(Page page) {
+        List<Order> orders = orderService.findAllParsing();
         page.setSize(orders.size());
         if (page.getPosition() > page.getMaxPosition()) {
             return Collections.emptyMap();

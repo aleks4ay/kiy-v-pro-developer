@@ -34,7 +34,7 @@ public class ControllerManager implements Initializable {
     private final KbEngine kbEngine = new KbEngine();
     private final DescriptionService descriptionService = new DescriptionService(new DescriptionDao(ConnectionPool.getInstance()));
 
-    public static String sortWayKb = "по № заказа";
+    public static SortWay sortWay = SortWay.NUMBER;
     private int selectedRow = 0;
     private final Page page = new Page(positionOnPage);
     private Order selectedOrder = null;
@@ -145,7 +145,7 @@ public class ControllerManager implements Initializable {
 
     private void initKbTabOne() {
         listOrderManager.clear();
-        listOrderManager.addAll(kbEngine.getOrdersWithDescriptionsKb(page, sortWayKb));
+        listOrderManager.addAll(kbEngine.getOrdersWithDescriptionsKb(page, sortWay));
         if (listOrderManager.size() == 0 && page.getPosition() > 0) {
             applyPrevious();
             return;
@@ -261,7 +261,7 @@ public class ControllerManager implements Initializable {
     }
 
     public void sortingKb(ActionEvent actionEvent) {
-        sortWayKb = ((RadioButton) actionEvent.getSource()).getText();
+        sortWay = SortWay.valueOf(((RadioButton) actionEvent.getSource()).getText());
         initKbTabOne();
     }
 
@@ -305,7 +305,11 @@ public class ControllerManager implements Initializable {
     }
 
     public void menuSorting(ActionEvent event) {
-
+        String numberMenuItem = ((MenuItem)event.getSource()).getId().split("_")[1];
+        sortWay = SortWay.values()[Integer.parseInt(numberMenuItem)];
+        infoSorting.setText(sortWay.toStringRus());
+        initKbTabOne();
+        initKbTabTwo();
     }
 
     public void menuType(ActionEvent event) {

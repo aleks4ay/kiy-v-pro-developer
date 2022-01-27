@@ -3,7 +3,9 @@ package org.aleks4ay.developer.model;
 import org.aleks4ay.developer.tools.Constants;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Order implements BaseEntity<Order>{
@@ -124,6 +126,41 @@ public class Order implements BaseEntity<Order>{
         return dateCreate.toLocalDateTime().format(Constants.dayTimeFormatter);
     }
 
+    public static Comparator<Order> getComparator (SortWay sortWay) {
+        if (sortWay == SortWay.NUMBER) {
+            int index = SortWay.DATE_CREATE.ordinal();
+            return Comparator.comparing(Order::getDocNumber);
+        } else if (sortWay == SortWay.DATE_CREATE) {
+            return Comparator.comparing(Order::getDateCreate);
+        } else if (sortWay == SortWay.DATE_FACTORY) {
+            return Comparator.comparing(Order::getDateToFactory);
+        } else if (sortWay == SortWay.DATE_SHIPMENT) {
+            return Comparator.comparing(Order::getDateToShipment);
+        } else if (sortWay == SortWay.DATE_SHIPMENT_REAL) {
+            return Comparator.comparing(Order::getDateToShipment);
+        } else if (sortWay == SortWay.CLIENT) {
+            return Comparator.comparing(Order::getClient);
+        } else if (sortWay == SortWay.MANAGER) {
+            return Comparator.comparing(Order::getManager);
+        } else if (sortWay == SortWay.DATE_KB) {
+            return Comparator.comparing(o -> o.getDateKbNew().getTime());
+        }
+        return Comparator.comparing(Order::getDocNumber);
+    }
+
+    public DescriptionTime getDateKbNew () {
+        return this.getDescriptions().stream()
+                .filter(description -> description.getTypeName() == TypeName.KB)
+                .findFirst()
+                .map(Description::getTimes)
+                .get().stream()
+                .filter(times -> times.getStatusName() == StatusName.KB_NEW)
+                .findFirst().orElse(null);
+    }
+
+    public LocalDateTime getDateToShipment () {
+        return dateCreate.toLocalDateTime().plusDays(durationTime);
+    }
 
     @Override
     public String getEntityName() {
