@@ -16,9 +16,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.aleks4ay.developer.dao.ConnectionPool;
 import org.aleks4ay.developer.dao.DescriptionDao;
+import org.aleks4ay.developer.dao.OrderDao;
 import org.aleks4ay.developer.model.*;
 import org.aleks4ay.developer.service.DescriptionService;
-import org.aleks4ay.developer.service.KbEngine;
+import org.aleks4ay.developer.service.OrderService;
 import org.aleks4ay.developer.tools.FileWriter;
 import org.aleks4ay.developer.tools.PropertyListener;
 
@@ -26,21 +27,21 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class ControllerManager implements Initializable {
     private static final long positionOnPage = 100;
-    private LongProperty isNewOrderTime = PropertyListener.getOrderTimeProperty();
+    private final LongProperty isNewOrderTime = PropertyListener.getOrderTimeProperty();
 
-    private final KbEngine kbEngine = new KbEngine();
     private final DescriptionService descriptionService = new DescriptionService(new DescriptionDao(ConnectionPool.getInstance()));
+    private final OrderService orderService = new OrderService(new OrderDao(ConnectionPool.getInstance()));
 
     public static SortWay sortWay = SortWay.NUMBER;
     private int selectedRow = 0;
     private final Page page = new Page(positionOnPage);
-    private Order selectedOrder = null;
 
     private final ObservableList<Order> listOrderManager = FXCollections.observableArrayList();
-    private final ObservableList<DescriptionKb> listDescriptionManager = FXCollections.observableArrayList();
+    private final ObservableList<DescriptionFind> listDescriptionManager = FXCollections.observableArrayList();
 
     //---------------------- B U T T O N
     @FXML private Button parsing_next;
@@ -76,23 +77,25 @@ public class ControllerManager implements Initializable {
     @FXML private TableColumn<Order, String> time_20;
 
     //----------------T A B    P A R S I N G   2 ---------------------------------
-    @FXML private TableView<DescriptionKb> tableManagerView2;
-    @FXML private TableColumn<DescriptionKb, String> pos;
-    @FXML private TableColumn<DescriptionKb, Text> description;
-    @FXML private TableColumn<DescriptionKb, String> size_a;
-    @FXML private TableColumn<DescriptionKb, String> size_b;
-    @FXML private TableColumn<DescriptionKb, String> size_c;
-    @FXML private TableColumn<DescriptionKb, String> amount;
-    @FXML private TableColumn<DescriptionKb, String> designer;
-    @FXML private TableColumn<DescriptionKb, String> time2;
-    @FXML private TableColumn<DescriptionKb, Object> time3;
-    @FXML private TableColumn<DescriptionKb, Object> time4;
-    @FXML private TableColumn<DescriptionKb, Object> time5;
-    @FXML private TableColumn<DescriptionKb, String> time7;
-    @FXML private TableColumn<DescriptionKb, Object> time18;
-    @FXML private TableColumn<DescriptionKb, Object> time19;
-    @FXML private TableColumn<DescriptionKb, Object> time20;
-    @FXML private TableColumn<DescriptionKb, Button> add_item;
+    @FXML private TableView<DescriptionFind> tableManagerView2;
+    @FXML private TableColumn<DescriptionFind, String> pos;
+    @FXML private TableColumn<DescriptionFind, Text> description;
+    @FXML private TableColumn<DescriptionFind, String> size_a;
+    @FXML private TableColumn<DescriptionFind, String> size_b;
+    @FXML private TableColumn<DescriptionFind, String> size_c;
+    @FXML private TableColumn<DescriptionFind, String> amount;
+    @FXML private TableColumn<DescriptionFind, String> type;
+    @FXML private TableColumn<DescriptionFind, String> status;
+    @FXML private TableColumn<DescriptionFind, String> designer;
+    @FXML private TableColumn<DescriptionFind, String> time2;
+    @FXML private TableColumn<DescriptionFind, String> time3;
+    @FXML private TableColumn<DescriptionFind, String> time4;
+    @FXML private TableColumn<DescriptionFind, String> time5;
+    @FXML private TableColumn<DescriptionFind, String> time7;
+    @FXML private TableColumn<DescriptionFind, String> time18;
+    @FXML private TableColumn<DescriptionFind, String> time19;
+    @FXML private TableColumn<DescriptionFind, String> time20;
+    @FXML private TableColumn<DescriptionFind, Button> add_item;
 
     @FXML private MenuButton menuSorting;
     @FXML private MenuButton menuType;
@@ -127,7 +130,7 @@ public class ControllerManager implements Initializable {
 
         tableManagerView1.getSelectionModel().selectedIndexProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                updateSelectedDescription();
+                viewSelectedDescription();
             }
         });
     }
@@ -145,7 +148,7 @@ public class ControllerManager implements Initializable {
 
     private void initKbTabOne() {
         listOrderManager.clear();
-        listOrderManager.addAll(kbEngine.getOrdersWithDescriptionsKb(page, sortWay));
+        listOrderManager.addAll(orderService.getOrdersWithDescriptionsManager(page, sortWay));
         if (listOrderManager.size() == 0 && page.getPosition() > 0) {
             applyPrevious();
             return;
@@ -169,7 +172,7 @@ public class ControllerManager implements Initializable {
     }
 
     private void initKbTabTwo() {
-        updateSelectedDescription();
+        viewSelectedDescription();
 
         pos.setCellValueFactory(new PropertyValueFactory<>("position"));
         description.setCellValueFactory(new PropertyValueFactory<>("descriptionText"));
@@ -177,12 +180,14 @@ public class ControllerManager implements Initializable {
         size_b.setCellValueFactory(new PropertyValueFactory<>("sizeB"));
         size_c.setCellValueFactory(new PropertyValueFactory<>("sizeC"));
         amount.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        type.setCellValueFactory(new PropertyValueFactory<>("typeString"));
+        status.setCellValueFactory(new PropertyValueFactory<>("statusString"));
         designer.setCellValueFactory(new PropertyValueFactory<>("designer"));
         time2.setCellValueFactory(new PropertyValueFactory<>("timeKb"));
         time3.setCellValueFactory(new PropertyValueFactory<>("timeKbStart"));
         time4.setCellValueFactory(new PropertyValueFactory<>("timeKbQuestion"));
         time5.setCellValueFactory(new PropertyValueFactory<>("timeKbContinued"));
-        time7.setCellValueFactory(new PropertyValueFactory<>("timeKbEnd"));
+        time7.setCellValueFactory(new PropertyValueFactory<>("timeFactory"));
         time18.setCellValueFactory(new PropertyValueFactory<>(""));
         time19.setCellValueFactory(new PropertyValueFactory<>(""));
         time20.setCellValueFactory(new PropertyValueFactory<>(""));
@@ -191,50 +196,23 @@ public class ControllerManager implements Initializable {
         tableManagerView2.setItems(listDescriptionManager);
     }
 
-    private void updateSelectedDescription() {
+    private void viewSelectedDescription() {
         listDescriptionManager.clear();
+
         if (tableManagerView1.getSelectionModel().getSelectedItem() != null) {
-            selectedRow = tableManagerView1.getSelectionModel().getSelectedIndex();
-            selectedOrder = tableManagerView1.getSelectionModel().getSelectedItem();
-            List<DescriptionKb> descriptionKbList = DescriptionKb.makeFromOrderDescription(selectedOrder);
-            addButtonListener(descriptionKbList);
-            listDescriptionManager.addAll(descriptionKbList);
-        } else {
-            selectedOrder = null;
+            Order selectedOrder = tableManagerView1.getSelectionModel().getSelectedItem();
+
+            listDescriptionManager.addAll(selectedOrder.getDescriptions().stream()
+                    .map(DescriptionFind::new)
+                    .collect(Collectors.toList()));
+
+            listDescriptionManager.stream()
+                    .filter(d -> d.getImageButton() instanceof Button)
+                    .forEach(d -> ((Button)d.getImageButton()).setOnAction(
+                            event -> UtilController.getInstance().viewImages(((Button)event.getSource()).getId())));
         }
     }
 
-    private void addButtonListener(List<DescriptionKb> descriptionKbList) {
-        for (DescriptionKb d : descriptionKbList) {
-            if (d.getImageButton() instanceof Button) {
-                Button button = (Button) d.getImageButton();
-                button.setOnAction(event -> viewImages(((Button) event.getSource()).getId()));
-            }
-        }
-    }
-
-    private void viewImages(String id) {
-        Parent root = null;
-        URL location = getClass().getResource("/fxml/imagePaneView.fxml");
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(location);
-        fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
-        try {
-            root = fxmlLoader.load(location.openStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        ControllerImageView controller = fxmlLoader.getController();
-        List<DescriptionImage> images = descriptionService.findImagesByDescriptionId(id);
-        controller.setImages(images);
-        controller.updateValues();
-
-        Stage newWindow = new Stage();
-        newWindow.setTitle("Просмотр рисунков");
-        newWindow.setScene(new Scene(root));
-
-        newWindow.show();
-    }
 
     public void applyNext() {
         if (page.next()) {
@@ -260,14 +238,9 @@ public class ControllerManager implements Initializable {
         }
     }
 
-    public void sortingKb(ActionEvent actionEvent) {
+    public void sorting(ActionEvent actionEvent) {
         sortWay = SortWay.valueOf(((RadioButton) actionEvent.getSource()).getText());
         initKbTabOne();
-    }
-
-    public void applyKb() {
-        kbEngine.setStatus(listDescriptionManager);
-        updateAllView();
     }
 
     private String getNumberOfDescriptionAsString() {
@@ -293,14 +266,7 @@ public class ControllerManager implements Initializable {
 
     public void addImage() {
         if (tableManagerView2.getSelectionModel().getSelectedItem() != null) {
-            Order selectedOrder = tableManagerView1.getSelectionModel().getSelectedItem();
-            DescriptionKb descriptionKb = tableManagerView2.getSelectionModel().getSelectedItem();
-
-            UtilController utilController = UtilController.getInstance();
-            Parent rootNode = parsing_next.getScene().getRoot();
-            utilController.setOrder(selectedOrder);
-            utilController.setDescriptionKb(descriptionKb);
-            utilController.setImagePaneVisible(rootNode);
+            UtilController.getInstance().addImage(tableManagerView1, tableManagerView2.getSelectionModel().getSelectedItem().getId());
         }
     }
 

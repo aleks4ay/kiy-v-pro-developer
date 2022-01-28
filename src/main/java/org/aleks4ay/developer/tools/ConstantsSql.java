@@ -8,7 +8,6 @@ public final class ConstantsSql {
     public static final String SORT_ORDER_BY_NUMBER = " order by j.doc_number;";
     public static final String SORT_ORDER_BY_DATE_CREATE = " order by j.t_create;";
     public static final String SORT_ORDER_BY_DATE_FACTORY = " order by o.t_factory;";
-    public static final String SORT_ORDER_BY_DEVELOPER = " order by d.designer_name;";
     public static final String SORT_ORDER_BY_MANAGER = " order by manager;";
     public static final String SORT_ORDER_BY_CLIENT = " order by client;";
 
@@ -26,10 +25,9 @@ public final class ConstantsSql {
             "    c.name as client, w.name as manager, o.status from orders o, journal j, client c, worker w " +
             "    WHERE o.status in ('KB_NEW','KB_START','KB_QUESTION','KB_CONTINUED')" +
             "    and o.id = j.id and o.id_client = c.id and o.id_manager = w.id ";
-    public static final String ORDER_GET_ALL_MANAGER = "select o.id, j.doc_number, j.t_create, o.t_factory, o.duration," +
-            "    c.name as client, w.name as manager, o.status from orders o, journal j, client c, worker w " +
-            "    WHERE o.status in ('KB_NEW','KB_START','KB_QUESTION','KB_CONTINUED')" +
-            "    and o.id = j.id and o.id_client = c.id and o.id_manager = w.id "; //todo
+    public static final String ORDER_GET_ALL = "select o.id, j.doc_number, j.t_create, o.t_factory, o.duration," +
+            "    c.name as client, w.name as manager, o.status from orders o, journal j, client c, worker w WHERE " +
+            "    o.id = j.id and o.id_client = c.id and o.id_manager = w.id ";
 
     public static final String ORDER_UPDATE_STATUS = "UPDATE orders SET status=? where id=?;";
 

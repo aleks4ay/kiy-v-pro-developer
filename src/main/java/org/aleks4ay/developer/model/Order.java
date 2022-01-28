@@ -20,6 +20,7 @@ public class Order implements BaseEntity<Order>{
     private double price;
     private StatusName status;
     private List<Description> descriptions = new ArrayList<>();
+    private List<OrderTime> times = new ArrayList<>();
 
     public Order(String id, String docNumber, String client, String manager, int durationTime, Timestamp dateCreate,
                  Timestamp dateToFactory, StatusName status) {
@@ -106,6 +107,14 @@ public class Order implements BaseEntity<Order>{
         this.descriptions = descriptions;
     }
 
+    public List<OrderTime> getTimes() {
+        return times;
+    }
+
+    public void setTimes(List<OrderTime> times) {
+        this.times = times;
+    }
+
     public StatusName getStatus() {
         return status;
     }
@@ -128,7 +137,6 @@ public class Order implements BaseEntity<Order>{
 
     public static Comparator<Order> getComparator (SortWay sortWay) {
         if (sortWay == SortWay.NUMBER) {
-            int index = SortWay.DATE_CREATE.ordinal();
             return Comparator.comparing(Order::getDocNumber);
         } else if (sortWay == SortWay.DATE_CREATE) {
             return Comparator.comparing(Order::getDateCreate);
@@ -137,7 +145,7 @@ public class Order implements BaseEntity<Order>{
         } else if (sortWay == SortWay.DATE_SHIPMENT) {
             return Comparator.comparing(Order::getDateToShipment);
         } else if (sortWay == SortWay.DATE_SHIPMENT_REAL) {
-            return Comparator.comparing(Order::getDateToShipment);
+            return Comparator.comparing(Order::getDateToShipmentReal);
         } else if (sortWay == SortWay.CLIENT) {
             return Comparator.comparing(Order::getClient);
         } else if (sortWay == SortWay.MANAGER) {
@@ -162,6 +170,13 @@ public class Order implements BaseEntity<Order>{
         return dateCreate.toLocalDateTime().plusDays(durationTime);
     }
 
+    public LocalDateTime getDateToShipmentReal () {
+        return times.stream()
+                .filter(t -> t.getStatusName() == StatusName.SHIPMENT_REAL)
+                .map(OrderTime::getTime)
+                .findFirst().orElse(getDateToShipment());
+    }
+
     @Override
     public String getEntityName() {
         return "Order";
@@ -180,6 +195,7 @@ public class Order implements BaseEntity<Order>{
                 ", price=" + price +
                 ", status=" + status +
                 ", descriptions=" + descriptions +
+                ", times=" + times +
                 '}';
     }
 }

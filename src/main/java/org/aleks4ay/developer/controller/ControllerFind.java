@@ -9,16 +9,18 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
+import org.aleks4ay.developer.dao.ConnectionPool;
+import org.aleks4ay.developer.dao.OrderDao;
 import org.aleks4ay.developer.model.DescriptionFind;
 import org.aleks4ay.developer.model.Order;
-import org.aleks4ay.developer.service.KbEngine;
+import org.aleks4ay.developer.service.OrderService;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class ControllerFind implements Initializable {
-    private final KbEngine kbEngine = new KbEngine();
+    private final OrderService orderService = new OrderService(new OrderDao(ConnectionPool.getInstance()));
     private final ObservableList<Order> listOrderFind = FXCollections.observableArrayList();
     private final ObservableList<DescriptionFind> listDescriptionFind = FXCollections.observableArrayList();
     private boolean isSearching = false;
@@ -52,16 +54,14 @@ public class ControllerFind implements Initializable {
     @FXML private TableColumn<DescriptionFind, String> f_time4;
     @FXML private TableColumn<DescriptionFind, String> f_time5;
     @FXML private TableColumn<DescriptionFind, String> f_time7;
+    @FXML private TableColumn<DescriptionFind, String> f_time18;
     @FXML private TableColumn<DescriptionFind, String> f_time19;
-    @FXML private TableColumn<DescriptionFind, String> f_time20;
     @FXML private TableColumn<DescriptionFind, String> f_time24;
     @FXML private TableColumn<DescriptionFind, String> f_time30;
     @FXML private TableColumn<DescriptionFind, Button> add_item;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-//        initFindTabOne();
-//        initFindTabTwo();
         tableFind1.getSelectionModel().selectedIndexProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 viewSelectedDescription();
@@ -71,7 +71,7 @@ public class ControllerFind implements Initializable {
 
     public void initFindTabOne() {
         listOrderFind.clear();
-        listOrderFind.addAll(kbEngine.getOrdersWithDescriptionsFind(find_year.getText(), find_number.getText()));
+        listOrderFind.addAll(orderService.getOrdersWithDescriptionsFind(find_year.getText(), find_number.getText()));
 
         if (isSearching && listOrderFind.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -109,8 +109,8 @@ public class ControllerFind implements Initializable {
         f_time4.setCellValueFactory(new PropertyValueFactory<>("timeKbQuestion"));
         f_time5.setCellValueFactory(new PropertyValueFactory<>("timeKbContinued"));
         f_time7.setCellValueFactory(new PropertyValueFactory<>("timeFactory"));
+        f_time18.setCellValueFactory(new PropertyValueFactory<>("timeFactoryDone"));
         f_time19.setCellValueFactory(new PropertyValueFactory<>("timeShipment"));
-        f_time20.setCellValueFactory(new PropertyValueFactory<>("timeComplete"));
         f_time24.setCellValueFactory(new PropertyValueFactory<>("timeNotTracked"));
         f_time30.setCellValueFactory(new PropertyValueFactory<>("timeCanceled"));
         add_item.setCellValueFactory(new PropertyValueFactory<>("imageButton"));
@@ -153,6 +153,12 @@ public class ControllerFind implements Initializable {
         KeyCode keyCode = keyEvent.getCode();
         if (keyCode.getName().equalsIgnoreCase("Enter")) {
             showFoundedOrder();
+        }
+    }
+
+    public void addImage() {
+        if (tableFind2.getSelectionModel().getSelectedItem() != null) {
+            UtilController.getInstance().addImage(tableFind1, tableFind2.getSelectionModel().getSelectedItem().getId());
         }
     }
 }

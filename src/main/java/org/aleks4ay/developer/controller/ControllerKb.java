@@ -6,15 +6,14 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import org.aleks4ay.developer.dao.ConnectionPool;
-import org.aleks4ay.developer.dao.DescriptionDao;
+import org.aleks4ay.developer.dao.OrderDao;
 import org.aleks4ay.developer.model.*;
-import org.aleks4ay.developer.service.DescriptionService;
 import org.aleks4ay.developer.service.KbEngine;
+import org.aleks4ay.developer.service.OrderService;
 import org.aleks4ay.developer.tools.FileWriter;
 import org.aleks4ay.developer.tools.PropertyListener;
 
@@ -25,15 +24,13 @@ import java.util.ResourceBundle;
 
 public class ControllerKb implements Initializable {
     private static final long positionOnPage = 30;
-    private LongProperty isNewOrderTime = PropertyListener.getOrderTimeProperty();
+    private final LongProperty isNewOrderTime = PropertyListener.getOrderTimeProperty();
 
-    private final KbEngine kbEngine = new KbEngine();
-    private final DescriptionService descriptionService = new DescriptionService(new DescriptionDao(ConnectionPool.getInstance()));
+    private final OrderService orderService = new OrderService(new OrderDao(ConnectionPool.getInstance()));
 
     public static SortWay sortWayKb = SortWay.NUMBER;
     private int selectedRow = 0;
     private final Page page = new Page(positionOnPage);
-    private Order selectedOrder = null;
 
     private final ObservableList<Order> listOrderKb = FXCollections.observableArrayList();
     private final ObservableList<DescriptionKb> listDescriptionKb = FXCollections.observableArrayList();
@@ -113,7 +110,7 @@ public class ControllerKb implements Initializable {
 
     private void initKbTabOne() {
         listOrderKb.clear();
-        listOrderKb.addAll(kbEngine.getOrdersWithDescriptionsKb(page, sortWayKb));
+        listOrderKb.addAll(orderService.getOrdersWithDescriptionsKb(page, sortWayKb));
         if (listOrderKb.size() == 0 && page.getPosition() > 0) {
             applyPrevious();
             return;
@@ -162,6 +159,7 @@ public class ControllerKb implements Initializable {
 
     private void updateSelectedDescription() {
         listDescriptionKb.clear();
+        Order selectedOrder = null;
         if (tableKbView1.getSelectionModel().getSelectedItem() != null) {
             selectedRow = tableKbView1.getSelectionModel().getSelectedIndex();
             selectedOrder = tableKbView1.getSelectionModel().getSelectedItem();
@@ -173,8 +171,6 @@ public class ControllerKb implements Initializable {
             info_client.setText(selectedOrder.getClient());
             info_data_f.setText(selectedOrder.getDateToFactoryString());
             info_manag.setText(selectedOrder.getManager());
-        } else {
-            selectedOrder = null;
         }
     }
 
@@ -218,7 +214,7 @@ public class ControllerKb implements Initializable {
     }
 
     public void applyKb() {
-        kbEngine.setStatus(listDescriptionKb);
+        new KbEngine().setStatus(listDescriptionKb);
         updateAllView();
     }
 
@@ -245,14 +241,7 @@ public class ControllerKb implements Initializable {
 
     public void addImage() {
         if (tableKbView2.getSelectionModel().getSelectedItem() != null) {
-            Order selectedOrder = tableKbView1.getSelectionModel().getSelectedItem();
-            DescriptionKb descriptionKb = tableKbView2.getSelectionModel().getSelectedItem();
-
-            UtilController utilController = UtilController.getInstance();
-            Parent rootNode = parsing_next.getScene().getRoot();
-            utilController.setOrder(selectedOrder);
-            utilController.setDescriptionKb(descriptionKb);
-            utilController.setImagePaneVisible(rootNode);
+            UtilController.getInstance().addImage(tableKbView1, tableKbView2.getSelectionModel().getSelectedItem().getId());
         }
     }
 }

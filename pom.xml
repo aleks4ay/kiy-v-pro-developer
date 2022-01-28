@@ -102,7 +102,7 @@
                     <archive>
                         <manifest>
 <!--                            <mainClass>org.aleks4ay.developer.run.CopyOldWork</mainClass>-->
-                            <mainClass>org.aleks4ay.developer.controller.AppKb</mainClass>
+                            <mainClass>org.aleks4ay.developer.controller.App</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

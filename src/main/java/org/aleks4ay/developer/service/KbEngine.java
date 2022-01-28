@@ -7,7 +7,6 @@ import org.aleks4ay.developer.tools.FileWriter;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class KbEngine {
 
@@ -17,52 +16,6 @@ public class KbEngine {
     DescriptionService descriptionService = new DescriptionService(new DescriptionDao(connectionPool));
     DescriptionTimeService descriptionTimeService = new DescriptionTimeService(new DescriptionTimeDao(connectionPool));
 
-
-    public List<Order> getOrdersWithDescriptionsKb(Page page, SortWay sort) {
-
-        Map<String, String> designerPseudoName = descriptionService.getDesignerPseudoNames();
-        Map<String, Order> orderMap = findAllAsMap(page, sort);
-        for (Description d : descriptionService.findAllKb()) {
-            if (designerPseudoName.containsKey(d.getDesigner())) {
-                d.setDesigner(designerPseudoName.get(d.getDesigner()));
-            }
-            String key = d.getIdOrder();
-            if (orderMap.containsKey(key)) {
-                orderMap.get(key).getDescriptions().add(d);
-            }
-        }
-        return orderMap.values().stream()
-                .sorted(Order.getComparator(sort))
-                .collect(Collectors.toList());
-    }
-
-    public List<Order> getOrdersWithDescriptionsFind(String yearText, String numberText) {
-        Map<String, String> designerPseudoName = descriptionService.getDesignerPseudoNames();
-        Map<String, Order> orderMap = orderService.findAllLike(yearText, numberText);
-
-        for (Description d : descriptionService.findAll()) {
-            if (designerPseudoName.containsKey(d.getDesigner())) {
-                d.setDesigner(designerPseudoName.get(d.getDesigner()));
-            }
-            String key = d.getIdOrder();
-            if (orderMap.containsKey(key)) {
-                orderMap.get(key).getDescriptions().add(d);
-            }
-        }
-        return new ArrayList<>(orderMap.values());
-    }
-
-    public Map<String, Order> findAllAsMap(Page page, SortWay sort) {
-        List<Order> orders = orderService.findAllKb(sort);
-        page.setSize(orders.size());
-        if (page.getPosition() > page.getMaxPosition()) {
-            return Collections.emptyMap();
-        }
-        return orders.stream()
-                .skip(page.getPosition() * page.getPositionOnPage())
-                .limit(page.getPositionOnPage())
-                .collect(Collectors.toMap(Order::getId, order -> order));
-    }
 
     public void setStatus (List<DescriptionKb> listKb) {
         List<DescriptionTime> times = new ArrayList<>();

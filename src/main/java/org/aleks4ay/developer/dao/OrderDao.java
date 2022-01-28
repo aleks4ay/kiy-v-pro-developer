@@ -14,7 +14,7 @@ public class OrderDao extends AbstractDao<Order> implements BaseDao<Order> {
 
     @Override
     public List<Order> findAll() {
-        return findAbstractAll(ConstantsSql.ORDER_GET_ALL_NEW);
+        return findAbstractAll(ConstantsSql.ORDER_GET_ALL);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class OrderDao extends AbstractDao<Order> implements BaseDao<Order> {
     }
 
     public List<Order> findAllKb(String sort) {
-        return findAbstractAll(ConstantsSql.ORDER_GET_ALL_KB + sort);
+        return findAbstractAll(ConstantsSql.ORDER_GET_ALL_KB/* + sort*/);
     }
 
     public List<Order> findAllParsing() {

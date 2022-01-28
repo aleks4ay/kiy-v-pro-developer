@@ -71,7 +71,7 @@ public class ControllerImage implements Initializable {
         image1.setImage(null);
         file_name.setText("");
         utilController.setOrder(null);
-        utilController.setDescriptionKb(null);
+        utilController.setDescriptionId(null);
         utilController.setImagePaneInvisible(rootNode);
     }
 }

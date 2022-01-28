@@ -8,14 +8,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.aleks4ay.developer.dao.ConnectionPool;
 import org.aleks4ay.developer.dao.DescriptionDao;
-import org.aleks4ay.developer.model.Description;
-import org.aleks4ay.developer.model.DescriptionImage;
-import org.aleks4ay.developer.model.DescriptionKb;
-import org.aleks4ay.developer.model.Order;
+import org.aleks4ay.developer.model.*;
 import org.aleks4ay.developer.service.DescriptionService;
 
 import java.io.IOException;
@@ -30,7 +28,7 @@ public final class UtilController {
     private AnchorPane rootImagePane;
     private Label labelId;
     private Label labelDescription;
-    private DescriptionKb descriptionKb;
+    private String descriptionId;
     private Order order;
 
     private static final UtilController instance = new UtilController();
@@ -90,18 +88,18 @@ public final class UtilController {
     }
 
     public void setLabelDescription() {
-        if (order != null && descriptionKb != null) {
-            labelDescription.setText(getSelectedDescriptionText(order, descriptionKb.getId()));
-            labelId.setText(descriptionKb.getId());
+        if (order != null && descriptionId != null) {
+            labelDescription.setText(getSelectedDescriptionText(order, descriptionId));
+            labelId.setText(descriptionId);
         }
     }
 
-    public DescriptionKb getDescription() {
-        return descriptionKb;
+    public String getDescriptionId() {
+        return descriptionId;
     }
 
-    public void setDescriptionKb(DescriptionKb descriptionKb) {
-        this.descriptionKb = descriptionKb;
+    public void setDescriptionId(String descriptionId) {
+        this.descriptionId = descriptionId;
     }
 
     public Order getOrder() {
@@ -151,5 +149,13 @@ public final class UtilController {
         newWindow.setScene(new Scene(root));
 
         newWindow.show();
+    }
+
+    public void addImage(TableView<Order> orderTableView, String descriptionId) {
+        Order selectedOrder = orderTableView.getSelectionModel().getSelectedItem();
+        Parent rootNode = orderTableView.getScene().getRoot();
+        setOrder(selectedOrder);
+        setDescriptionId(descriptionId);
+        setImagePaneVisible(rootNode);
     }
 }

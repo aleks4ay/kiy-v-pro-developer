@@ -5,7 +5,6 @@ import javafx.scene.text.Text;
 import org.aleks4ay.developer.tools.Constants;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 public class DescriptionFind extends Description{
@@ -23,7 +22,7 @@ public class DescriptionFind extends Description{
     }
 
     public String getTypeString() {
-        return getTypeName().toString();
+        return getTypeName().getName();
     }
 
     public String getStatusString() {
@@ -75,8 +74,8 @@ public class DescriptionFind extends Description{
         return getTimeBase(StatusName.SHIPMENT);
     }
 
-    public String getTimeComplete() {
-        return getTimeBase(StatusName.COMPLETE);
+    public String getTimeFactoryDone() {
+        return getTimeBase(StatusName.FACTORY_DONE);
     }
 
     public String getTimeNotTracked() {
