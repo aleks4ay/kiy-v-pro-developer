@@ -1,14 +1,17 @@
 package org.aleks4ay.developer.controller;
 
+import com.sun.rowset.RowSetFactoryImpl;
 import javafx.beans.property.LongProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
+import javafx.util.Callback;
 import org.aleks4ay.developer.dao.ConnectionPool;
 import org.aleks4ay.developer.dao.OrderDao;
 import org.aleks4ay.developer.model.*;
@@ -17,6 +20,7 @@ import org.aleks4ay.developer.service.OrderService;
 import org.aleks4ay.developer.tools.FileWriter;
 import org.aleks4ay.developer.tools.PropertyListener;
 
+import javax.sql.rowset.RowSetFactory;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
@@ -155,11 +159,27 @@ public class ControllerKb implements Initializable {
         add_item.setCellValueFactory(new PropertyValueFactory<>("imageButton"));
 
         tableKbView2.setItems(listDescriptionKb);
+
+        tableKbView2.setRowFactory(new Callback<TableView<DescriptionKb>, TableRow<DescriptionKb>>() {
+            @Override public TableRow<DescriptionKb> call(TableView<DescriptionKb> param) {
+                return new TableRow<DescriptionKb>() {
+                    @Override protected void updateItem(DescriptionKb item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        this.getStyleClass().remove("red");
+
+                        if (item!=null && item.getSizeA() > 1000) {
+                            this.getStyleClass().add("red");
+                        }
+                    }
+                };
+            }
+        });
     }
 
     private void updateSelectedDescription() {
         listDescriptionKb.clear();
-        Order selectedOrder = null;
+        Order selectedOrder;
         if (tableKbView1.getSelectionModel().getSelectedItem() != null) {
             selectedRow = tableKbView1.getSelectionModel().getSelectedIndex();
             selectedOrder = tableKbView1.getSelectionModel().getSelectedItem();

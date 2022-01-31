@@ -32,3 +32,9 @@
     -fx-text-fill: rgba(71, 186, 85, 0.97);
     -fx-font-weight: bold;
 }
+
+.red
+{
+    -fx-background-color: #ab2a65;
+}
+
