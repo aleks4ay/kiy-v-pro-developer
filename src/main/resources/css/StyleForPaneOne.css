@@ -1,4 +1,4 @@
-.list-cell{
+/*.list-cell{
     -fx-padding: 0;
     -fx-spacing: 0;
 }
@@ -6,21 +6,19 @@
 .list-cell:hover{
     -fx-background-color: blanchedalmond;
 }
-.list-cell:selected, .table-row-cell:selected {
-    -fx-background-color: #d2a8ad;
+.table-row-cell:selected, .table-row-cell:selected:focused{
+    -fx-font-weight: bold;
+}*/
+.cell-tv1, .cell-tv2 {
+    -fx-text-fill: black;
 }
-.list-cell:selected:hover, .table-row-cell:selected:hover {
-    -fx-background-color: #d2a8ad; /*#cf7c88;*/
+.cell-tv1:selected {
+    -fx-text-fill: blue;
 }
 
 
-#changed
-{
-    -fx-background-color: #ab2a65;
-}
-#changed:hover{
-    -fx-background-color: #f42d9b;
-}
+
+
 #total_info
 {
     -fx-background-color: rgb(198, 224, 180);
@@ -33,8 +31,46 @@
     -fx-font-weight: bold;
 }
 
-.red
+.red0
 {
-    -fx-background-color: #ab2a65;
+    -fx-background-color: white;
+    /*-fx-background-color: rgba(255, 0, 0, 0.02);*/
+    -fx-text-fill: rgba(71, 186, 85, 0.97);
+}
+.red1
+{
+    -fx-background-color: rgba(255, 0, 0, 0.2);
+    -fx-text-fill: rgba(71, 186, 85, 0.97);
+}
+.red2
+{
+    -fx-background-color: rgba(255, 0, 0, 0.3);
+    -fx-text-fill: rgba(71, 186, 85, 0.97);
+}
+.red3
+{
+    -fx-background-color: rgba(255, 0, 0, 0.6);
+    -fx-text-fill: rgba(71, 186, 85, 0.97);
+}
+.red4
+{
+    -fx-background-color: rgba(155, 0, 0, 0.8);
+    -fx-text-fill: rgba(71, 186, 85, 0.97);
+}
+
+/*.table-row-cell:filled {
+    -fx-background-color: #efe939;
+}
+
+.table-row-cell:filled {
+    -fx-background-color: #38ee00;
+}*/
+
+/*.table-row-cell:filled .table-cell {
+    -fx-text-fill: red;
+}*/
+
+.table-row-cell:focused .table-cell, .table-row-cell:selected:focused .table-cell, .table-row-cell.textField{
+    -fx-text-fill: green;
 }
 

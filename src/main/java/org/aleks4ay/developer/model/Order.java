@@ -3,6 +3,8 @@ package org.aleks4ay.developer.model;
 import org.aleks4ay.developer.tools.Constants;
 
 import java.sql.Timestamp;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -164,6 +166,20 @@ public class Order implements BaseEntity<Order>{
                 .get().stream()
                 .filter(times -> times.getStatusName() == StatusName.KB_NEW)
                 .findFirst().orElse(null);
+    }
+
+    public LocalDate getEndDevelopingDay() {
+        DescriptionTime timeKb = getDateKbNew();
+        if (timeKb != null) {
+            LocalDate timeKbStart = timeKb.getTime().toLocalDate();
+            if (timeKbStart.getDayOfWeek().equals(DayOfWeek.WEDNESDAY)
+                    | timeKbStart.getDayOfWeek().equals(DayOfWeek.THURSDAY)
+                    | timeKbStart.getDayOfWeek().equals(DayOfWeek.FRIDAY)) {
+                return timeKbStart.plusDays(5);
+            }
+            return timeKbStart.plusDays(3);
+        }
+        return null;
     }
 
     public LocalDateTime getDateToShipment () {

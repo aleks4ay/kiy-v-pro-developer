@@ -6,6 +6,7 @@ import javafx.scene.text.Text;
 import org.aleks4ay.developer.tools.Constants;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public class DescriptionKb {
     private int sizeC;
     private int amount;
     private String status;
-    private LocalDateTime endDay;
+    private LocalDate endDay;
     private String designer;
     private List<DescriptionTime> times;
     private Button imageButton = null;
@@ -196,24 +197,26 @@ public class DescriptionKb {
     public void setEndDay() {
         for (DescriptionTime t : times) {
             if (t.getStatusName().equals(StatusName.KB_NEW)) {
-                this.endDay = t.getTime().plusDays(3);
+                this.endDay = t.getTime().toLocalDate().plusDays(3);
                 break;
             }
         }
         if (endDay == null) {
-            this.endDay = LocalDateTime.now().plusDays(3);
+            this.endDay = LocalDate.now().plusDays(3);
         }
-        if (endDay.getDayOfWeek().equals(DayOfWeek.SATURDAY) | endDay.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+        if (endDay.getDayOfWeek().equals(DayOfWeek.SATURDAY)
+                | endDay.getDayOfWeek().equals(DayOfWeek.SUNDAY)
+                | endDay.getDayOfWeek().equals(DayOfWeek.MONDAY)) {
             this.endDay = endDay.plusDays(2);
         }
     }
 
-    public LocalDateTime getEndDay() {
+    public LocalDate getEndDay() {
         return endDay;
     }
 
     public String getEndDayString() {
-        return endDay == null ? "-" : endDay.format(Constants.dayTimeFormatter).replace("  ", System.lineSeparator());
+        return endDay == null ? "-" : endDay.format(Constants.dayFormatter).replace("  ", System.lineSeparator());
     }
 
     private Object getTimeBase(StatusName statusName, CheckBox checkBox) {
@@ -254,7 +257,7 @@ public class DescriptionKb {
         return newStatusName.ordinal() < StatusName.valueOf(status).ordinal();
     }
 
-    public void setEndDay(LocalDateTime endDay) {
+    public void setEndDay(LocalDate endDay) {
         this.endDay = endDay;
     }
 

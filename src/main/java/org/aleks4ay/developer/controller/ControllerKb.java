@@ -1,17 +1,15 @@
 package org.aleks4ay.developer.controller;
 
-import com.sun.rowset.RowSetFactoryImpl;
 import javafx.beans.property.LongProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
-import javafx.util.Callback;
 import org.aleks4ay.developer.dao.ConnectionPool;
 import org.aleks4ay.developer.dao.OrderDao;
 import org.aleks4ay.developer.model.*;
@@ -20,8 +18,8 @@ import org.aleks4ay.developer.service.OrderService;
 import org.aleks4ay.developer.tools.FileWriter;
 import org.aleks4ay.developer.tools.PropertyListener;
 
-import javax.sql.rowset.RowSetFactory;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -126,6 +124,26 @@ public class ControllerKb implements Initializable {
         count_position.setCellValueFactory(new PropertyValueFactory<>("numberOfPosition"));
 
         tableKbView1.setItems(listOrderKb);
+
+        tableKbView1.setRowFactory(param -> new TableRow<Order>() {
+            @Override
+            public void updateItem(Order item, boolean empty) {
+                super.updateItem(item, empty);
+                this.getStyleClass().remove("red1");
+                this.getStyleClass().remove("red2");
+                this.getStyleClass().remove("red3");
+                this.getStyleClass().remove("red4");
+
+                if (item!=null) {
+                    String style = applyRowStyleTableView(item.getEndDevelopingDay());
+                    if (!style.isEmpty()) {
+                        this.getStyleClass().add(style);
+//                        this.getTableView().getColumns().get(1).getStyleClass().add("cell-tv1"); //todo delete this
+                    }
+                }
+            }
+        });
+
         tableKbView1.getSelectionModel().select(selectedRow);
         info_ord.setText(String.valueOf(page.getSize()));
         info_position.setText(page.getInterval());
@@ -160,21 +178,48 @@ public class ControllerKb implements Initializable {
 
         tableKbView2.setItems(listDescriptionKb);
 
-        tableKbView2.setRowFactory(new Callback<TableView<DescriptionKb>, TableRow<DescriptionKb>>() {
-            @Override public TableRow<DescriptionKb> call(TableView<DescriptionKb> param) {
-                return new TableRow<DescriptionKb>() {
-                    @Override protected void updateItem(DescriptionKb item, boolean empty) {
-                        super.updateItem(item, empty);
 
-                        this.getStyleClass().remove("red");
+        tableKbView2.setRowFactory(param -> new TableRow<DescriptionKb>() {
+            @Override
+            public void updateItem(DescriptionKb item, boolean empty) {
 
-                        if (item!=null && item.getSizeA() > 1000) {
-                            this.getStyleClass().add("red");
-                        }
+                super.updateItem(item, empty);
+//                this.getStyleClass().remove("red1");
+//                this.getStyleClass().remove("red2");
+//                this.getStyleClass().remove("red3");
+//                this.getStyleClass().remove("red4");
+                this.getStyleClass().remove("red0");
+
+                if (item!=null) {
+                    String style = applyRowStyleTableView(item.getEndDay());
+                    if (!style.isEmpty()) {
+//                        this.getStyleClass().add(style);
+                        this.getStyleClass().add("red0");
                     }
-                };
+                }
             }
         });
+    }
+
+    static String applyRowStyleTableView(LocalDate dayEnd) {
+        if (dayEnd == null) {
+            return "red0";
+        }
+        LocalDate today = LocalDate.now();
+
+        if (today.plusDays(1).equals(dayEnd)) {
+            return  "red1";
+        }
+        if(today.equals(dayEnd)) {
+            return  "red2";
+        }
+        if (today.isAfter(dayEnd) && dayEnd.plusDays(4).isAfter(today)) {
+            return  "red3";
+        }
+        if (dayEnd.plusDays(3).isBefore(today)) {
+            return "red4";
+        }
+        return "red0";
     }
 
     private void updateSelectedDescription() {

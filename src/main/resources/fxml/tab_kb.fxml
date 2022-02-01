@@ -35,11 +35,11 @@
                              <children>
                                 <TableView fx:id="tableKbView1" prefWidth="936.0">
                                   <columns>
-                                    <TableColumn fx:id="num" editable="false" maxWidth="500.0" prefWidth="100.0" resizable="false" style="-fx-alignment: center;" text="Номер заказа" />
-                                    <TableColumn fx:id="client" editable="false" maxWidth="1.7976931348623157E308" minWidth="480.0" prefWidth="-1.0" text="Заказчик" />
-                                    <TableColumn fx:id="manager" editable="false" maxWidth="-1.0" minWidth="140.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Менеджер" />
-                                    <TableColumn fx:id="data_f" editable="false" maxWidth="-1.0" minWidth="120.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Когда был отдан&#10;в производство" />
-                                    <TableColumn fx:id="count_position" editable="false" maxWidth="-1.0" minWidth="80.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Количество&#10;позиций" />
+                                    <TableColumn fx:id="num" editable="false" styleClass="cell-tv1" maxWidth="500.0" prefWidth="100.0" resizable="false" style="-fx-alignment: center;" text="Номер заказа" />
+                                    <TableColumn fx:id="client" editable="false" styleClass="cell-tv1" maxWidth="1.7976931348623157E308" minWidth="480.0" prefWidth="-1.0" text="Заказчик" />
+                                    <TableColumn fx:id="manager" editable="false" styleClass="cell-tv1" maxWidth="-1.0" minWidth="140.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Менеджер" />
+                                    <TableColumn fx:id="data_f" editable="false" styleClass="cell-tv1" maxWidth="-1.0" minWidth="120.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Когда был отдан&#10;в производство" />
+                                    <TableColumn fx:id="count_position" editable="false" styleClass="cell-tv1" maxWidth="-1.0" minWidth="80.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Количество&#10;позиций" />
                                   </columns>
                                      <cursor>
                                        <Cursor fx:constant="DEFAULT" />
@@ -105,7 +105,7 @@
                                       <HBox>
                                          <children>
 
-                                                  <Label alignment="TOP_LEFT" minWidth="100.0" style="&#10;" text="Изделий в заказах:  " textAlignment="CENTER">
+                                            <Label alignment="TOP_LEFT" minWidth="100.0" style="&#10;" text="Изделий в заказах:  " textAlignment="CENTER">
                                                <font>
                                                   <Font size="18.0" />
                                                </font>
@@ -247,24 +247,24 @@
                                         </ContextMenu>
                                     </contextMenu>
                                     <columns>
-                                      <TableColumn fx:id="pos" editable="false" prefWidth="30.0" resizable="false" style="-fx-alignment: center;" text="№&#10;поз." />
-                                      <TableColumn fx:id="description" maxWidth="1.7976931348623157E308" minWidth="300.0" prefWidth="-1.0" style="-fx-alignment: center;" text="Описание " />
-                                      <TableColumn editable="false" maxWidth="-1.0" minWidth="190.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Габаритные размеры, мм">
+                                      <TableColumn fx:id="pos" styleClass="cell-tv2" editable="false" prefWidth="30.0" resizable="false" style="-fx-alignment: center;" text="№&#10;поз." />
+                                      <TableColumn fx:id="description" styleClass="cell-tv2" maxWidth="1.7976931348623157E308" minWidth="300.0" prefWidth="-1.0" style="-fx-alignment: center;" text="Описание " />
+                                      <TableColumn editable="false" styleClass="cell-tv2" maxWidth="-1.0" minWidth="190.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Габаритные размеры, мм">
                                         <columns>
-                                          <TableColumn fx:id="size_a" editable="false" prefWidth="55.0" resizable="false" style="-fx-alignment: center;" text="Длина" />
-                                          <TableColumn fx:id="size_b" editable="false" prefWidth="55.0" resizable="false" style="-fx-alignment: center;" text="Ширина" />
-                                          <TableColumn fx:id="size_c" editable="false" prefWidth="55.0" resizable="false" style="-fx-alignment: center;" text="Высота" />
+                                          <TableColumn fx:id="size_a" styleClass="cell-tv2" editable="false" prefWidth="55.0" resizable="false" style="-fx-alignment: center;" text="Длина" />
+                                          <TableColumn fx:id="size_b" styleClass="cell-tv2" editable="false" prefWidth="55.0" resizable="false" style="-fx-alignment: center;" text="Ширина" />
+                                          <TableColumn fx:id="size_c" styleClass="cell-tv2" editable="false" prefWidth="55.0" resizable="false" style="-fx-alignment: center;" text="Высота" />
                                         </columns>
                                       </TableColumn>
-                                      <TableColumn fx:id="amount" editable="false" prefWidth="50.0" resizable="false" style="-fx-alignment: center;" text="Коли-&#10;чество" />
-                                      <TableColumn fx:id="designer" editable="false" prefWidth="90.0" resizable="false" style="-fx-alignment: center;" text="Конструктор" />
-                                      <TableColumn fx:id="time2" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Поступил&#10;в КБ" />
-                                      <TableColumn fx:id="time3" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Начало&#10;разра-&#10;ботки" />
-                                      <TableColumn fx:id="time4" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Задан&#10;вопрос&#10;менедж." />
-                                      <TableColumn fx:id="time5" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Получен&#10;ответ" />
-                                      <TableColumn fx:id="time6" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Отдать&#10;в цех" />
-                                      <TableColumn fx:id="time7" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Срок для&#10;отдачи&#10;в цех" />
-                                      <TableColumn fx:id="add_item" editable="false" prefWidth="50.0" resizable="false" style="-fx-alignment: center;" text=" Ри-&#10;сунки" />
+                                      <TableColumn fx:id="amount" styleClass="cell-tv2" editable="false" prefWidth="50.0" resizable="false" style="-fx-alignment: center;" text="Коли-&#10;чество" />
+                                      <TableColumn fx:id="designer" styleClass="cell-tv2" editable="false" prefWidth="90.0" resizable="false" style="-fx-alignment: center;" text="Конструктор" />
+                                      <TableColumn fx:id="time2" styleClass="cell-tv2" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Поступил&#10;в КБ" />
+                                      <TableColumn fx:id="time3" styleClass="cell-tv2" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Начало&#10;разра-&#10;ботки" />
+                                      <TableColumn fx:id="time4" styleClass="cell-tv2" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Задан&#10;вопрос&#10;менедж." />
+                                      <TableColumn fx:id="time5" styleClass="cell-tv2" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Получен&#10;ответ" />
+                                      <TableColumn fx:id="time6" styleClass="cell-tv2" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Отдать&#10;в цех" />
+                                      <TableColumn fx:id="time7" styleClass="cell-tv2" editable="false" prefWidth="65.0" resizable="false" style="-fx-alignment: center;" text="Срок для&#10;отдачи&#10;в цех" />
+                                      <TableColumn fx:id="add_item" styleClass="cell-tv2" editable="false" prefWidth="50.0" resizable="false" style="-fx-alignment: center;" text=" Ри-&#10;сунки" />
                                     </columns>
                               </TableView>
                             </children>
