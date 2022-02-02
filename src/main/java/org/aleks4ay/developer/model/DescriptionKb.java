@@ -1,7 +1,10 @@
 package org.aleks4ay.developer.model;
 
+import com.sun.javafx.tk.FontMetrics;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import org.aleks4ay.developer.tools.Constants;
 
@@ -181,6 +184,13 @@ public class DescriptionKb {
     }
 
     public Text getDescriptionText() {
+        Font font = new Font("Verdana", 12);
+
+        FontMetrics metrics = new FontMetrics(0,0,0, 0, 0, 0, font);
+        metrics.computeStringWidth("fddfg dfg df gdfgdf ");
+        java.awt.Label label = new java.awt.Label(getDescr());
+        label.getWidth();
+
         Text result = new Text(descr);
         result.setWrappingWidth(290.0);
         return result;
@@ -216,7 +226,7 @@ public class DescriptionKb {
     }
 
     public String getEndDayString() {
-        return endDay == null ? "-" : endDay.format(Constants.dayFormatter).replace("  ", System.lineSeparator());
+        return endDay == null ? "-" : endDay.format(Constants.dayShortFormatter).replace("  ", System.lineSeparator());
     }
 
     private Object getTimeBase(StatusName statusName, CheckBox checkBox) {
@@ -225,7 +235,7 @@ public class DescriptionKb {
                 .map(DescriptionTime::getTime)
                 .findFirst();
         return time.isPresent()
-                ? time.get().format(Constants.tableCellTimeFormatter)
+                ? time.get().format(Constants.tableCellTimeShortFormatter)
                 : checkBox;
     }
 

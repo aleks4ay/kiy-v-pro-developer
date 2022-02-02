@@ -9,9 +9,12 @@ public final class Constants {
     public static final String DBF_PATH;
     public static final String FILE_CHANGES;
     public static final DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    public static final DateTimeFormatter dayShortFormatter = DateTimeFormatter.ofPattern("dd.MM.yy");
     public static final DateTimeFormatter dayTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy  HH:mm");
     public static final DateTimeFormatter tableCellTimeFormatter =
             DateTimeFormatter.ofPattern("dd.MM.yyyy" + System.lineSeparator() + "HH:mm");
+    public static final DateTimeFormatter tableCellTimeShortFormatter =
+            DateTimeFormatter.ofPattern("dd.MM.yy" + System.lineSeparator() + "HH:mm");
 
     static {
         final ResourceBundle config = ResourceBundle

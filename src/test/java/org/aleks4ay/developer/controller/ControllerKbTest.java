@@ -8,26 +8,25 @@ import static org.junit.Assert.*;
 
 public class ControllerKbTest {
 
-
     @Test
     public void shouldReturnEmptyString_whenLeftMoreThenDay() {
         //Left 2 days
         LocalDate dayEnd = LocalDate.now().plusDays(2);
-        String actual = ControllerKb.applyRowStyleTableView(dayEnd);
-        assertEquals("", actual);
+        String actual = ControllerKb.applyRowStyleTableView(dayEnd, true);
+        assertEquals("red0", actual);
     }
 
     @Test
     public void shouldReturnRed1_whenLeftOneDay() {
         LocalDate dayEnd = LocalDate.now().plusDays(1);
-        String actual = ControllerKb.applyRowStyleTableView(dayEnd);
+        String actual = ControllerKb.applyRowStyleTableView(dayEnd, true);
         assertEquals("red1", actual);
     }
 
     @Test
     public void shouldReturnRed2_whenTheSameDay() {
         LocalDate dayEnd = LocalDate.now();
-        String actual = ControllerKb.applyRowStyleTableView(dayEnd);
+        String actual = ControllerKb.applyRowStyleTableView(dayEnd, true);
         assertEquals("red2", actual);
     }
 
@@ -36,8 +35,8 @@ public class ControllerKbTest {
         LocalDate dayEnd = LocalDate.now().minusDays(1);
         LocalDate dayEnd2 = LocalDate.now().minusDays(3);
 
-        String actual = ControllerKb.applyRowStyleTableView(dayEnd);
-        String actual2 = ControllerKb.applyRowStyleTableView(dayEnd2);
+        String actual = ControllerKb.applyRowStyleTableView(dayEnd, true);
+        String actual2 = ControllerKb.applyRowStyleTableView(dayEnd2, true);
 
         assertEquals("red3", actual);
         assertEquals("red3", actual2);
@@ -46,7 +45,7 @@ public class ControllerKbTest {
     @Test
     public void shouldReturnRed4_whenOverdueMoreThenThreeDays() {
         LocalDate dayEnd = LocalDate.now().minusDays(4);
-        String actual = ControllerKb.applyRowStyleTableView(dayEnd);
+        String actual = ControllerKb.applyRowStyleTableView(dayEnd, true);
         assertEquals("red4", actual);
     }
 }

@@ -1,19 +1,10 @@
-/*.list-cell{
-    -fx-padding: 0;
-    -fx-spacing: 0;
-}
-
-.list-cell:hover{
-    -fx-background-color: blanchedalmond;
-}
-.table-row-cell:selected, .table-row-cell:selected:focused{
-    -fx-font-weight: bold;
-}*/
-.cell-tv1, .cell-tv2 {
+.cell-tv1 {
     -fx-text-fill: black;
+    -fx-font-size: 12;
 }
-.cell-tv1:selected {
-    -fx-text-fill: blue;
+.cell-tv2 {
+    -fx-text-fill: black;
+    -fx-font-size: 12;
 }
 
 
@@ -33,44 +24,29 @@
 
 .red0
 {
-    -fx-background-color: white;
-    /*-fx-background-color: rgba(255, 0, 0, 0.02);*/
-    -fx-text-fill: rgba(71, 186, 85, 0.97);
+    -fx-background-color: rgba(240, 240, 240, 0.1);
+}
+.red0_2
+{
+    -fx-background-color: rgba(240, 240, 240, 0.5);
 }
 .red1
 {
     -fx-background-color: rgba(255, 0, 0, 0.2);
-    -fx-text-fill: rgba(71, 186, 85, 0.97);
 }
 .red2
 {
     -fx-background-color: rgba(255, 0, 0, 0.3);
-    -fx-text-fill: rgba(71, 186, 85, 0.97);
 }
 .red3
 {
     -fx-background-color: rgba(255, 0, 0, 0.6);
-    -fx-text-fill: rgba(71, 186, 85, 0.97);
 }
 .red4
 {
     -fx-background-color: rgba(155, 0, 0, 0.8);
-    -fx-text-fill: rgba(71, 186, 85, 0.97);
 }
 
-/*.table-row-cell:filled {
-    -fx-background-color: #efe939;
+.table-row-cell:selected .table-cell{
+    -fx-border-color: blue;
 }
-
-.table-row-cell:filled {
-    -fx-background-color: #38ee00;
-}*/
-
-/*.table-row-cell:filled .table-cell {
-    -fx-text-fill: red;
-}*/
-
-.table-row-cell:focused .table-cell, .table-row-cell:selected:focused .table-cell, .table-row-cell.textField{
-    -fx-text-fill: green;
-}
-

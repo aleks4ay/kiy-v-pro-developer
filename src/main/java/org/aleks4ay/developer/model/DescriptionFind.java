@@ -42,7 +42,7 @@ public class DescriptionFind extends Description{
                 .map(DescriptionTime::getTime)
                 .findFirst();
         return time.isPresent()
-                ? time.get().format(Constants.tableCellTimeFormatter)
+                ? time.get().format(Constants.tableCellTimeShortFormatter)
                 : "-";
     }
 

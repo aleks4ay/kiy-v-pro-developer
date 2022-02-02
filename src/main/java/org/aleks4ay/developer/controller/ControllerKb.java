@@ -6,10 +6,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
+import javafx.util.Callback;
 import org.aleks4ay.developer.dao.ConnectionPool;
 import org.aleks4ay.developer.dao.OrderDao;
 import org.aleks4ay.developer.model.*;
@@ -25,12 +25,13 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class ControllerKb implements Initializable {
+    private static boolean rowOdd;
     private static final long positionOnPage = 30;
     private final LongProperty isNewOrderTime = PropertyListener.getOrderTimeProperty();
 
     private final OrderService orderService = new OrderService(new OrderDao(ConnectionPool.getInstance()));
 
-    public static SortWay sortWayKb = SortWay.NUMBER;
+    public static SortWay sortWayKb = SortWay.DATE_KB;
     private int selectedRow = 0;
     private final Page page = new Page(positionOnPage);
 
@@ -51,7 +52,7 @@ public class ControllerKb implements Initializable {
     @FXML private Label info_manag;
     @FXML private Label info_position;
 
-//----------------T A B    P A R S I N G   1 ---------------------------------
+//----------------T A B    K B   1 ---------------------------------
     @FXML private TableView<Order> tableKbView1;
     @FXML private TableColumn<Order, String> num;
     @FXML private TableColumn<Order, String> client;
@@ -59,10 +60,10 @@ public class ControllerKb implements Initializable {
     @FXML private TableColumn<Order, String> data_f;
     @FXML private TableColumn<Order, String> count_position;
 
-//----------------T A B    P A R S I N G   2 ---------------------------------
+//----------------T A B    K B   2 ---------------------------------
     @FXML private TableView<DescriptionKb> tableKbView2;
     @FXML private TableColumn<DescriptionKb, String> pos;
-    @FXML private TableColumn<DescriptionKb, Text> description;
+    @FXML private TableColumn<DescriptionKb, String> description;
     @FXML private TableColumn<DescriptionKb, String> size_a;
     @FXML private TableColumn<DescriptionKb, String> size_b;
     @FXML private TableColumn<DescriptionKb, String> size_c;
@@ -129,16 +130,12 @@ public class ControllerKb implements Initializable {
             @Override
             public void updateItem(Order item, boolean empty) {
                 super.updateItem(item, empty);
-                this.getStyleClass().remove("red1");
-                this.getStyleClass().remove("red2");
-                this.getStyleClass().remove("red3");
-                this.getStyleClass().remove("red4");
+                this.getStyleClass().removeIf(s -> s.contains("red"));
 
                 if (item!=null) {
-                    String style = applyRowStyleTableView(item.getEndDevelopingDay());
+                    String style = applyRowStyleTableView(item.getEndDevelopingDay(), true);
                     if (!style.isEmpty()) {
                         this.getStyleClass().add(style);
-//                        this.getTableView().getColumns().get(1).getStyleClass().add("cell-tv1"); //todo delete this
                     }
                 }
             }
@@ -162,7 +159,18 @@ public class ControllerKb implements Initializable {
         updateSelectedDescription();
 
         pos.setCellValueFactory(new PropertyValueFactory<>("position"));
-        description.setCellValueFactory(new PropertyValueFactory<>("descriptionText"));
+        description.setCellValueFactory(new PropertyValueFactory<>("descr"));
+        description.setCellFactory(param -> {
+            TableCell<DescriptionKb, String> cell = new TableCell<>();
+            Text text = new Text();
+            cell.setGraphic(text);
+            cell.setPrefHeight(Control.USE_COMPUTED_SIZE);
+            text.wrappingWidthProperty().bind(cell.widthProperty());
+            text.textProperty().bind(cell.itemProperty());
+            text.setStyle("-fx-text-fill: green;");
+            cell.setStyle("-fx-text-fill: green;");
+            return cell ;
+        });
         size_a.setCellValueFactory(new PropertyValueFactory<>("sizeA"));
         size_b.setCellValueFactory(new PropertyValueFactory<>("sizeB"));
         size_c.setCellValueFactory(new PropertyValueFactory<>("sizeC"));
@@ -178,48 +186,50 @@ public class ControllerKb implements Initializable {
 
         tableKbView2.setItems(listDescriptionKb);
 
-
         tableKbView2.setRowFactory(param -> new TableRow<DescriptionKb>() {
             @Override
             public void updateItem(DescriptionKb item, boolean empty) {
 
                 super.updateItem(item, empty);
-//                this.getStyleClass().remove("red1");
-//                this.getStyleClass().remove("red2");
-//                this.getStyleClass().remove("red3");
-//                this.getStyleClass().remove("red4");
-                this.getStyleClass().remove("red0");
-
+                this.getStyleClass().removeIf(s -> s.contains("red"));
                 if (item!=null) {
-                    String style = applyRowStyleTableView(item.getEndDay());
+                    String style = applyRowStyleTableView(item.getEndDay(), false);
                     if (!style.isEmpty()) {
-//                        this.getStyleClass().add(style);
-                        this.getStyleClass().add("red0");
+                        this.getStyleClass().add(style);
                     }
+                    item.getDescriptionText();
                 }
             }
         });
     }
 
-    static String applyRowStyleTableView(LocalDate dayEnd) {
+    static String applyRowStyleTableView(LocalDate dayEnd, boolean needRed) {
         if (dayEnd == null) {
             return "red0";
         }
-        LocalDate today = LocalDate.now();
 
-        if (today.plusDays(1).equals(dayEnd)) {
-            return  "red1";
+        if (needRed) {
+            LocalDate today = LocalDate.now();
+
+            if (today.plusDays(1).equals(dayEnd)) {
+                return "red1";
+            }
+            if (today.equals(dayEnd)) {
+                return "red2";
+            }
+            if (today.isAfter(dayEnd) && dayEnd.plusDays(4).isAfter(today)) {
+                return "red3";
+            }
+            if (dayEnd.plusDays(3).isBefore(today)) {
+                return "red4";
+            }
         }
-        if(today.equals(dayEnd)) {
-            return  "red2";
+        rowOdd = !rowOdd;
+        if (rowOdd) {
+            return "red0";
+        } else {
+            return "red0_2";
         }
-        if (today.isAfter(dayEnd) && dayEnd.plusDays(4).isAfter(today)) {
-            return  "red3";
-        }
-        if (dayEnd.plusDays(3).isBefore(today)) {
-            return "red4";
-        }
-        return "red0";
     }
 
     private void updateSelectedDescription() {

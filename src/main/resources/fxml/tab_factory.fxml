@@ -4,9 +4,6 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -20,11 +17,12 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.control.Tab?>
 
-<Tab xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-     fx:controller="org.aleks4ay.developer.controller.Controller"
-     closable="false" style="-fx-pref-height: 30px; -fx-font-size: 16px;" text="Распределение заказов">
+<?import javafx.scene.control.TabPane?>
+<!--<TabPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"> <tabs>-->
+<Tab xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" closable="false" style="-fx-pref-height: 30px; -fx-font-size: 16px;" text="Распределение заказов"
+     fx:controller="org.aleks4ay.developer.controller.Controller" >
     <content>
-       <VBox prefHeight="800.0" prefWidth="1280.0">
+       <VBox prefHeight="800.0" prefWidth="1450.0">
           <children>
               <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
                  <children>
@@ -32,13 +30,13 @@
                       <items>
                           <HBox>
                              <children>
-                          <TableView fx:id="tableParsingView1">
+                          <TableView fx:id="tableParsingView1" prefWidth="1020.0">
                             <columns>
-                              <TableColumn fx:id="parsing_num" editable="false" maxWidth="500.0" prefWidth="150.0" resizable="false" style="-fx-font-size: 13px; -fx-alignment: center;" text="Номер&#10;заказа" />
-                              <TableColumn fx:id="parsing_client" editable="false" maxWidth="1.7976931348623157E308" minWidth="480.0" prefWidth="-1.0" style="-fx-font-size: 13px;" text="Заказчик" />
-                              <TableColumn fx:id="parsing_manager" editable="false" maxWidth="-1.0" minWidth="160.0" prefWidth="-1.0" resizable="false" style="-fx-font-size: 13px; -fx-alignment: center;" text="Менеджер" />
-                              <TableColumn fx:id="parsing_data_f" editable="false" maxWidth="-1.0" minWidth="140.0" prefWidth="-1.0" resizable="false" style="-fx-font-size: 13px; -fx-alignment: center;" text="Поступил на&#10;распределение" />
-                              <TableColumn fx:id="parsing_count_position" editable="false" maxWidth="91.0" minWidth="90.0" prefWidth="91.0" resizable="false" style="-fx-font-size: 13px; -fx-alignment: center;" text="Количество&#10;позиций" />
+                              <TableColumn fx:id="parsing_num" styleClass="cell-tv1" editable="false" maxWidth="-1.0" minWidth="150.0" prefWidth="-1.0" resizable="false" style="-fx-font-size: 13px; -fx-alignment: center;" text="Номер&#10;заказа" />
+                              <TableColumn fx:id="parsing_client" styleClass="cell-tv1" editable="false" maxWidth="-1.0" minWidth="480.0" prefWidth="-1.0" style="-fx-font-size: 13px;" text="Заказчик" />
+                              <TableColumn fx:id="parsing_manager" styleClass="cell-tv1" editable="false" maxWidth="-1.0" minWidth="140.0" prefWidth="-1.0" resizable="false" style="-fx-font-size: 13px; -fx-alignment: center;" text="Менеджер" />
+                              <TableColumn fx:id="parsing_data_f" styleClass="cell-tv1" editable="false" maxWidth="-1.0" minWidth="140.0" prefWidth="-1.0" resizable="false" style="-fx-font-size: 13px; -fx-alignment: center;" text="Поступил на&#10;распределение" />
+                              <TableColumn fx:id="parsing_count_position" styleClass="cell-tv1" editable="false" maxWidth="91.0" minWidth="90.0" prefWidth="91.0" resizable="false" style="-fx-font-size: 13px; -fx-alignment: center;" text="Количество&#10;позиций" />
                             </columns>
                                    <cursor>
                                       <Cursor fx:constant="DEFAULT" />
@@ -120,22 +118,22 @@
                           </HBox>
                           <HBox>
                              <children>
-                          <TableView fx:id="tableParsingView2">
-                            <columns>
-                              <TableColumn fx:id="parsing_pos" editable="false" resizable="false" style="-fx-font-size: 14px; -fx-alignment: center;" text=" Номер&#10;позиции" />
-                              <TableColumn fx:id="parsing_description2" maxWidth="1.7976931348623157E308" minWidth="380.0" prefWidth="-1.0" style="-fx-font-size: 14px;" text="Описание " />
-                              <TableColumn fx:id="parsing_description_size" editable="false" maxWidth="-1.0" minWidth="190.0" prefWidth="-1.0" resizable="false" style="-fx-font-size: 14px; -fx-alignment: center;" text=" Габаритные размеры&#10;(длина/ширина/высота)" />
-                              <TableColumn fx:id="parsing_amount" editable="false" prefWidth="60.0" resizable="false" style="-fx-font-size: 14px; -fx-alignment: center;" text="Коли-&#10;чество" />
-                              <TableColumn fx:id="parsing_type" editable="false" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="10.0" resizable="false" style="-fx-font-size: 14px; -fx-alignment: center;" text="Тип позиции">
+                              <TableView fx:id="tableParsingView2">
                                 <columns>
-                                  <TableColumn fx:id="parsing_factory" editable="false" prefWidth="70.0" resizable="false" style="-fx-font-size: 14px; -fx-alignment: center;" text="Ц Е Х" />
-                                  <TableColumn fx:id="parsing_kb" editable="false" prefWidth="70.0" resizable="false" style="-fx-font-size: 14px; -fx-alignment: center;" text="К Б" />
-                                  <TableColumn fx:id="parsing_tehn" editable="false" prefWidth="100.0" resizable="false" style="-fx-font-size: 14px; -fx-alignment: center;" text="Технологич." />
-                                  <TableColumn fx:id="parsing_other" editable="false" prefWidth="70.0" resizable="false" style="-fx-font-size: 14px; -fx-alignment: center;" text="Прочее" />
+                                  <TableColumn fx:id="parsing_pos" styleClass="cell-tv2" editable="false" resizable="false" style="-fx-font-size: 14px; -fx-alignment: center;" text=" Номер&#10;позиции" />
+                                  <TableColumn fx:id="parsing_description2" styleClass="cell-tv2" maxWidth="1.7976931348623157E308" minWidth="380.0" prefWidth="-1.0" style="-fx-font-size: 14px;" text="Описание " />
+                                  <TableColumn fx:id="parsing_description_size" styleClass="cell-tv2" editable="false" maxWidth="-1.0" minWidth="190.0" prefWidth="-1.0" resizable="false" style="-fx-font-size: 14px; -fx-alignment: center;" text=" Габаритные размеры&#10;(длина/ширина/высота)" />
+                                  <TableColumn fx:id="parsing_amount" styleClass="cell-tv2" editable="false" prefWidth="60.0" resizable="false" style="-fx-font-size: 14px; -fx-alignment: center;" text="Коли-&#10;чество" />
+                                  <TableColumn fx:id="parsing_type" styleClass="cell-tv2" editable="false" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="10.0" resizable="false" style="-fx-font-size: 14px; -fx-alignment: center;" text="Тип позиции">
+                                    <columns>
+                                      <TableColumn fx:id="parsing_factory" styleClass="cell-tv2" editable="false" prefWidth="70.0" resizable="false" style="-fx-font-size: 14px; -fx-alignment: center;" text="Ц Е Х" />
+                                      <TableColumn fx:id="parsing_kb" styleClass="cell-tv2" editable="false" prefWidth="70.0" resizable="false" style="-fx-font-size: 14px; -fx-alignment: center;" text="К Б" />
+                                      <TableColumn fx:id="parsing_tehn" styleClass="cell-tv2" editable="false" prefWidth="100.0" resizable="false" style="-fx-font-size: 14px; -fx-alignment: center;" text="Технологич." />
+                                      <TableColumn fx:id="parsing_other" styleClass="cell-tv2" editable="false" prefWidth="70.0" resizable="false" style="-fx-font-size: 14px; -fx-alignment: center;" text="Прочее" />
+                                    </columns>
+                                  </TableColumn>
                                 </columns>
-                              </TableColumn>
-                            </columns>
-                          </TableView>
+                              </TableView>
                                 <VBox alignment="BOTTOM_LEFT" prefHeight="200.0" prefWidth="150.0">
                                    <children>
                                       <Button fx:id="parsing_save" mnemonicParsing="false" onAction="#applyParsing" prefHeight="45.0" text="ВЫПОЛНИТЬ">
@@ -189,3 +187,4 @@
     </VBox>
   </content>
 </Tab>
+<!--</tabs> </TabPane>-->

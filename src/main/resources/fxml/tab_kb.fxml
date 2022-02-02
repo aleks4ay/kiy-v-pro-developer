@@ -53,7 +53,7 @@
                                              <Label text="Сортировка:" textAlignment="CENTER" underline="true">
                                                  <font> <Font name="System Bold Italic" size="14.0" /> </font>
                                              </Label>
-                                             <RadioButton fx:id="radio_kb_1" mnemonicParsing="false" onAction="#sortingKb" selected="true" text="по № заказа" wrapText="true">
+                                             <RadioButton fx:id="radio_kb_1" mnemonicParsing="false" onAction="#sortingKb" text="по № заказа" wrapText="true">
                                                  <font> <Font size="14.0" /> </font>
                                                <toggleGroup>
                                                      <ToggleGroup fx:id="group_kb" />
@@ -62,7 +62,7 @@
                                                   <Insets bottom="3.0" right="35.0" />
                                                </VBox.margin>
                                              </RadioButton>
-                                             <RadioButton fx:id="radio_kb_2" mnemonicParsing="false" onAction="#sortingKb" text="по дате пост. в КБ" toggleGroup="$group_kb" wrapText="true">
+                                             <RadioButton fx:id="radio_kb_2" mnemonicParsing="false" onAction="#sortingKb" selected="true" text="по дате пост. в КБ" toggleGroup="$group_kb" wrapText="true">
                                                  <font> <Font size="14.0" /> </font>
                                                <VBox.margin>
                                                   <Insets bottom="3.0" />
@@ -248,7 +248,7 @@
                                     </contextMenu>
                                     <columns>
                                       <TableColumn fx:id="pos" styleClass="cell-tv2" editable="false" prefWidth="30.0" resizable="false" style="-fx-alignment: center;" text="№&#10;поз." />
-                                      <TableColumn fx:id="description" styleClass="cell-tv2" maxWidth="1.7976931348623157E308" minWidth="300.0" prefWidth="-1.0" style="-fx-alignment: center;" text="Описание " />
+                                      <TableColumn fx:id="description" styleClass="cell-tv2"  editable="true" prefWidth="300.0" resizable="true" style="-fx-alignment: center; -fx-wrap-text: true;" text="Описание " />
                                       <TableColumn editable="false" styleClass="cell-tv2" maxWidth="-1.0" minWidth="190.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Габаритные размеры, мм">
                                         <columns>
                                           <TableColumn fx:id="size_a" styleClass="cell-tv2" editable="false" prefWidth="55.0" resizable="false" style="-fx-alignment: center;" text="Длина" />
