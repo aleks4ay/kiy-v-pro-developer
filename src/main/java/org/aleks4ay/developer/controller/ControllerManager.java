@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.fxml.JavaFXBuilderFactory;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -20,20 +21,24 @@ import org.aleks4ay.developer.dao.OrderDao;
 import org.aleks4ay.developer.model.*;
 import org.aleks4ay.developer.service.DescriptionService;
 import org.aleks4ay.developer.service.OrderService;
+import org.aleks4ay.developer.tools.ConstantsSql;
 import org.aleks4ay.developer.tools.FileWriter;
 import org.aleks4ay.developer.tools.PropertyListener;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ControllerManager implements Initializable {
+    private int numberOfStatuses;
+    private Set<StatusName> orderToShow = new HashSet<>();
+    private Set<CheckBox> checkBoxes = new HashSet<>();
+    private Set<CheckBox> checkBoxesType = new HashSet<>();
     private static final long positionOnPage = 100;
     private final LongProperty isNewOrderTime = PropertyListener.getOrderTimeProperty();
 
-    private final DescriptionService descriptionService = new DescriptionService(new DescriptionDao(ConnectionPool.getInstance()));
+//    private final DescriptionService descriptionService = new DescriptionService(new DescriptionDao(ConnectionPool.getInstance()));
     private final OrderService orderService = new OrderService(new OrderDao(ConnectionPool.getInstance()));
 
     public static SortWay sortWay = SortWay.NUMBER;
@@ -116,6 +121,8 @@ public class ControllerManager implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        initCheckBoxes();
+        updateOrderStatusesToShow();
         initKbTabOne();
         initKbTabTwo();
 
@@ -135,12 +142,22 @@ public class ControllerManager implements Initializable {
         });
     }
 
+
+    private void initCheckBoxes() {
+        checkBoxes.addAll(Arrays.asList(check_new, check_kb, check_ceh, check_done, check_shipm, check_other));
+        numberOfStatuses = (int) checkBoxes.stream()
+                .filter(CheckBox::isSelected)
+                .count();
+        checkBoxesType.addAll(Arrays.asList(check_kiy_v, check_kiy_v_pro));
+    }
+
     private void updateAllView() {
         try {
             Thread.sleep(50);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        updateOrderStatusesToShow();
         initKbTabOne();
         timeUpdate.setText(FileWriter.readTimeChange());
     }
@@ -148,7 +165,10 @@ public class ControllerManager implements Initializable {
 
     private void initKbTabOne() {
         listOrderManager.clear();
-        listOrderManager.addAll(orderService.getOrdersWithDescriptionsManager(page, sortWay));
+        String numbersOrderLike = getNumbersOrderLike();
+        List<Order> orderList = orderService.getOrdersWithDescriptionsManager(page, sortWay, orderToShow, numbersOrderLike);
+
+        listOrderManager.addAll(orderList);
         if (listOrderManager.size() == 0 && page.getPosition() > 0) {
             applyPrevious();
             return;
@@ -169,6 +189,12 @@ public class ControllerManager implements Initializable {
         if (page.isFirst()) {
             parsing_previous.setDisable(true);
         }
+    }
+
+    private String getNumbersOrderLike() {
+        return check_kiy_v.isSelected() && check_kiy_v_pro.isSelected() ? ""
+                : check_kiy_v.isSelected() ? ConstantsSql.KI_ORDERS
+                : ConstantsSql.KP_ORDERS;
     }
 
     private void initKbTabTwo() {
@@ -194,6 +220,17 @@ public class ControllerManager implements Initializable {
         add_item.setCellValueFactory(new PropertyValueFactory<>("imageButton"));
 
         tableManagerView2.setItems(listDescriptionManager);
+    }
+
+    private void updateOrderStatusesToShow(){
+        orderToShow.clear();
+//        numberOfStatuses = 0;
+        for (CheckBox ch : checkBoxes) {
+            if (ch.isSelected()) {
+                orderToShow.addAll(StatusName.addStatusFromCheckBox(ch));
+//                numberOfStatuses++;
+            }
+        }
     }
 
     private void viewSelectedDescription() {
@@ -288,5 +325,24 @@ public class ControllerManager implements Initializable {
 
     public void menuDeveloper(ActionEvent event) {
 
+    }
+
+    @FXML
+    private void checkOrder(ActionEvent event) {
+        CheckBox checkBox = (CheckBox) event.getSource();
+        if (checkBox.getId().equalsIgnoreCase("check_all")) {
+            checkBoxes.forEach(h -> h.setSelected(checkBox.isSelected()));
+            numberOfStatuses = check_all.isSelected() ? 6 : 0;
+        }
+        else {
+            numberOfStatuses = checkBox.isSelected() ? numberOfStatuses + 1 : numberOfStatuses - 1;
+            check_all.setSelected(numberOfStatuses == 6);
+        }
+        updateAllView();
+    }
+
+    @FXML
+    private void checkOrderNumber() {
+        updateAllView();
     }
 }

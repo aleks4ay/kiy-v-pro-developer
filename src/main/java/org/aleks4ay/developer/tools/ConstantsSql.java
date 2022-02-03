@@ -4,12 +4,15 @@ public final class ConstantsSql {
 
     public static final String AND_YEAR_EQUAL = " and EXTRACT(year FROM j.t_create) = ";
     public static final String AND_DOCUMENT_NUMBER_LIKE = " and j.doc_number like '%";
+    public static final String AND_DOCUMENT_NUMBER_LIKE_START = " and j.doc_number like '";
     public static final String END_LIKE = "%';";
     public static final String SORT_ORDER_BY_NUMBER = " order by j.doc_number;";
     public static final String SORT_ORDER_BY_DATE_CREATE = " order by j.t_create;";
     public static final String SORT_ORDER_BY_DATE_FACTORY = " order by o.t_factory;";
     public static final String SORT_ORDER_BY_MANAGER = " order by manager;";
     public static final String SORT_ORDER_BY_CLIENT = " order by client;";
+    public static final String KI_ORDERS = "КІ-";
+    public static final String KP_ORDERS = "ПК-";
 
 
     public static final String TMC_GET_ALL = "SELECT * FROM tmc;";

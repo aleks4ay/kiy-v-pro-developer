@@ -3,10 +3,7 @@ package org.aleks4ay.developer.service;
 import org.aleks4ay.developer.dao.*;
 import org.aleks4ay.developer.model.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class OrderService extends AbstractService<Order> {
@@ -36,6 +33,12 @@ public class OrderService extends AbstractService<Order> {
                 .stream()
                 .collect(Collectors.toMap(Order::getId, o -> o));
     }
+
+/*    public Map<String, Order> findAllByStatusesLike(String statuses, String numbers) {
+        return ((OrderDao)getDao()).findAllByStatuses(statuses, numbers)
+                .stream()
+                .collect(Collectors.toMap(Order::getId, o -> o));
+    }*/
 
 
 
@@ -93,9 +96,10 @@ public class OrderService extends AbstractService<Order> {
         return new ArrayList<>(orderMap.values());
     }
 
-    public List<Order> getOrdersWithDescriptionsManager(Page page, SortWay sort) {
+    public List<Order> getOrdersWithDescriptionsManager(Page page, SortWay sort, Set<StatusName> orderToShow, String numbers) {
+        String statuses = getStatuses(orderToShow);
 
-        List<Order> orders = findAll();
+        List<Order> orders = ((OrderDao)getDao()).findAllByStatuses(statuses, numbers);
         Map<String, Order> orderMap = findAllAsMap(orders, page, sort);
 
         fillOrdersWithTimes(orderMap);
@@ -104,6 +108,16 @@ public class OrderService extends AbstractService<Order> {
         return orderMap.values().stream()
                 .sorted(Order.getComparator(sort))
                 .collect(Collectors.toList());
+    }
+
+    private String getStatuses(Set<StatusName> orderToShow) {
+        StringBuilder sb = new StringBuilder(" and status in ('");
+        String body = orderToShow.stream()
+                .map(Enum::toString)
+                .collect(Collectors.joining("', '"));
+
+//        orderToShow.forEach(statusName -> sb.append(" and status = '").append(statusName.toString()).append("' "));
+        return sb.append(body).append("') ").toString();
     }
 
     private void fillOrdersWithDescriptions(Map<String, Order> orderMap) {

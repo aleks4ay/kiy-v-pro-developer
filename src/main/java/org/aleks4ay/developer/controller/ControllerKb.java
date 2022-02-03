@@ -197,7 +197,6 @@ public class ControllerKb implements Initializable {
                     if (!style.isEmpty()) {
                         this.getStyleClass().add(style);
                     }
-                    item.getDescriptionText();
                 }
             }
         });

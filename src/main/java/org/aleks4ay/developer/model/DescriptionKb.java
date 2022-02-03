@@ -184,13 +184,6 @@ public class DescriptionKb {
     }
 
     public Text getDescriptionText() {
-        Font font = new Font("Verdana", 12);
-
-        FontMetrics metrics = new FontMetrics(0,0,0, 0, 0, 0, font);
-        metrics.computeStringWidth("fddfg dfg df gdfgdf ");
-        java.awt.Label label = new java.awt.Label(getDescr());
-        label.getWidth();
-
         Text result = new Text(descr);
         result.setWrappingWidth(290.0);
         return result;

@@ -38,4 +38,9 @@ public class OrderDao extends AbstractDao<Order> implements BaseDao<Order> {
         String sqlStart = yearText.equals("") ? ConstantsSql.ORDER_GET_ALL_LIKE : ConstantsSql.ORDER_GET_ALL_LIKE + ConstantsSql.AND_YEAR_EQUAL + yearText;
         return findAbstractAll(sqlStart + ConstantsSql.AND_DOCUMENT_NUMBER_LIKE + numberText + ConstantsSql.END_LIKE);
     }
+
+    public List<Order> findAllByStatuses(String statuses, String numberLike) {
+        String sql = numberLike.equals("") ? "" : ConstantsSql.AND_DOCUMENT_NUMBER_LIKE_START + numberLike + ConstantsSql.END_LIKE;
+        return findAbstractAll(ConstantsSql.ORDER_GET_ALL_LIKE + statuses + sql);
+    }
 }

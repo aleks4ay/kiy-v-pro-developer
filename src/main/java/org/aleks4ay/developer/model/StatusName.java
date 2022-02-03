@@ -1,5 +1,12 @@
 package org.aleks4ay.developer.model;
 
+import javafx.scene.control.CheckBox;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 public enum StatusName implements Comparable<StatusName>{
     NEW {
         @Override
@@ -102,5 +109,39 @@ public enum StatusName implements Comparable<StatusName>{
 
     public String toStringRusToCell() {
         return toStringRus().replaceFirst(" ", System.lineSeparator());
+    }
+
+    public static Set<StatusName> addStatusFromCheckBox(CheckBox checkBox) {
+        Set<StatusName> result = new HashSet<>();
+        switch (checkBox.getId()) {
+            case "check_all": {
+                result.addAll(Arrays.asList(values()));
+                break;
+            }
+            case "check_kb": {
+                result.addAll(Arrays.asList(KB_NEW, KB_START, KB_QUESTION, KB_CONTINUED));
+                break;
+            }
+            case "check_ceh": {
+                result.add(FACTORY);
+                break;
+            }
+            case "check_done": {
+                result.add(FACTORY_DONE);
+                break;
+            }
+            case "check_shipm": {
+                result.add(COMPLETE);
+                break;
+            }
+            case "check_other": {
+                result.addAll(Arrays.asList(NOT_TRACKED, CANCELED, UNKNOWN));
+                break;
+            }
+            default: {
+                result.add(NEW);
+            }
+        }
+        return result;
     }
 }

@@ -102,13 +102,13 @@
                                                    <children>
                                                       <VBox prefWidth="160.0">
                                                          <children>
-                                                            <CheckBox fx:id="check_new" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="22.0" prefWidth="150.0" selected="true" text="Новые"> <font> <Font size="14.0" /> </font> </CheckBox>
-                                                            <CheckBox fx:id="check_kb" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="22.0" selected="true" text="Заказы в КБ"> <font> <Font size="14.0" /> </font> </CheckBox>
-                                                            <CheckBox fx:id="check_ceh" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="22.0" selected="true" text="Заказы в цехе"> <font> <Font size="14.0" /> </font> </CheckBox>
-                                                            <CheckBox fx:id="check_done" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="22.0" selected="true" text="Готовые к отгрузке"> <font> <Font size="14.0" /> </font> </CheckBox>
-                                                            <CheckBox fx:id="check_shipm" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="22.0" text="Отгруженные"> <font> <Font size="14.0" /> </font> </CheckBox>
-                                                            <CheckBox fx:id="check_other" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="22.0" text="Прочие"> <font> <Font size="14.0" /> </font> </CheckBox>
-                                                            <CheckBox fx:id="check_all" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="22.0" text="Все заказы"> <font> <Font size="14.0" /> </font>
+                                                            <CheckBox fx:id="check_new" onAction="#checkOrder" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="22.0" prefWidth="150.0" selected="true" text="Новые"> <font> <Font size="14.0" /> </font> </CheckBox>
+                                                            <CheckBox fx:id="check_kb" onAction="#checkOrder" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="22.0" selected="true" text="Заказы в КБ"> <font> <Font size="14.0" /> </font> </CheckBox>
+                                                            <CheckBox fx:id="check_ceh" onAction="#checkOrder" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="22.0" selected="true" text="Заказы в цехе"> <font> <Font size="14.0" /> </font> </CheckBox>
+                                                            <CheckBox fx:id="check_done" onAction="#checkOrder" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="22.0" selected="true" text="Готовые к отгрузке"> <font> <Font size="14.0" /> </font> </CheckBox>
+                                                            <CheckBox fx:id="check_shipm" onAction="#checkOrder" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="22.0" text="Отгруженные"> <font> <Font size="14.0" /> </font> </CheckBox>
+                                                            <CheckBox fx:id="check_other" onAction="#checkOrder" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="22.0" text="Прочие"> <font> <Font size="14.0" /> </font> </CheckBox>
+                                                            <CheckBox fx:id="check_all" onAction="#checkOrder" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="22.0" text="Все заказы"> <font> <Font size="14.0" /> </font>
                                                                <padding>
                                                                   <Insets bottom="5.0" />
                                                                </padding> </CheckBox>
@@ -119,10 +119,10 @@
                                                             <Label maxWidth="1.7976931348623157E308" text="Номера заказов:" textFill="#8232be">
                                                                <font> <Font name="System Italic" size="18.0" /> </font>
                                                             </Label>
-                                                            <CheckBox fx:id="check_kiy_v" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" selected="true" text="KI-000ХХХХ" textFill="#8232be">
+                                                            <CheckBox fx:id="check_kiy_v" onAction="#checkOrderNumber" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" selected="true" text="KI-000ХХХХ" textFill="#8232be">
                                                                <font> <Font name="System Italic" size="16.0" /> </font>
                                                             </CheckBox>
-                                                            <CheckBox fx:id="check_kiy_v_pro" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="50.0" selected="true" text="КП-000ХХХХ&#10;и другие" textFill="#8232be" wrapText="true">
+                                                            <CheckBox fx:id="check_kiy_v_pro" onAction="#checkOrderNumber" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="50.0" selected="true" text="КП-000ХХХХ&#10;и другие" textFill="#8232be" wrapText="true">
                                                                <font> <Font name="System Italic" size="16.0" /> </font>
                                                             </CheckBox>
                                                          </children>
