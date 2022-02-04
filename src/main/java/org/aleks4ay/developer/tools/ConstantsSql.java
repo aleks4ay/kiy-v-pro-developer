@@ -2,13 +2,19 @@ package org.aleks4ay.developer.tools;
 
 public final class ConstantsSql {
 
+    public static final String PARAMETER = "<PARAMETER>";
+    public static final String AND_MANAGER_EQUAL = " and o.manager = '<PARAMETER>' ";
+    public static final String AND_DEVELOPER_EQUAL = " and d.designer_name = '<PARAMETER>' ";
+
     public static final String AND_YEAR_EQUAL = " and EXTRACT(year FROM j.t_create) = ";
     public static final String AND_DOCUMENT_NUMBER_LIKE = " and j.doc_number like '%";
     public static final String AND_DOCUMENT_NUMBER_LIKE_START = " and j.doc_number like '";
     public static final String END_LIKE = "%';";
+
     public static final String SORT_ORDER_BY_NUMBER = " order by j.doc_number;";
     public static final String SORT_ORDER_BY_DATE_CREATE = " order by j.t_create;";
     public static final String SORT_ORDER_BY_DATE_FACTORY = " order by o.t_factory;";
+    //    public static final String SORT_ORDER_BY_DATE_SHIPMENT = " order by o.t_factory;";
     public static final String SORT_ORDER_BY_MANAGER = " order by manager;";
     public static final String SORT_ORDER_BY_CLIENT = " order by client;";
     public static final String KI_ORDERS = "КІ-";
@@ -17,20 +23,48 @@ public final class ConstantsSql {
 
     public static final String TMC_GET_ALL = "SELECT * FROM tmc;";
 
-    public static final String ORDER_GET_ALL_LIKE = "select o.id, j.doc_number, j.t_create, o.t_factory, o.duration, " +
-            "c.name as client, w.name as manager, o.status" +
-            " from orders o, journal j, client c, worker w WHERE o.id = j.id and o.id_client = c.id and o.id_manager = w.id ";
-    public static final String ORDER_GET_ALL_NEW = "select o.id, j.doc_number, j.t_create, o.t_factory, o.duration," +
+    public static final String ORDER_BASE = "select distinct o.id, j.doc_number, j.t_create, o.t_factory, o.duration, " +
+            " c.name as client, w.name as manager, o.status" +
+            " from orders o, journal j, client c, worker w, descriptions d" +
+            " WHERE o.id = j.id and o.id_client = c.id and o.id_manager = w.id and o.id = d.id_order ";
+
+    public static final String DESCRIPTION_START = "select r1.*, e.description as emb, dev.name as developer from" +
+            " (SELECT d.*, t.descr, t.descr_all FROM descriptions d, tmc t where d.id_tmc = t.id ";
+    public static final String BY_STATUS = " and d.status in (<PARAMETER>)";
+    public static final String DESCRIPTION_END = " order by d.id) as r1 left join embodiment e on r1.embodiment = e.id " +
+            " left join developer dev on dev.pseudo_name = r1.designer_name;";
+
+
+    public static final String BY_YEAR = " and EXTRACT(year FROM j.t_create) = <PARAMETER> ";
+    public static final String BY_STATUS_NEW = " and d.status = 'NEW' ";
+    public static final String BY_STATUS_KB = "  and d.status in ('KB_NEW','KB_START','KB_QUESTION','KB_CONTINUED') ";
+    public static final String BY_STATUS_START = " and d.status in (";
+    public static final String BY_STATUS_END = " ) ";
+    public static final String BY_NUMBER = " and (j.doc_number like '%<PARAMETER>' or j.doc_number like '%<PARAMETER>%' " +
+            " or j.doc_number like '<PARAMETER>%') ";
+
+
+
+    public static final String ORDER_GET_ALL_LIKE = "select distinct o.id, j.doc_number, j.t_create, o.t_factory, o.duration, " +
+            "c.name as client, w.name as manager, d.status" +
+            " from orders o, journal j, client c, worker w, descriptions d" +
+            " WHERE o.id = j.id and o.id_client = c.id and o.id_manager = w.id and o.id = d.id_order ";
+    public static final String ORDER_GET_ALL_NEW = "select distinct o.id, j.doc_number, j.t_create, o.t_factory, o.duration," +
             "    c.name as client, w.name as manager, o.status" +
-            "    from orders o, journal j, client c, worker w WHERE o.status = 'NEW'" +
-            "    and o.id = j.id and o.id_client = c.id and o.id_manager = w.id ";
-    public static final String ORDER_GET_ALL_KB = "select o.id, j.doc_number, j.t_create, o.t_factory, o.duration," +
-            "    c.name as client, w.name as manager, o.status from orders o, journal j, client c, worker w " +
-            "    WHERE o.status in ('KB_NEW','KB_START','KB_QUESTION','KB_CONTINUED')" +
-            "    and o.id = j.id and o.id_client = c.id and o.id_manager = w.id ";
-    public static final String ORDER_GET_ALL = "select o.id, j.doc_number, j.t_create, o.t_factory, o.duration," +
-            "    c.name as client, w.name as manager, o.status from orders o, journal j, client c, worker w WHERE " +
-            "    o.id = j.id and o.id_client = c.id and o.id_manager = w.id ";
+            "    from orders o, journal j, client c, worker w, descriptions d WHERE d.status = 'NEW'" +
+            "    and o.id = j.id and o.id_client = c.id and o.id_manager = w.id and o.id = d.id_order ";
+    public static final String ORDER_GET_ALL_KB = "select distinct o.id, j.doc_number, j.t_create, o.t_factory, o.duration," +
+            "   c.name as client, w.name as manager, d.status from orders o, journal j, client c, worker w, descriptions d" +
+            "   WHERE d.status in ('KB_NEW','KB_START','KB_QUESTION','KB_CONTINUED')" +
+            "   and o.id = j.id and o.id_client = c.id and o.id_manager = w.id and o.id = d.id_order ";
+
+//            "select o.id, j.doc_number, j.t_create, o.t_factory, o.duration," +
+//            "    c.name as client, w.name as manager, o.status from orders o, journal j, client c, worker w " +
+//            "    WHERE o.status in ('KB_NEW','KB_START','KB_QUESTION','KB_CONTINUED')" +
+//            "    and o.id = j.id and o.id_client = c.id and o.id_manager = w.id ";
+    public static final String ORDER_GET_ALL = "select distinct o.id, j.doc_number, j.t_create, o.t_factory, o.duration," +
+            "    c.name as client, w.name as manager, d.status from orders o, journal j, client c, worker w, descriptions d WHERE " +
+            "    o.id = j.id and o.id_client = c.id and o.id_manager = w.id and o.id = d.id_order ";
 
     public static final String ORDER_UPDATE_STATUS = "UPDATE orders SET status=? where id=?;";
 

@@ -10,8 +10,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
+import org.aleks4ay.developer.dao.ConnectionPool;
+import org.aleks4ay.developer.dao.OrderDao;
 import org.aleks4ay.developer.model.*;
+import org.aleks4ay.developer.service.OrderService;
 import org.aleks4ay.developer.service.ParsingEngine;
 import org.aleks4ay.developer.tools.Constants;
 import org.aleks4ay.developer.tools.FileWriter;
@@ -19,17 +23,19 @@ import org.aleks4ay.developer.tools.PropertyListener;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
-public class Controller implements Initializable {
+public class ControllerFactory implements Initializable {
     private static final long positionOnPage = 40;
 //    private static final File file1 = new File(Constants.FILE_CHANGES);
 //    private final LongProperty isNewOrderTime = new SimpleLongProperty(new File(Constants.FILE_CHANGES).lastModified());
     private LongProperty isNewOrderTime = PropertyListener.getOrderTimeProperty();
+    private final OrderService orderService = new OrderService(new OrderDao(ConnectionPool.getInstance()));
 
     private final ParsingEngine parsingEngine = new ParsingEngine();
 
-    private static String sortWay = "По номеру заказа";
+    public static SortWay sortWay = SortWay.NUMBER;
     private int selectedRow = 0;
     private final Page page = new Page(positionOnPage);
 
@@ -99,7 +105,7 @@ public class Controller implements Initializable {
 
     private void initParsingTabOne() {
         listOrderParsing.clear();
-        listOrderParsing.addAll(parsingEngine.getOrdersWithDescriptions(page, sortWay));
+        listOrderParsing.addAll(orderService.getOrdersWithDescriptionsParsing(page, sortWay));
 
         if (listOrderParsing.size() == 0 && page.getPosition() > 0) {
             applyPrevious();
@@ -147,12 +153,6 @@ public class Controller implements Initializable {
         }
     }
 
-    public void applyParsing() {
-        parsingEngine.setType (listDescriptionParsing);
-        selectedRow = tableParsingView1.getSelectionModel().getSelectedIndex();
-
-    }
-
     public void applyNext() {
         if (page.next()) {
             if (page.isLast()) {
@@ -178,7 +178,32 @@ public class Controller implements Initializable {
     }
 
     public void sortingParsing(ActionEvent actionEvent) {
-        sortWay = ((RadioButton) actionEvent.getSource()).getText();
+        String text = ((RadioButton) actionEvent.getSource()).getText();
+        sortWay = Arrays.stream(SortWay.values())
+                .filter(sortWay -> sortWay.toStringRus().equalsIgnoreCase(text))
+                .findFirst().orElse(SortWay.NUMBER);
         initParsingTabOne();
+    }
+
+    public void applyParsing() {
+        parsingEngine.setType (listDescriptionParsing);
+        selectedRow = tableParsingView1.getSelectionModel().getSelectedIndex();
+    }
+
+    public void applySecondParsing(ActionEvent event) {
+
+    }
+
+    public void applyEmptyParsing() {
+        listDescriptionParsing.forEach(d -> {
+            d.getButtonFactory().setSelected(false);
+            d.getButtonKB().setSelected(false);
+            d.getButtonOther().setSelected(false);
+            d.getButtonTeh().setSelected(false);
+        });
+    }
+
+    public void searchOrderByEnter(KeyEvent keyEvent) {
+
     }
 }

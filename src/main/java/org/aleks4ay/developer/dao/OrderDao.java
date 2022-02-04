@@ -17,24 +17,28 @@ public class OrderDao extends AbstractDao<Order> implements BaseDao<Order> {
         return findAbstractAll(ConstantsSql.ORDER_GET_ALL);
     }
 
+    public List<Order> findAll(String sql) {
+        return findAbstractAll(sql);
+    }
+
     @Override
     public String getEntityName() {
         return "Order";
     }
 
-    public boolean updateStatusName(String id, String statusName) {
-        return updateStringAbstract(ConstantsSql.ORDER_UPDATE_STATUS, id, statusName);
+    public void updateStatusName(String id, String statusName) {
+        updateStringAbstract(ConstantsSql.ORDER_UPDATE_STATUS, id, statusName);
     }
 
-    public List<Order> findAllKb(String sort) {
-        return findAbstractAll(ConstantsSql.ORDER_GET_ALL_KB/* + sort*/);
-    }
+//    public List<Order> findAllKb(String sort) {
+//        return findAbstractAll(ConstantsSql.ORDER_GET_ALL_KB/* + sort*/);
+//    }
 
-    public List<Order> findAllParsing() {
-        return findAbstractAll(ConstantsSql.ORDER_GET_ALL_NEW);
-    }
+/*    public List<Order> findAllParsing() {
+        return findAbstractAll(ConstantsSql.ORDER_BASE + ConstantsSql.BY_STATUS_NEW);
+    }*/
 
-    public List<Order> findAllLike(String yearText, String numberText) {
+/*    public List<Order> findAllLike(String yearText, String numberText) {
         String sqlStart = yearText.equals("") ? ConstantsSql.ORDER_GET_ALL_LIKE : ConstantsSql.ORDER_GET_ALL_LIKE + ConstantsSql.AND_YEAR_EQUAL + yearText;
         return findAbstractAll(sqlStart + ConstantsSql.AND_DOCUMENT_NUMBER_LIKE + numberText + ConstantsSql.END_LIKE);
     }
@@ -42,5 +46,5 @@ public class OrderDao extends AbstractDao<Order> implements BaseDao<Order> {
     public List<Order> findAllByStatuses(String statuses, String numberLike) {
         String sql = numberLike.equals("") ? "" : ConstantsSql.AND_DOCUMENT_NUMBER_LIKE_START + numberLike + ConstantsSql.END_LIKE;
         return findAbstractAll(ConstantsSql.ORDER_GET_ALL_LIKE + statuses + sql);
-    }
+    }*/
 }

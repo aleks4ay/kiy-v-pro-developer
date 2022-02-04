@@ -38,6 +38,10 @@ public enum SortWay implements Comparable<SortWay>{
         public String toStringRus() {
             return "По дате отгрузки (из 1С)";
         }
+//        @Override
+//        public String getSql() {
+//            return ConstantsSql.SORT_ORDER_BY_DATE_SHIPMENT;
+//        }
     },
     DATE_SHIPMENT_REAL {
         @Override
@@ -69,6 +73,20 @@ public enum SortWay implements Comparable<SortWay>{
         @Override
         public String toStringRus() {
             return "по дате пост. в КБ";
+        }
+        @Override
+        public String getSql() {
+            return ConstantsSql.SORT_ORDER_BY_DATE_FACTORY;
+        }
+    },
+    DATE_PARSING {
+        @Override
+        public String toStringRus() {
+            return "по дате поступления";
+        }
+        @Override
+        public String getSql() {
+            return ConstantsSql.SORT_ORDER_BY_DATE_FACTORY;
         }
     };
 

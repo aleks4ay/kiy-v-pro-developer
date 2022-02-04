@@ -12,8 +12,8 @@ import org.aleks4ay.developer.tools.ConstantsSql;
 import java.util.*;
 
 public class CopyOldWork {
-    private final DaoForCopyOldValues<DescriptionTime> daoForCopyOldDescription = new DaoForCopyOldValues<>(ConnectionPool.getInstance());
-    private final DaoForCopyOldValues<OrderTime> daoForCopyOldOrder = new DaoForCopyOldValues<>(ConnectionPool.getInstance());
+    private final DaoForCopyOldValues<DescriptionTime> daoForCopyOldDescription = new DaoForCopyOldValues<DescriptionTime>(ConnectionPool.getInstance());
+    private final DaoForCopyOldValues<OrderTime> daoForCopyOldOrder = new DaoForCopyOldValues<OrderTime>(ConnectionPool.getInstance());
     private final DaoOldDB daoOldDB = new DaoOldDB(ConnectionPoolOldData.getInstance());
 
 

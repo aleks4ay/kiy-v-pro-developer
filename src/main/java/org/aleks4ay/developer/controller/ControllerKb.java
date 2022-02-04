@@ -26,13 +26,13 @@ import java.util.ResourceBundle;
 
 public class ControllerKb implements Initializable {
     private static boolean rowOdd;
-    private static final long positionOnPage = 30;
     private final LongProperty isNewOrderTime = PropertyListener.getOrderTimeProperty();
 
     private final OrderService orderService = new OrderService(new OrderDao(ConnectionPool.getInstance()));
 
     public static SortWay sortWayKb = SortWay.DATE_KB;
     private int selectedRow = 0;
+    private static final long positionOnPage = 30;
     private final Page page = new Page(positionOnPage);
 
     private final ObservableList<Order> listOrderKb = FXCollections.observableArrayList();
@@ -167,8 +167,6 @@ public class ControllerKb implements Initializable {
             cell.setPrefHeight(Control.USE_COMPUTED_SIZE);
             text.wrappingWidthProperty().bind(cell.widthProperty());
             text.textProperty().bind(cell.itemProperty());
-            text.setStyle("-fx-text-fill: green;");
-            cell.setStyle("-fx-text-fill: green;");
             return cell ;
         });
         size_a.setCellValueFactory(new PropertyValueFactory<>("sizeA"));

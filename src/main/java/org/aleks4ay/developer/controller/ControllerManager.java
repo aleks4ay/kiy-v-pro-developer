@@ -5,27 +5,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.fxml.JavaFXBuilderFactory;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import org.aleks4ay.developer.dao.ConnectionPool;
-import org.aleks4ay.developer.dao.DescriptionDao;
 import org.aleks4ay.developer.dao.OrderDao;
 import org.aleks4ay.developer.model.*;
-import org.aleks4ay.developer.service.DescriptionService;
 import org.aleks4ay.developer.service.OrderService;
 import org.aleks4ay.developer.tools.ConstantsSql;
 import org.aleks4ay.developer.tools.FileWriter;
 import org.aleks4ay.developer.tools.PropertyListener;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -38,7 +29,6 @@ public class ControllerManager implements Initializable {
     private static final long positionOnPage = 100;
     private final LongProperty isNewOrderTime = PropertyListener.getOrderTimeProperty();
 
-//    private final DescriptionService descriptionService = new DescriptionService(new DescriptionDao(ConnectionPool.getInstance()));
     private final OrderService orderService = new OrderService(new OrderDao(ConnectionPool.getInstance()));
 
     public static SortWay sortWay = SortWay.NUMBER;

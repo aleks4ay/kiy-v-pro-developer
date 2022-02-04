@@ -22,6 +22,10 @@ public class DescriptionDao extends AbstractDao<Description> implements BaseDao<
         return findAbstractAll(ConstantsSql.DESCRIPTION_GET_ALL);
     }
 
+    public List<Description> findAll(String sql) {
+        return findAbstractAll(sql);
+    }
+
     public List<Description> findAllNew() {
         return findAbstractAll(ConstantsSql.DESCRIPTION_GET_ALL_NEW);
     }
@@ -47,8 +51,8 @@ public class DescriptionDao extends AbstractDao<Description> implements BaseDao<
         return updateStringAbstract(ConstantsSql.DESCRIPTION_UPDATE_TYPE, id, typeName);
     }
 
-    public boolean updateDesignerName(String id, String designer) {
-        return updateStringAbstract(ConstantsSql.DESCRIPTION_UPDATE_DESIGNER, id, designer);
+    public void updateDesignerName(String id, String designer) {
+        updateStringAbstract(ConstantsSql.DESCRIPTION_UPDATE_DESIGNER, id, designer);
     }
 
     public Map<String, String> getDesignerPseudoNames() {

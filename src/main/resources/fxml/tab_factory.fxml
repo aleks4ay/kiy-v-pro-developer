@@ -18,9 +18,10 @@
 <?import javafx.scene.control.Tab?>
 
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
 <!--<TabPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"> <tabs>-->
 <Tab xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" closable="false" style="-fx-pref-height: 30px; -fx-font-size: 16px;" text="Распределение заказов"
-     fx:controller="org.aleks4ay.developer.controller.Controller" >
+     fx:controller="org.aleks4ay.developer.controller.ControllerFactory" >
     <content>
        <VBox prefHeight="800.0" prefWidth="1450.0">
           <children>
@@ -43,7 +44,7 @@
                                    </cursor>
                           </TableView>
 
-                                <VBox alignment="BOTTOM_LEFT" prefHeight="200.0" prefWidth="150.0">
+                                <VBox alignment="BOTTOM_LEFT" prefHeight="200.0" prefWidth="200.0">
                                    <children>
 
                                        <VBox alignment="TOP_CENTER" style="-fx-border-style: solid; -fx-border-color: grey; -fx-border-width: 1px; -fx-border-radius: 15px;">
@@ -52,20 +53,28 @@
                                                    <font> <Font name="System Bold Italic" size="14.0" /> </font>
                                                </Label>
                                                <RadioButton fx:id="radio_kb_1" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#sortingParsing" selected="true" text="по № заказа" wrapText="true">
+                                                   <VBox.margin>
+                                                       <Insets left="5.0" bottom="3.0"/>
+                                                   </VBox.margin>
                                                    <font> <Font size="14.0" /> </font>
                                                    <toggleGroup>
                                                        <ToggleGroup fx:id="group_kb" />
                                                    </toggleGroup>
-                                                   <VBox.margin>
-                                                       <Insets bottom="3.0" />
-                                                   </VBox.margin>
                                                </RadioButton>
                                                <RadioButton fx:id="radio_kb_2" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#sortingParsing" text="по дате поступления" toggleGroup="$group_kb" wrapText="true">
-                                                   <font> <Font size="14.0" /> </font>
                                                    <VBox.margin>
-                                                       <Insets bottom="3.0" />
+                                                       <Insets bottom="20.0" left="5.0"/>
                                                    </VBox.margin>
+                                                   <font> <Font size="14.0" /> </font>
                                                </RadioButton>
+                                               <Label alignment="CENTER" maxHeight="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" text="Поиск по номеру заказа:" textFill="#5bb980">
+                                                   <font> <Font name="System Bold Italic" size="14.0" /> </font>
+                                               </Label>
+                                               <TextField fx:id="find_number" onKeyPressed="#searchOrderByEnter">
+                                                   <VBox.margin>
+                                                       <Insets left="6.0" right="6.0" bottom="10.0"/>
+                                                   </VBox.margin>
+                                               </TextField>
                                            </children>
                                            <VBox.margin>
                                                <Insets bottom="5.0" />
@@ -134,9 +143,31 @@
                                   </TableColumn>
                                 </columns>
                               </TableView>
-                                <VBox alignment="BOTTOM_LEFT" prefHeight="200.0" prefWidth="150.0">
+                                <VBox alignment="BOTTOM_LEFT" prefHeight="200.0" prefWidth="200.0">
                                    <children>
-                                      <Button fx:id="parsing_save" mnemonicParsing="false" onAction="#applyParsing" prefHeight="45.0" text="ВЫПОЛНИТЬ">
+                                      <Button fx:id="parsing_find" mnemonicParsing="false" onAction="#applySecondParsing" prefHeight="45.0" text="ПЕРЕРАСПРЕДЕЛИТЬ">
+                                         <font>
+                                            <Font name="System Bold" size="14.0" />
+                                         </font>
+                                         <cursor>
+                                            <Cursor fx:constant="HAND" />
+                                         </cursor>
+                                         <VBox.margin>
+                                            <Insets />
+                                         </VBox.margin>
+                                      </Button>
+                                      <Button fx:id="parsing_empty" mnemonicParsing="false" onAction="#applyEmptyParsing" prefHeight="55.0" prefWidth="130.0" text="ОЧИСТИТЬ&#10;ТИП ПОЗИЦИЙ">
+                                         <font>
+                                            <Font name="System" size="13.0" />
+                                         </font>
+                                         <cursor>
+                                            <Cursor fx:constant="HAND" />
+                                         </cursor>
+                                         <VBox.margin>
+                                            <Insets />
+                                         </VBox.margin>
+                                      </Button>
+                                      <Button fx:id="parsing_save" mnemonicParsing="false" onAction="#applyParsing" prefHeight="90.0" prefWidth="130.0" text="ВЫПОЛНИТЬ">
                                          <font>
                                             <Font name="System Bold" size="14.0" />
                                          </font>

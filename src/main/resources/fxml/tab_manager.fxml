@@ -122,7 +122,7 @@
                                                             <CheckBox fx:id="check_kiy_v" onAction="#checkOrderNumber" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" selected="true" text="KI-000ХХХХ" textFill="#8232be">
                                                                <font> <Font name="System Italic" size="16.0" /> </font>
                                                             </CheckBox>
-                                                            <CheckBox fx:id="check_kiy_v_pro" onAction="#checkOrderNumber" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="50.0" selected="true" text="КП-000ХХХХ&#10;и другие" textFill="#8232be" wrapText="true">
+                                                            <CheckBox fx:id="check_kiy_v_pro" onAction="#checkOrderNumber" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="50.0" selected="true" text="ПК-000ХХХХ&#10;и другие" textFill="#8232be" wrapText="true">
                                                                <font> <Font name="System Italic" size="16.0" /> </font>
                                                             </CheckBox>
                                                          </children>

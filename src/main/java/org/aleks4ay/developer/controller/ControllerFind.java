@@ -13,6 +13,8 @@ import org.aleks4ay.developer.dao.ConnectionPool;
 import org.aleks4ay.developer.dao.OrderDao;
 import org.aleks4ay.developer.model.DescriptionFind;
 import org.aleks4ay.developer.model.Order;
+import org.aleks4ay.developer.model.Page;
+import org.aleks4ay.developer.model.SortWay;
 import org.aleks4ay.developer.service.OrderService;
 
 import java.net.URL;
@@ -24,6 +26,9 @@ public class ControllerFind implements Initializable {
     private final ObservableList<Order> listOrderFind = FXCollections.observableArrayList();
     private final ObservableList<DescriptionFind> listDescriptionFind = FXCollections.observableArrayList();
     private boolean isSearching = false;
+
+    private static final long positionOnPage = 1000;
+    private final Page page = new Page(positionOnPage);
 
     @FXML private TextField find_year;
     @FXML private TextField find_number;
@@ -71,7 +76,7 @@ public class ControllerFind implements Initializable {
 
     public void initFindTabOne() {
         listOrderFind.clear();
-        listOrderFind.addAll(orderService.getOrdersWithDescriptionsFind(find_year.getText(), find_number.getText()));
+        listOrderFind.addAll(orderService.getOrdersWithDescriptionsFind(page, SortWay.NUMBER, find_year.getText(), find_number.getText()));
 
         if (isSearching && listOrderFind.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

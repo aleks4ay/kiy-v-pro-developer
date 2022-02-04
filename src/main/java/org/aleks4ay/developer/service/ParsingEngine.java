@@ -2,12 +2,11 @@ package org.aleks4ay.developer.service;
 
 import org.aleks4ay.developer.dao.*;
 import org.aleks4ay.developer.model.*;
-import org.aleks4ay.developer.tools.ConstantsSql;
 import org.aleks4ay.developer.tools.FileWriter;
 
 import java.time.LocalDateTime;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ParsingEngine {
 
@@ -18,47 +17,12 @@ public class ParsingEngine {
     DescriptionTimeService descriptionTimeService = new DescriptionTimeService(new DescriptionTimeDao(connectionPool));
 
 
-    public List<Order> getOrdersWithDescriptions(Page page, String sort) {
-        Comparator<Order> comparing;// = Order.;
-
-        if (sort.equalsIgnoreCase(SortWay.NUMBER.toStringRus())) {
-            comparing = Comparator.comparing(Order::getDocNumber);
-        } else {
-            comparing = Comparator.comparing(Order::getDateToFactory);
-        }
-
-        Map<String, Order> orderMap = findAllAsMap(page);
-        for (Description d : descriptionService.findAllNew()) {
-            String key = d.getIdOrder();
-            if (orderMap.containsKey(key)) {
-                orderMap.get(key).getDescriptions().add(d);
-            }
-        }
-        return orderMap.values().stream()
-                .filter(order -> order.getDescriptions().size() > 0)
-                .sorted(comparing)
-                .collect(Collectors.toList());
-    }
-
-
-    public Map<String, Order> findAllAsMap(Page page) {
-        List<Order> orders = orderService.findAllParsing();
-        page.setSize(orders.size());
-        if (page.getPosition() > page.getMaxPosition()) {
-            return Collections.emptyMap();
-        }
-        return orders.stream()
-                .skip(page.getPosition() * page.getPositionOnPage())
-                .limit(page.getPositionOnPage())
-                .collect(Collectors.toMap(Order::getId, order -> order));
-    }
-
     public void setType (List<DescriptionParsing> listParsing) {
         List<DescriptionTime> times = new ArrayList<>();
         int newType = 0;
-        TypeName typeName = null;
-        for (DescriptionParsing descr : listParsing) {
 
+        for (DescriptionParsing descr : listParsing) {
+            TypeName typeName = null;
             if (descr.getButtonKB().isSelected()) {
                 typeName = TypeName.KB;
                 descr.setStatus(StatusName.KB_NEW.toString());
@@ -91,7 +55,7 @@ public class ParsingEngine {
             orderService.updateStatus(orderId, minOrderTime.getStatusName());
             orderTimeService.create(minOrderTime);
         }
-        if (newType == listParsing.size()) {
+        if (newType > 0) {
             FileWriter.writeTimeChange("par");
         }
     }

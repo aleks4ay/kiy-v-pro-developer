@@ -24,6 +24,9 @@ insert into developer (pseudo_name, name) VALUES
 ('Drogovoz', 'Дроговоз'),
 ('aleksChay', 'Сергієнко О. І.'),
 ('WIN-S73248V9KQV', 'Дячок Д. М.'),
+('KB1', 'Гармай'),
+('KB2', 'Губарев'),
+('KEV', 'Дячок Д. М.'),
 ('KEV-PC', 'Дячок Д. М.');
 
 CREATE TABLE embodiment
