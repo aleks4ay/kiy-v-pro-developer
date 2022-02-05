@@ -12,11 +12,11 @@ public class DescriptionTimeService extends AbstractService<DescriptionTime> {
         super(descriptionDao);
     }
 
-    public List<DescriptionTime> findAllByOrderId(String orderId) {
-        return ((DescriptionTimeDao)getDao()).findAllByIdOrder(orderId);
-    }
-
     public boolean create(DescriptionTime time) {
         return ((DescriptionTimeDao)getDao()).create(time);
+    }
+
+    public List<DescriptionTime> findAll() {
+        return ((DescriptionTimeDao)getDao()).findAll();
     }
 }

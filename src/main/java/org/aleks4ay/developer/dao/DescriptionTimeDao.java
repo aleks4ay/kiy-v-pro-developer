@@ -17,13 +17,8 @@ public class DescriptionTimeDao extends AbstractDao<DescriptionTime> implements 
     }
 
 
-    @Override
     public List<DescriptionTime> findAll() {
         return findAbstractAll(ConstantsSql.DESCRIPTION_TIME_FIND_ALL);
-    }
-
-    public List<DescriptionTime> findAllByIdOrder(String id) {
-        return findAbstractAllById(ConstantsSql.DESCRIPTION_TIME_FIND_ALL_BY_ORDER_ID, id + "-%");
     }
 
     @Override

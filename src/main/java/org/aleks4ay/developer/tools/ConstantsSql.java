@@ -3,13 +3,14 @@ package org.aleks4ay.developer.tools;
 public final class ConstantsSql {
 
     public static final String PARAMETER = "<PARAMETER>";
-    public static final String AND_MANAGER_EQUAL = " and o.manager = '<PARAMETER>' ";
-    public static final String AND_DEVELOPER_EQUAL = " and d.designer_name = '<PARAMETER>' ";
-
-    public static final String AND_YEAR_EQUAL = " and EXTRACT(year FROM j.t_create) = ";
-    public static final String AND_DOCUMENT_NUMBER_LIKE = " and j.doc_number like '%";
-    public static final String AND_DOCUMENT_NUMBER_LIKE_START = " and j.doc_number like '";
-    public static final String END_LIKE = "%';";
+    public static final String BY_YEAR = " and EXTRACT(year FROM j.t_create) = <PARAMETER> ";
+    public static final String BY_STATUS = " and d.status in (<PARAMETER>)";
+    public static final String BY_STATUS_NEW = " and d.status = 'NEW' ";
+    public static final String BY_STATUS_KB = "  and d.status in ('KB_NEW','KB_START','KB_QUESTION','KB_CONTINUED') ";
+    public static final String BY_NUMBER = " and (j.doc_number like '%<PARAMETER>' or j.doc_number like '%<PARAMETER>%' " +
+            " or j.doc_number like '<PARAMETER>%') ";
+    public static final String BY_MANAGER = " and o.manager = '<PARAMETER>' ";
+    public static final String BY_DEVELOPER = " and d.designer_name = '<PARAMETER>' ";
 
     public static final String SORT_ORDER_BY_NUMBER = " order by j.doc_number;";
     public static final String SORT_ORDER_BY_DATE_CREATE = " order by j.t_create;";
@@ -30,89 +31,27 @@ public final class ConstantsSql {
 
     public static final String DESCRIPTION_START = "select r1.*, e.description as emb, dev.name as developer from" +
             " (SELECT d.*, t.descr, t.descr_all FROM descriptions d, tmc t where d.id_tmc = t.id ";
-    public static final String BY_STATUS = " and d.status in (<PARAMETER>)";
     public static final String DESCRIPTION_END = " order by d.id) as r1 left join embodiment e on r1.embodiment = e.id " +
             " left join developer dev on dev.pseudo_name = r1.designer_name;";
 
 
-    public static final String BY_YEAR = " and EXTRACT(year FROM j.t_create) = <PARAMETER> ";
-    public static final String BY_STATUS_NEW = " and d.status = 'NEW' ";
-    public static final String BY_STATUS_KB = "  and d.status in ('KB_NEW','KB_START','KB_QUESTION','KB_CONTINUED') ";
-    public static final String BY_STATUS_START = " and d.status in (";
-    public static final String BY_STATUS_END = " ) ";
-    public static final String BY_NUMBER = " and (j.doc_number like '%<PARAMETER>' or j.doc_number like '%<PARAMETER>%' " +
-            " or j.doc_number like '<PARAMETER>%') ";
-
-
-
-    public static final String ORDER_GET_ALL_LIKE = "select distinct o.id, j.doc_number, j.t_create, o.t_factory, o.duration, " +
-            "c.name as client, w.name as manager, d.status" +
-            " from orders o, journal j, client c, worker w, descriptions d" +
-            " WHERE o.id = j.id and o.id_client = c.id and o.id_manager = w.id and o.id = d.id_order ";
-    public static final String ORDER_GET_ALL_NEW = "select distinct o.id, j.doc_number, j.t_create, o.t_factory, o.duration," +
-            "    c.name as client, w.name as manager, o.status" +
-            "    from orders o, journal j, client c, worker w, descriptions d WHERE d.status = 'NEW'" +
-            "    and o.id = j.id and o.id_client = c.id and o.id_manager = w.id and o.id = d.id_order ";
-    public static final String ORDER_GET_ALL_KB = "select distinct o.id, j.doc_number, j.t_create, o.t_factory, o.duration," +
-            "   c.name as client, w.name as manager, d.status from orders o, journal j, client c, worker w, descriptions d" +
-            "   WHERE d.status in ('KB_NEW','KB_START','KB_QUESTION','KB_CONTINUED')" +
-            "   and o.id = j.id and o.id_client = c.id and o.id_manager = w.id and o.id = d.id_order ";
-
-//            "select o.id, j.doc_number, j.t_create, o.t_factory, o.duration," +
-//            "    c.name as client, w.name as manager, o.status from orders o, journal j, client c, worker w " +
-//            "    WHERE o.status in ('KB_NEW','KB_START','KB_QUESTION','KB_CONTINUED')" +
-//            "    and o.id = j.id and o.id_client = c.id and o.id_manager = w.id ";
-    public static final String ORDER_GET_ALL = "select distinct o.id, j.doc_number, j.t_create, o.t_factory, o.duration," +
-            "    c.name as client, w.name as manager, d.status from orders o, journal j, client c, worker w, descriptions d WHERE " +
-            "    o.id = j.id and o.id_client = c.id and o.id_manager = w.id and o.id = d.id_order ";
-
     public static final String ORDER_UPDATE_STATUS = "UPDATE orders SET status=? where id=?;";
 
-    public static final String DESCRIPTION_GET_BY_ORDER_ID = "SELECT d.*, e.description as emb FROM descriptions d " +
-            "LEFT JOIN embodiment e on d.embodiment = e.id and id_order = ?;";
-    public static final String DESCRIPTION_GET_ALL = "select d1.*, t.descr, t.descr_all from" +
-            " (SELECT d.*, e.description as emb FROM descriptions d LEFT JOIN embodiment e on d.embodiment = e.id) as d1" +
-            " inner join tmc t on d1.id_tmc = t.id  order by d1.id;";
-    public static final String DESCRIPTION_GET_ALL_NEW = "select d1.*, t.descr, t.descr_all from" +
-            " (SELECT d.*, e.description as emb FROM descriptions d LEFT JOIN embodiment e on d.embodiment = e.id" +
-            " where d.status = 'NEW') as d1" +
-            " inner join tmc t on d1.id_tmc = t.id  order by d1.id;";
-    public static final String DESCRIPTION_GET_ALL_KB = "select d1.*, t.descr, t.descr_all from" +
-            " (SELECT d.*, e.description as emb FROM descriptions d LEFT JOIN embodiment e on d.embodiment = e.id" +
-            " where d.status in ('KB_NEW','KB_START','KB_QUESTION','KB_CONTINUED') ) as d1" +
-            " inner join tmc t on d1.id_tmc = t.id order by d1.id;";
     public static final String DESCRIPTION_UPDATE_STATUS = "update descriptions set status = ? where id = ?;";
     public static final String DESCRIPTION_UPDATE_TYPE = "update descriptions set type = ? where id = ?;";
     public static final String DESCRIPTION_UPDATE_DESIGNER = "update descriptions set designer_name = ? where id = ?;";
     public static final String CREATE_IMAGE = "insert into descr_image (id_description, image, name) VALUES (?, ?, ?);";
     public static final String FIND_IMAGE = "select * from descr_image where id_description = ?;";
     public static final String DESCRIPTION_GET_ALL_ID_WITH_IMAGE = "select id_description from descr_image;";
-    public static final String EMPTY_TABLES =   "delete from description_time where true; " +
-                                                "delete from descr_image where true; " +
-                                                "delete from descriptions where true;" +
-                                                "delete from order_time where true;" +
-                                                "delete from orders where true;" +
-                                                "delete from journal where true;" +
-                                                "ALTER SEQUENCE times_id_seq RESTART WITH 1;";
-    public static final String DESCRIPTION_IMAGE_TABLE_CREATE = "drop table if exists descr_image;" +
-            "CREATE TABLE descr_image (   id bigint PRIMARY KEY DEFAULT nextval('times_id_seq')," +
-            "                             id_description VARCHAR(13) NOT NULL," +
-            "                             name VARCHAR(255) NOT NULL," +
-            "                             image bytea," +
-            "                             time TIMESTAMP default now()," +
-            "                             FOREIGN KEY (id_description) REFERENCES descriptions (id) ON DELETE CASCADE);";
+
 
     public static final String ORDER_TIME_CREATE = "insert into order_time (id_order, status, time) VALUES (?, ?, ?);";
     public static final String ORDER_TIME_FIND_ALL = "SELECT * FROM order_time;";
-    public static final String ORDER_TIME_FIND_BY_ORDER_ID = "SELECT * FROM order_time WHERE id_order = ?;";
 
     public static final String DESCRIPTION_TIME_CREATE = "insert into description_time (id_description, status, time) VALUES (?, ?, ?);";
-
     public static final String DESCRIPTION_TIME_FIND_ALL = "SELECT * FROM description_time;";
-    public static final String DESCRIPTION_TIME_FIND_ALL_BY_ORDER_ID = "SELECT * FROM description_time WHERE id_description LIKE ?;";
 
     public static final String PSEUDO_NAME_FIND_ALL = "SELECT * FROM developer;";
-
     public static final String PSEUDO_NAME_CREATE = "insert into developer (pseudo_name, name) VALUES (?, ?)";
 
     //to copy work from old DB

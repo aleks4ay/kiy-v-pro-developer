@@ -22,7 +22,6 @@ public class PseudoNameDao extends AbstractDao<PseudoName> implements BaseDao<Ps
         return updateAbstract(ConstantsSql.PSEUDO_NAME_CREATE, new PseudoName(pseudoName, name));
     }
 
-    @Override
     public List<PseudoName> findAll() {
         return findAbstractAll(ConstantsSql.PSEUDO_NAME_FIND_ALL);
     }

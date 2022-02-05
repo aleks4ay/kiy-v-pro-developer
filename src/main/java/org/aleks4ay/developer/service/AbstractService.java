@@ -17,7 +17,7 @@ public abstract class AbstractService<T extends BaseEntity<T>> {
         return dao;
     }
 
-    public List<T> findAll() {
-        return dao.findAll();
-    }
+//    public List<T> findAll() {
+//        return dao.findAll();
+//    }
 }

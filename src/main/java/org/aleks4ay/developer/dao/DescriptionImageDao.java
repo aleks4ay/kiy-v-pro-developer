@@ -75,28 +75,4 @@ public class DescriptionImageDao {
         }
         return entities;
     }
-
-    public void updateImageDescriptionDDL() {
-        Connection connection = connectionBase.getConnection();
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(ConstantsSql.DESCRIPTION_IMAGE_TABLE_CREATE);
-            log.info("Was create table 'descr_image' with Image.");
-        } catch (SQLException e) {
-            log.warn("Exception during creating table 'descr_image' with Image.", e);
-        } finally {
-            connectionBase.closeConnection(connection);
-        }
-    }
-
-    public void emptyMainTables() {
-        Connection connection = connectionBase.getConnection();
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(ConstantsSql.EMPTY_TABLES);
-            log.info("Was empty 6 main tables.");
-        } catch (SQLException e) {
-            log.warn("Exception during empty 6 main tables.", e);
-        } finally {
-            connectionBase.closeConnection(connection);
-        }
-    }
 }

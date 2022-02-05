@@ -64,54 +64,6 @@ public class DescriptionService extends AbstractService<Description> {
         ((DescriptionDao)getDao()).updateDesignerName(id, designerName);
     }
 
-    @Override
-    public List<Description> findAll() {
-        return findAllBase("ALL");
-    }
-
-    public List<Description> findAllNew() {
-        return findAllBase("NEW");
-    }
-
-    public List<Description> findAllKb() {
-        return findAllBase("KB");
-    }
-
-    public List<Description> findAllBase(String type) {
-        DescriptionDao dao = ((DescriptionDao) getDao());
-        List<Description> descriptions;
-        descriptions = type.equalsIgnoreCase("NEW")
-                ? dao.findAllNew()
-                : type.equalsIgnoreCase("ALL")
-                    ? dao.findAll()
-                    : dao.findAllKb();
-
-        Map<String, Description> descriptionMap = descriptions
-                .stream()
-                .collect(Collectors.toMap(Description::getId, d -> d));
-
-        DescriptionTimeService timeService = new DescriptionTimeService(new DescriptionTimeDao(ConnectionPool.getInstance()));
-
-        for (DescriptionTime time : timeService.findAll()) {
-            Description description = descriptionMap.get(time.getIdDescription());
-            if (description != null) {
-                description.getTimes().add(time);
-            }
-        }
-
-        List<String> descriptionIdWithImages = descriptionImageDao.getDescriptionIdWithImages();
-        for (String idWithImage : descriptionIdWithImages) {
-            if (descriptionMap.containsKey(idWithImage)) {
-                descriptionMap.get(idWithImage).setExistImages(true);
-            }
-        }
-
-        return descriptionMap.values()
-                .stream()
-                .sorted(Comparator.comparing(Description::getPosition))
-                .collect(Collectors.toList());
-    }
-
     public Map<String, String> getDesignerPseudoNames() {
         return ((DescriptionDao)getDao()).getDesignerPseudoNames();
     }
@@ -128,13 +80,5 @@ public class DescriptionService extends AbstractService<Description> {
 
     public List<DescriptionImage> findImagesByDescriptionId(String id) {
         return descriptionImageDao.findImagesByDescriptionId(id);
-    }
-
-    public void updateImageDescriptionDDL() {
-        descriptionImageDao.updateImageDescriptionDDL();
-    }
-
-    public void emptyMainTables() {
-        descriptionImageDao.emptyMainTables();
     }
 }

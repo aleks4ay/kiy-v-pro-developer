@@ -214,11 +214,9 @@ public class ControllerManager implements Initializable {
 
     private void updateOrderStatusesToShow(){
         orderToShow.clear();
-//        numberOfStatuses = 0;
         for (CheckBox ch : checkBoxes) {
             if (ch.isSelected()) {
                 orderToShow.addAll(StatusName.addStatusFromCheckBox(ch));
-//                numberOfStatuses++;
             }
         }
     }
@@ -264,32 +262,6 @@ public class ControllerManager implements Initializable {
             initKbTabOne();
         }
     }
-
-    public void sorting(ActionEvent actionEvent) {
-        sortWay = SortWay.valueOf(((RadioButton) actionEvent.getSource()).getText());
-        initKbTabOne();
-    }
-
-    private String getNumberOfDescriptionAsString() {
-        int sumDescription = listOrderManager.stream()
-                .mapToInt(Order::getNumberOfPosition)
-                .sum();
-        return String.valueOf(sumDescription);
-    }
-
-    private String getNumberOfWorkedOrderAsString() {
-        int result = 0;
-        for (Order o : listOrderManager) {
-            for (Description d : o.getDescriptions()) {
-                if (d.getDesigner() != null) {
-                    result++;
-                    break;
-                }
-            }
-        }
-        return String.valueOf(result);
-    }
-
 
     public void addImage() {
         if (tableManagerView2.getSelectionModel().getSelectedItem() != null) {

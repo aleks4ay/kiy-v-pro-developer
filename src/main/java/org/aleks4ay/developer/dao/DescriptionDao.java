@@ -17,30 +17,14 @@ public class DescriptionDao extends AbstractDao<Description> implements BaseDao<
         super(new DescriptionMapper(), connectionPool);
     }
 
-    @Override
-    public List<Description> findAll() {
-        return findAbstractAll(ConstantsSql.DESCRIPTION_GET_ALL);
-    }
 
     public List<Description> findAll(String sql) {
         return findAbstractAll(sql);
     }
 
-    public List<Description> findAllNew() {
-        return findAbstractAll(ConstantsSql.DESCRIPTION_GET_ALL_NEW);
-    }
-
-    public List<Description> findAllKb() {
-        return findAbstractAll(ConstantsSql.DESCRIPTION_GET_ALL_KB);
-    }
-
     @Override
     public String getEntityName() {
         return "Description";
-    }
-
-    public List<Description> findByOrderId(String orderId) {
-        return findAbstractAllById(ConstantsSql.DESCRIPTION_GET_BY_ORDER_ID, orderId);
     }
 
     public boolean updateStatusName(String id, String statusName) {

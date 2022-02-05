@@ -12,7 +12,6 @@ public class TmcDao extends AbstractDao<Tmc> implements BaseDao<Tmc> {
         super(new TmcMapper(), connectionBase);
     }
 
-    @Override
     public List<Tmc> findAll() {
         return findAbstractAll(ConstantsSql.TMC_GET_ALL);
     }
