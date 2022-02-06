@@ -49,6 +49,7 @@ public final class ConstantsSql {
     public static final String ORDER_TIME_FIND_ALL = "SELECT * FROM order_time;";
 
     public static final String DESCRIPTION_TIME_CREATE = "insert into description_time (id_description, status, time) VALUES (?, ?, ?);";
+    public static final String DESCRIPTION_TIME_DELETE = "delete from description_time where id_description = ? and status != 'NEW';";
     public static final String DESCRIPTION_TIME_FIND_ALL = "SELECT * FROM description_time;";
 
     public static final String PSEUDO_NAME_FIND_ALL = "SELECT * FROM developer;";

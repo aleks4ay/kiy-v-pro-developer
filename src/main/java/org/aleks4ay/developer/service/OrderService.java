@@ -33,6 +33,12 @@ public class OrderService extends AbstractService<Order> {
         return findAll(page, sqlOrder, sortWay, sqlDescription);
     }
 
+    public List<Order> getOrdersWithDescriptionsParsingSearch(Page page, SortWay sortWay, String number) {
+        String sqlOrder = ORDER_BASE + BY_NUMBER.replace(PARAMETER, number);
+        String sqlDescription = DESCRIPTION_START + DESCRIPTION_END;
+        return findAll(page, sqlOrder, sortWay, sqlDescription);
+    }
+
     public List<Order> getOrdersWithDescriptionsManager(Page page, SortWay sortWay, Set<StatusName> orderToShow, String numbers) {
         String statuses = getStatuses(orderToShow);
         String sqlOrder = ORDER_BASE + BY_STATUS.replace(PARAMETER, statuses) + BY_NUMBER.replace(PARAMETER, numbers);

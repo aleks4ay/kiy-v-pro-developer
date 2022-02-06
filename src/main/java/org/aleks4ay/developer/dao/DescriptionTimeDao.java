@@ -16,6 +16,10 @@ public class DescriptionTimeDao extends AbstractDao<DescriptionTime> implements 
         return updateAbstract(ConstantsSql.DESCRIPTION_TIME_CREATE, time);
     }
 
+    public boolean delete(String id) {
+        return deleteAbstractById(ConstantsSql.DESCRIPTION_TIME_DELETE, id);
+    }
+
 
     public List<DescriptionTime> findAll() {
         return findAbstractAll(ConstantsSql.DESCRIPTION_TIME_FIND_ALL);

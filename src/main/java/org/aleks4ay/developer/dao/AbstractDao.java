@@ -50,21 +50,18 @@ abstract class AbstractDao<T extends BaseEntity<T>> {
         }
     }
 
-    List<T> findAbstractAllById(String sql, String id) {
+    boolean deleteAbstractById(String sql, String id) {
         Connection connection = getConnection();
         try (PreparedStatement prepStatement = connection.prepareStatement(sql)){
             List<T> entities = new ArrayList<>();
             prepStatement.setString(1, id);
-            ResultSet rs = prepStatement.executeQuery();
-            while (rs.next()) {
-                T t = objectMapper.extractFromResultSet(rs);
-                entities.add(t);
-            }
-            return entities;
+            prepStatement.executeUpdate();
+            log.debug("Was doing Sql: '{}' for id'{}'.", sql, id);
+            return true;
 
         } catch (SQLException e) {
             log.warn("Exception during reading '{}'. Sql: '{}'.", getEntityName(), sql, e);
-            return Collections.emptyList();
+            return false;
         } finally {
             closeConnection(connection);
         }

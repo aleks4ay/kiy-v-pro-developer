@@ -12,10 +12,6 @@ public class DescriptionMapper implements ObjectMapper<Description> {
     @Override
     public Description extractFromResultSet(ResultSet rs) throws SQLException {
 
-/*        String designerName = rs.getString("designer") != null
-                ? rs.getString("designer")
-                : rs.getString("designer_name");
-        System.out.println("designerName = " + designerName);*/
         return new Description(
                 rs.getString("id"),
                 rs.getString("id_order"),
@@ -30,7 +26,7 @@ public class DescriptionMapper implements ObjectMapper<Description> {
                 rs.getString("emb"),
                 TypeName.valueOf(rs.getString("type")),
                 StatusName.valueOf(rs.getString("status")),
-                rs.getString("designer_name"));
+                rs.getString("developer"));
     }
 
     @Override

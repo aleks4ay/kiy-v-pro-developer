@@ -145,7 +145,18 @@
                               </TableView>
                                 <VBox alignment="BOTTOM_LEFT" prefHeight="200.0" prefWidth="200.0">
                                    <children>
-                                      <Button fx:id="parsing_find" mnemonicParsing="false" onAction="#applySecondParsing" prefHeight="45.0" text="ПЕРЕРАСПРЕДЕЛИТЬ">
+                                      <Button fx:id="parsing_cancel" mnemonicParsing="false" visible="false" onAction="#applyCancelParsing" prefHeight="55.0" text="ВЕРНУТЬСЯ К&#10;РАСПРЕДЕЛЕНИЮ">
+                                         <font>
+                                            <Font name="System" size="14.0" />
+                                         </font>
+                                         <cursor>
+                                            <Cursor fx:constant="HAND" />
+                                         </cursor>
+                                         <VBox.margin>
+                                            <Insets />
+                                         </VBox.margin>
+                                      </Button>
+                                      <Button fx:id="parsing_find" mnemonicParsing="false" visible="false" onAction="#applySecondParsing" prefHeight="45.0" text="ПЕРЕРАСПРЕДЕЛИТЬ">
                                          <font>
                                             <Font name="System Bold" size="14.0" />
                                          </font>

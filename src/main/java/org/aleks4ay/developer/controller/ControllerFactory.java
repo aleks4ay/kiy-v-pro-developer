@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import org.aleks4ay.developer.dao.ConnectionPool;
@@ -28,8 +29,6 @@ import java.util.ResourceBundle;
 
 public class ControllerFactory implements Initializable {
     private static final long positionOnPage = 40;
-//    private static final File file1 = new File(Constants.FILE_CHANGES);
-//    private final LongProperty isNewOrderTime = new SimpleLongProperty(new File(Constants.FILE_CHANGES).lastModified());
     private LongProperty isNewOrderTime = PropertyListener.getOrderTimeProperty();
     private final OrderService orderService = new OrderService(new OrderDao(ConnectionPool.getInstance()));
 
@@ -38,17 +37,22 @@ public class ControllerFactory implements Initializable {
     public static SortWay sortWay = SortWay.NUMBER;
     private int selectedRow = 0;
     private final Page page = new Page(positionOnPage);
+    private boolean isSearching = false;
 
     private final ObservableList<Order> listOrderParsing = FXCollections.observableArrayList();
     private final ObservableList<DescriptionParsing> listDescriptionParsing = FXCollections.observableArrayList();
 
 //---------------------- B U T T O N
+    @FXML private Button parsing_find;
+    @FXML private Button parsing_cancel;
+//    @FXML private Button parsing_empty;
     @FXML private Button parsing_save;
     @FXML private Button parsing_next;
     @FXML private Button parsing_previous;
 
     @FXML private Text timeUpdate;
     @FXML private Label info_parsing;
+    @FXML private TextField find_number;
 
 //----------------T A B    P A R S I N G   1 ---------------------------------
     @FXML private TableView<Order> tableParsingView1;
@@ -74,8 +78,8 @@ public class ControllerFactory implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        initParsingTabOne();
-        initParsingTabTwo();
+        initTabOne();
+        initTabTwo();
 
         isNewOrderTime.addListener((observable, oldValue, newValue) -> {
             try {
@@ -99,13 +103,31 @@ public class ControllerFactory implements Initializable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        initParsingTabOne();
+        initTabOne();
         timeUpdate.setText(FileWriter.readTimeChange());
     }
 
-    private void initParsingTabOne() {
+    private void initTabOne() {
         listOrderParsing.clear();
-        listOrderParsing.addAll(orderService.getOrdersWithDescriptionsParsing(page, sortWay));
+
+        if (isSearching) {
+            selectedRow = 0;
+            listOrderParsing.addAll(orderService.getOrdersWithDescriptionsParsingSearch(page, SortWay.NUMBER, find_number.getText()));
+            if (listOrderParsing.isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("INFO");
+                alert.setHeaderText("Заказа с таким номером нет в базе...");
+                alert.showAndWait();
+                isSearching = false;
+                return;
+            }
+        }
+        else {
+            listOrderParsing.addAll(orderService.getOrdersWithDescriptionsParsing(page, sortWay));
+        }
+
+
+//        listOrderParsing.addAll(orderService.getOrdersWithDescriptionsParsing(page, sortWay));
 
         if (listOrderParsing.size() == 0 && page.getPosition() > 0) {
             applyPrevious();
@@ -129,7 +151,7 @@ public class ControllerFactory implements Initializable {
         }
     }
 
-    private void initParsingTabTwo() {
+    private void initTabTwo() {
         updateSelectedDescription();
 
         parsing_pos.setCellValueFactory(new PropertyValueFactory<>("position"));
@@ -161,7 +183,7 @@ public class ControllerFactory implements Initializable {
             if (!page.isFirst()) {
                 parsing_previous.setDisable(false);
             }
-            initParsingTabOne();
+            initTabOne();
         }
     }
 
@@ -173,7 +195,7 @@ public class ControllerFactory implements Initializable {
             if (!page.isLast()) {
                 parsing_next.setDisable(false);
             }
-            initParsingTabOne();
+            initTabOne();
         }
     }
 
@@ -182,15 +204,35 @@ public class ControllerFactory implements Initializable {
         sortWay = Arrays.stream(SortWay.values())
                 .filter(sortWay -> sortWay.toStringRus().equalsIgnoreCase(text))
                 .findFirst().orElse(SortWay.NUMBER);
-        initParsingTabOne();
+        initTabOne();
     }
 
     public void applyParsing() {
-        parsingEngine.setType (listDescriptionParsing);
+        parsingEngine.setType (listDescriptionParsing, false);
         selectedRow = tableParsingView1.getSelectionModel().getSelectedIndex();
     }
 
-    public void applySecondParsing(ActionEvent event) {
+    public void applySecondParsing() {
+        int numberOfNewParsing = parsingEngine.setType (listDescriptionParsing, true);
+        if (numberOfNewParsing == 0) {
+            return;
+        }
+        isSearching = false;
+        parsing_next.setDisable(false);
+        parsing_save.setVisible(true);
+        parsing_find.setVisible(false);
+        parsing_cancel.setVisible(false);
+        find_number.setText("");
+    }
+
+    public void applyCancelParsing() {
+        parsing_next.setDisable(false);
+        parsing_save.setVisible(true);
+        parsing_find.setVisible(false);
+        parsing_cancel.setVisible(false);
+        isSearching = false;
+        find_number.setText("");
+        updateAllView();
 
     }
 
@@ -204,6 +246,28 @@ public class ControllerFactory implements Initializable {
     }
 
     public void searchOrderByEnter(KeyEvent keyEvent) {
+        KeyCode keyCode = keyEvent.getCode();
+        if (keyCode.getName().equalsIgnoreCase("Enter")) {
+            page.setPosition(0);
+            showFoundedOrder();
+        }
+    }
 
+    public void showFoundedOrder() {
+        isSearching = true;
+        if (find_number.getText() == null || find_number.getText().equals("")) {
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("INFO");
+            alert.setHeaderText("Номер заказа должен содержать минимум один символ.");
+            alert.showAndWait();
+            isSearching = false;
+            return;
+        }
+        parsing_save.setVisible(false);
+        parsing_find.setVisible(true);
+        parsing_cancel.setVisible(true);
+        initTabOne();
+        initTabTwo();
     }
 }

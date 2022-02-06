@@ -16,6 +16,10 @@ public class DescriptionTimeService extends AbstractService<DescriptionTime> {
         return ((DescriptionTimeDao)getDao()).create(time);
     }
 
+    public boolean delete(String id) {
+        return ((DescriptionTimeDao)getDao()).delete(id);
+    }
+
     public List<DescriptionTime> findAll() {
         return ((DescriptionTimeDao)getDao()).findAll();
     }

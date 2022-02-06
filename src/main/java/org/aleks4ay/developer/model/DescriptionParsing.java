@@ -47,13 +47,22 @@ public class DescriptionParsing{
         if (type.equalsIgnoreCase(TypeName.TECHNO.toString())) {
             buttonTeh.setSelected(true);
         }
+        if (type.equalsIgnoreCase(TypeName.KB.toString())) {
+            buttonKB.setSelected(true);
+        }
+        if (type.equalsIgnoreCase(TypeName.FACTORY.toString())) {
+            buttonFactory.setSelected(true);
+        }
+        if (type.equalsIgnoreCase(TypeName.OTHER.toString())) {
+            buttonOther.setSelected(true);
+        }
     }
 
     public static List<DescriptionParsing> makeFromOrderDescription(Order order) {
         Map<String, String> technoIdAllMap = TmcServiceTechno.getTechnoIdAll();
         List<DescriptionParsing> result = new ArrayList<>();
         for (Description d : order.getDescriptions()) {
-            if (technoIdAllMap.containsKey(d.getIdTmc())) {
+            if (d.getTypeName() == TypeName.NEW && technoIdAllMap.containsKey(d.getIdTmc())) {
                 d.setTypeName(TypeName.TECHNO);
             }
 
