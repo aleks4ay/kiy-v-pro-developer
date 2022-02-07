@@ -55,6 +55,7 @@ public class ControllerKb implements Initializable {
     @FXML private TableView<Order> tableKbView1;
     @FXML private TableColumn<Order, String> num;
     @FXML private TableColumn<Order, String> client;
+    @FXML private TableColumn<Order, String> developer;
     @FXML private TableColumn<Order, String> manager;
     @FXML private TableColumn<Order, String> data_f;
     @FXML private TableColumn<Order, String> count_position;
@@ -119,6 +120,7 @@ public class ControllerKb implements Initializable {
         }
         num.setCellValueFactory(new PropertyValueFactory<>("docNumber"));
         client.setCellValueFactory(new PropertyValueFactory<>("client"));
+        developer.setCellValueFactory(new PropertyValueFactory<>("developer"));
         manager.setCellValueFactory(new PropertyValueFactory<>("manager"));
         data_f.setCellValueFactory(new PropertyValueFactory<>("dateToFactoryString"));
         count_position.setCellValueFactory(new PropertyValueFactory<>("numberOfPosition"));

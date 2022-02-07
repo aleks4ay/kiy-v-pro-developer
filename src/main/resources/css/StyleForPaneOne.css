@@ -47,6 +47,11 @@
     -fx-background-color: rgba(155, 0, 0, 0.8);
 }
 
+.table-row-cell .table-cell{
+    -fx-border-color: white;
+    -fx-border-width: 0.2;
+}
 .table-row-cell:selected .table-cell{
     -fx-border-color: blue;
+    -fx-border-width: 1;
 }

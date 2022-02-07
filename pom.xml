@@ -102,7 +102,7 @@
                     <archive>
                         <manifest>
 <!--                            <mainClass>org.aleks4ay.developer.run.ExecuteSql</mainClass>-->
-                            <mainClass>org.aleks4ay.developer.controller.App</mainClass>
+                            <mainClass>org.aleks4ay.developer.controller.AppSql</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

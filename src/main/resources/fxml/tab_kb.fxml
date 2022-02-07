@@ -36,7 +36,8 @@
                                 <TableView fx:id="tableKbView1" prefWidth="936.0">
                                   <columns>
                                     <TableColumn fx:id="num" editable="false" styleClass="cell-tv1" maxWidth="500.0" prefWidth="100.0" resizable="false" style="-fx-alignment: center;" text="Номер заказа" />
-                                    <TableColumn fx:id="client" editable="false" styleClass="cell-tv1" maxWidth="1.7976931348623157E308" minWidth="480.0" prefWidth="-1.0" text="Заказчик" />
+                                    <TableColumn fx:id="client" editable="false" styleClass="cell-tv1" maxWidth="1.7976931348623157E308" minWidth="340.0" prefWidth="-1.0" text="Заказчик" />
+                                    <TableColumn fx:id="developer" editable="false" styleClass="cell-tv1" maxWidth="-1.0" minWidth="140.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Конструктор" />
                                     <TableColumn fx:id="manager" editable="false" styleClass="cell-tv1" maxWidth="-1.0" minWidth="140.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Менеджер" />
                                     <TableColumn fx:id="data_f" editable="false" styleClass="cell-tv1" maxWidth="-1.0" minWidth="120.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Когда был отдан&#10;в производство" />
                                     <TableColumn fx:id="count_position" editable="false" styleClass="cell-tv1" maxWidth="-1.0" minWidth="80.0" prefWidth="-1.0" resizable="false" style="-fx-alignment: center;" text="Количество&#10;позиций" />

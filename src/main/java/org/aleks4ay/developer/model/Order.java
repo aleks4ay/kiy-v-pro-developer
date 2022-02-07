@@ -6,9 +6,8 @@ import java.sql.Timestamp;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Order implements BaseEntity<Order>{
 
@@ -191,6 +190,28 @@ public class Order implements BaseEntity<Order>{
                 .filter(t -> t.getStatusName() == StatusName.SHIPMENT_REAL)
                 .map(OrderTime::getTime)
                 .findFirst().orElse(getDateToShipment());
+    }
+
+    public String getDeveloper() {
+        Map<String, Integer> result = new HashMap<>();
+        int sum = 0;
+        for (Description d : getDescriptions()) {
+            if (d.getDesigner() == null) {
+                continue;
+            }
+            sum++;
+            if (result.containsKey(d.getDesigner())) {
+                result.put(d.getDesigner(), result.get(d.getDesigner()) + 1);
+            } else {
+                result.put(d.getDesigner(), 1);
+            }
+        }
+        String collect = result.keySet().stream()
+                .collect(Collectors.joining(System.lineSeparator()));
+        if (sum == getDescriptions().size()) {
+            return collect;
+        }
+        return "";
     }
 
     @Override

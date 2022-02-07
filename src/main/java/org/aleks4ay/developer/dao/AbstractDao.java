@@ -53,7 +53,6 @@ abstract class AbstractDao<T extends BaseEntity<T>> {
     boolean deleteAbstractById(String sql, String id) {
         Connection connection = getConnection();
         try (PreparedStatement prepStatement = connection.prepareStatement(sql)){
-            List<T> entities = new ArrayList<>();
             prepStatement.setString(1, id);
             prepStatement.executeUpdate();
             log.debug("Was doing Sql: '{}' for id'{}'.", sql, id);
