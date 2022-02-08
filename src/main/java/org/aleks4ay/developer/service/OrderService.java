@@ -4,6 +4,8 @@ import org.aleks4ay.developer.dao.*;
 import org.aleks4ay.developer.model.*;
 import org.aleks4ay.developer.tools.DateTool;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -39,10 +41,15 @@ public class OrderService extends AbstractService<Order> {
         return findAll(page, sqlOrder, sortWay, sqlDescription);
     }
 
-    public List<Order> getOrdersWithDescriptionsManager(Page page, SortWay sortWay, Set<StatusName> orderToShow, String numbers) {
-        String statuses = getStatuses(orderToShow);
-        String sqlOrder = ORDER_BASE + BY_STATUS.replace(PARAMETER, statuses) + BY_NUMBER.replace(PARAMETER, numbers);
-        String sqlDescription = DESCRIPTION_START + DESCRIPTION_END;
+    public List<Order> getOrdersWithDescriptionsManager(Page page, SortWay sortWay, Set<StatusName> statusNameSet,
+                                                        Set<TypeName> typeNameSet, List<LocalDateTime> dateList, String numbers) {
+
+        String statuses = statusNameSet.isEmpty() ? "" : BY_STATUS.replace(PARAMETER, getStatuses(statusNameSet));
+        String types = typeNameSet.isEmpty() ? "" : BY_TYPE.replace(PARAMETER, getTypes(typeNameSet));
+        String dates = dateList.isEmpty() ? "" : BY_DATE_CREATE.replace(PARAMETER, getDates(dateList));
+        String number = numbers.isEmpty() ? "" : BY_NUMBER.replace(PARAMETER, numbers);
+        String sqlOrder = ORDER_BASE + statuses + types + dates + number;
+        String sqlDescription = DESCRIPTION_START + statuses + types + DESCRIPTION_END;
         return findAll(page, sqlOrder, sortWay, sqlDescription);
     }
 
@@ -104,10 +111,29 @@ public class OrderService extends AbstractService<Order> {
         orderDao.updateStatusName(orderId, status.toString());
     }
 
-    private String getStatuses(Set<StatusName> orderToShow) {
+    private String getStatuses(Set<StatusName> statusNameSet) {
         StringBuilder sb = new StringBuilder("'");
-        String body = orderToShow.stream()
+        String body = statusNameSet.stream()
                 .map(Enum::toString)
+                .collect(Collectors.joining("', '"));
+
+        return sb.append(body).append("'").toString();
+    }
+
+    private String getTypes(Set<TypeName> typeNameSet) {
+        StringBuilder sb = new StringBuilder("'");
+        String body = typeNameSet.stream()
+                .map(Enum::toString)
+                .collect(Collectors.joining("', '"));
+
+        return sb.append(body).append("'").toString();
+    }
+
+    private String getDates(List<LocalDateTime> dateList) {
+        StringBuilder sb = new StringBuilder("'");
+
+        String body = dateList.stream()
+                .map(d -> Timestamp.valueOf(d).toString())
                 .collect(Collectors.joining("', '"));
 
         return sb.append(body).append("'").toString();

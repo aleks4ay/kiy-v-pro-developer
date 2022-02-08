@@ -3,7 +3,7 @@ out
 target
 *.iml
 *.patch
-logs/*
+logs_dev/*
 
 # Cursive Clojure plugin
 .idea/*

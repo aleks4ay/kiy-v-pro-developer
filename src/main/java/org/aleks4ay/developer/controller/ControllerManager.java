@@ -18,12 +18,15 @@ import org.aleks4ay.developer.tools.FileWriter;
 import org.aleks4ay.developer.tools.PropertyListener;
 
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class ControllerManager implements Initializable {
     private int numberOfStatuses;
-    private Set<StatusName> orderToShow = new HashSet<>();
+    private Set<StatusName> statusNameSet = new HashSet<>();
+    private Set<TypeName> typeNameSet = new HashSet<>();
+    private List<LocalDateTime> dateList = new ArrayList<>();
     private Set<CheckBox> checkBoxes = new HashSet<>();
     private Set<CheckBox> checkBoxesType = new HashSet<>();
     private static final long positionOnPage = 100;
@@ -112,6 +115,7 @@ public class ControllerManager implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         initCheckBoxes();
+        initTypes();
         updateOrderStatusesToShow();
         initKbTabOne();
         initKbTabTwo();
@@ -130,6 +134,15 @@ public class ControllerManager implements Initializable {
                 viewSelectedDescription();
             }
         });
+
+        info_ord.setText(String.valueOf(page.getSize()));
+        info_position.setText(page.getInterval());
+        if (page.isLast()) {
+            parsing_next.setDisable(true);
+        }
+        if (page.isFirst()) {
+            parsing_previous.setDisable(true);
+        }
     }
 
 
@@ -139,6 +152,11 @@ public class ControllerManager implements Initializable {
                 .filter(CheckBox::isSelected)
                 .count();
         checkBoxesType.addAll(Arrays.asList(check_kiy_v, check_kiy_v_pro));
+    }
+
+    private void initTypes() {
+        typeNameSet.clear();
+        typeNameSet.addAll(Arrays.asList(TypeName.NEW, TypeName.KB, TypeName.FACTORY));
     }
 
     private void updateAllView() {
@@ -155,8 +173,11 @@ public class ControllerManager implements Initializable {
 
     private void initKbTabOne() {
         listOrderManager.clear();
+        parsing_next.setDisable(false);
         String numbersOrderLike = getNumbersOrderLike();
-        List<Order> orderList = orderService.getOrdersWithDescriptionsManager(page, sortWay, orderToShow, numbersOrderLike);
+//        String typeLike = orderService.getType();
+        List<Order> orderList = orderService
+                .getOrdersWithDescriptionsManager(page, sortWay, statusNameSet, typeNameSet, dateList, numbersOrderLike);
 
         listOrderManager.addAll(orderList);
         if (listOrderManager.size() == 0 && page.getPosition() > 0) {
@@ -213,10 +234,10 @@ public class ControllerManager implements Initializable {
     }
 
     private void updateOrderStatusesToShow(){
-        orderToShow.clear();
+        statusNameSet.clear();
         for (CheckBox ch : checkBoxes) {
             if (ch.isSelected()) {
-                orderToShow.addAll(StatusName.addStatusFromCheckBox(ch));
+                statusNameSet.addAll(StatusName.addStatusFromCheckBox(ch));
             }
         }
     }
@@ -278,7 +299,17 @@ public class ControllerManager implements Initializable {
     }
 
     public void menuType(ActionEvent event) {
-
+        infoType.setText(((MenuItem)event.getSource()).getText());
+        String[] partOfId = ((MenuItem)event.getSource()).getId().split("_");
+        List<String> types = Arrays.stream(partOfId).skip(1).collect(Collectors.toList());
+        typeNameSet.clear();
+        if (!types.contains("ALL")) {
+            Arrays.stream(TypeName.values())
+                    .filter(type -> types.contains(type.toString()))
+                    .forEach(typeNameSet::add);
+        }
+        initKbTabOne();
+        initKbTabTwo();
     }
 
     public void menuManager(ActionEvent event) {

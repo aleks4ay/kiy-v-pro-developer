@@ -145,13 +145,13 @@
                                                                  <Font size="14.0" />
                                                              </font>
                                                              <items>
-                                                                 <MenuItem id="m3_1" mnemonicParsing="false" onAction="#menuType" text="ВСЕ" />
-                                                                 <MenuItem id="m3_2" mnemonicParsing="false" onAction="#menuType" text="ЦЕХ, КБ, новый" />
-                                                                 <MenuItem id="m3_3" mnemonicParsing="false" onAction="#menuType" text="ЦЕХ" />
-                                                                 <MenuItem id="m3_4" mnemonicParsing="false" onAction="#menuType" text="КБ" />
-                                                                 <MenuItem id="m3_5" mnemonicParsing="false" onAction="#menuType" text="новый" />
-                                                                 <MenuItem id="m3_6" mnemonicParsing="false" onAction="#menuType" text="ТЕХН" />
-                                                                 <MenuItem id="m3_7" mnemonicParsing="false" onAction="#menuType" text="Прочее" />
+                                                                 <MenuItem id="m3_ALL" mnemonicParsing="false" onAction="#menuType" text="ВСЕ" />
+                                                                 <MenuItem id="m3_NEW_KB_FACTORY" mnemonicParsing="false" onAction="#menuType" text="ЦЕХ, КБ, Новый" />
+                                                                 <MenuItem id="m3_FACTORY" mnemonicParsing="false" onAction="#menuType" text="ЦЕХ" />
+                                                                 <MenuItem id="m3_KB" mnemonicParsing="false" onAction="#menuType" text="КБ" />
+                                                                 <MenuItem id="m3_NEW" mnemonicParsing="false" onAction="#menuType" text="Новый" />
+                                                                 <MenuItem id="m3_TECHNO" mnemonicParsing="false" onAction="#menuType" text="ТЕХН" />
+                                                                 <MenuItem id="m3_OTHER" mnemonicParsing="false" onAction="#menuType" text="Прочее" />
                                                              </items>
                                                          </MenuButton>
                                                          <Label fx:id="infoType" maxHeight="1.7976931348623157E308" text="КБ, ЦЕХ, ТЕХН" textFill="BLUE">
@@ -233,7 +233,7 @@
                                                                   <Insets top="20.0" />
                                                                </VBox.margin>
                                                                </Label>
-                                                               <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Показано заказов:" textAlignment="RIGHT">
+                                                               <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Найдено заказов:" textAlignment="RIGHT">
                                                                    <font>
                                                                        <Font size="14.0" />
                                                                    </font>
@@ -271,7 +271,7 @@
                                                                   <Insets top="20.0" />
                                                                </VBox.margin>
                                                                </Label>
-                                                               <Label fx:id="info_ord" layoutX="10.0" layoutY="400.0" maxWidth="1.7976931348623157E308" text="58" textFill="BLUE">
+                                                               <Label fx:id="info_ord" layoutX="10.0" layoutY="400.0" maxWidth="1.7976931348623157E308" text="-" textFill="BLUE">
                                                                    <font>
                                                                        <Font size="14.0" />
                                                                    </font>
@@ -285,7 +285,7 @@
                                                                   <Insets bottom="15.0" />
                                                                </VBox.margin>
                                                                </Label>
-                                                               <Label fx:id="info_shipment" layoutX="10.0" layoutY="430.0" maxWidth="1.7976931348623157E308" text="120">
+                                                               <Label fx:id="info_shipment" layoutX="10.0" layoutY="430.0" maxWidth="1.7976931348623157E308" text="-">
                                                                    <font>
                                                                        <Font size="14.0" />
                                                                    </font>
@@ -296,7 +296,7 @@
                                                                        <Insets left="5.0" right="5.0" />
                                                                    </padding>
                                                                </Label>
-                                                               <Label fx:id="info_shipment_today" maxWidth="1.7976931348623157E308" text="58" textAlignment="RIGHT" textFill="#0080ff">
+                                                               <Label fx:id="info_shipment_today" maxWidth="1.7976931348623157E308" text="-" textAlignment="RIGHT" textFill="#0080ff">
                                                                    <font>
                                                                        <Font name="System Bold" size="14.0" />
                                                                    </font>

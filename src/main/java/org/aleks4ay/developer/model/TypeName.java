@@ -8,7 +8,7 @@ public enum  TypeName {
     ABC ("ABC"),
     OTHER ("Прочее");
 
-    private String name;
+    private final String name;
 
     TypeName(String name) {
         this.name = name;
