@@ -21,6 +21,12 @@
     -fx-text-fill: rgba(71, 186, 85, 0.97);
     -fx-font-weight: bold;
 }
+.dayClick
+{
+    -fx-text-fill: rgba(71, 186, 85, 0.97);
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
 
 .red0
 {

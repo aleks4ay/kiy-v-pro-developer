@@ -18,17 +18,21 @@ import org.aleks4ay.developer.tools.FileWriter;
 import org.aleks4ay.developer.tools.PropertyListener;
 
 import java.net.URL;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 public class ControllerManager implements Initializable {
     private int numberOfStatuses;
-    private Set<StatusName> statusNameSet = new HashSet<>();
-    private Set<TypeName> typeNameSet = new HashSet<>();
-    private List<LocalDateTime> dateList = new ArrayList<>();
-    private Set<CheckBox> checkBoxes = new HashSet<>();
-    private Set<CheckBox> checkBoxesType = new HashSet<>();
+    private Button selectedDateButton;
+    private final Set<StatusName> statusNameSet = new HashSet<>();
+    private final Set<TypeName> typeNameSet = new HashSet<>();
+    private LocalDate dateStart_;
+    private final Set<Button> dateButtons = new HashSet<>();
+    private final Set<CheckBox> checkBoxes = new HashSet<>();
+    private final Set<CheckBox> checkBoxesType = new HashSet<>();
     private static final long positionOnPage = 100;
     private final LongProperty isNewOrderTime = PropertyListener.getOrderTimeProperty();
 
@@ -95,8 +99,8 @@ public class ControllerManager implements Initializable {
     @FXML private TableColumn<DescriptionFind, String> time20;
     @FXML private TableColumn<DescriptionFind, Button> add_item;
 
-    @FXML private MenuButton menuSorting;
-    @FXML private MenuButton menuType;
+//    @FXML private MenuButton menuSorting;
+//    @FXML private MenuButton menuType;
     @FXML private MenuButton menuManager;
     @FXML private MenuButton menuDeveloper;
 
@@ -116,8 +120,9 @@ public class ControllerManager implements Initializable {
 
         initCheckBoxes();
         initTypes();
+        initDateButtons();
         updateOrderStatusesToShow();
-        initKbTabOne();
+        updateAllView();
         initKbTabTwo();
 
         isNewOrderTime.addListener((observable, oldValue, newValue) -> {
@@ -154,6 +159,12 @@ public class ControllerManager implements Initializable {
         checkBoxesType.addAll(Arrays.asList(check_kiy_v, check_kiy_v_pro));
     }
 
+    private void initDateButtons() {
+        selectedDateButton = b_year;
+        selectedDateButton.getStyleClass().add("dayClick");
+        info_day.setText(String.valueOf(LocalDate.now().getDayOfYear()));
+    }
+
     private void initTypes() {
         typeNameSet.clear();
         typeNameSet.addAll(Arrays.asList(TypeName.NEW, TypeName.KB, TypeName.FACTORY));
@@ -175,9 +186,10 @@ public class ControllerManager implements Initializable {
         listOrderManager.clear();
         parsing_next.setDisable(false);
         String numbersOrderLike = getNumbersOrderLike();
-//        String typeLike = orderService.getType();
-        List<Order> orderList = orderService
-                .getOrdersWithDescriptionsManager(page, sortWay, statusNameSet, typeNameSet, dateList, numbersOrderLike);
+        String developerName = getDeveloperLike();
+        String managerName = "";//getManagerLike();
+        List<Order> orderList = orderService.getOrdersWithDescriptionsManager(page, sortWay, statusNameSet, typeNameSet,
+                dateStart_, numbersOrderLike, developerName, managerName);
 
         listOrderManager.addAll(orderList);
         if (listOrderManager.size() == 0 && page.getPosition() > 0) {
@@ -205,7 +217,13 @@ public class ControllerManager implements Initializable {
     private String getNumbersOrderLike() {
         return check_kiy_v.isSelected() && check_kiy_v_pro.isSelected() ? ""
                 : check_kiy_v.isSelected() ? ConstantsSql.KI_ORDERS
-                : ConstantsSql.KP_ORDERS;
+                : check_kiy_v_pro.isSelected() ? ConstantsSql.KP_ORDERS
+                : "0-0-0-0";
+    }
+
+    private String getDeveloperLike() {
+        return infoDeveloper.getText().equals("Все")  ? ""
+                : infoDeveloper.getText();
     }
 
     private void initKbTabTwo() {
@@ -299,7 +317,6 @@ public class ControllerManager implements Initializable {
     }
 
     public void menuType(ActionEvent event) {
-        infoType.setText(((MenuItem)event.getSource()).getText());
         String[] partOfId = ((MenuItem)event.getSource()).getId().split("_");
         List<String> types = Arrays.stream(partOfId).skip(1).collect(Collectors.toList());
         typeNameSet.clear();
@@ -308,16 +325,21 @@ public class ControllerManager implements Initializable {
                     .filter(type -> types.contains(type.toString()))
                     .forEach(typeNameSet::add);
         }
+        infoType.setText(((MenuItem)event.getSource()).getText());
         initKbTabOne();
         initKbTabTwo();
     }
 
     public void menuManager(ActionEvent event) {
-
+        MenuItem item = (MenuItem) event.getSource();
+        String manager = item.getText().equalsIgnoreCase("Выбрать всех") ? "Все" : item.getText();
+        infoManager.setText(manager);
     }
 
     public void menuDeveloper(ActionEvent event) {
-
+        MenuItem item = (MenuItem) event.getSource();
+        String developer = item.getText().equalsIgnoreCase("Выбрать всех") ? "Все" : item.getText();
+        infoDeveloper.setText(developer);
     }
 
     @FXML
@@ -331,11 +353,58 @@ public class ControllerManager implements Initializable {
             numberOfStatuses = checkBox.isSelected() ? numberOfStatuses + 1 : numberOfStatuses - 1;
             check_all.setSelected(numberOfStatuses == 6);
         }
-        updateAllView();
+        initKbTabOne();
+        initKbTabTwo();
     }
 
     @FXML
     private void checkOrderNumber() {
-        updateAllView();
+        initKbTabOne();
+        initKbTabTwo();
+    }
+
+    private void setDate(ActionEvent event) {
+        if (selectedDateButton != null) {
+            selectedDateButton.getStyleClass().remove("dayClick");
+        }
+        selectedDateButton = ((Button)event.getSource());
+        selectedDateButton.getStyleClass().add("dayClick");
+        long period = DAYS.between(dateStart_, LocalDate.now()) + 1;
+
+        info_day.setText(String.valueOf(period));
+//        dateStart_ = startDay;
+        initKbTabOne();
+        initKbTabTwo();
+    }
+
+    public void forAll(ActionEvent event) {
+        dateStart_ = LocalDate.of(2021, 5, 1);
+        setDate(event);
+    }
+
+    public void forYear(ActionEvent event) {
+        dateStart_ = LocalDate.of(LocalDate.now().getYear(), 1, 1);
+        setDate(event);
+    }
+
+    public void forThirty(ActionEvent event) {
+        dateStart_ = LocalDate.now().minusDays(29);
+        setDate(event);
+    }
+
+    public void forMonth(ActionEvent event) {
+        dateStart_ = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), 1);
+        setDate(event);
+    }
+
+    public void forWeek(ActionEvent event) {
+        int dayOfWeek = LocalDate.now().getDayOfWeek().getValue();
+        dateStart_ = LocalDate.now().minusDays(dayOfWeek - 1);
+        setDate(event);
+    }
+
+    public void forDay(ActionEvent event) {
+        dateStart_ = LocalDate.now();
+        setDate(event);
     }
 }

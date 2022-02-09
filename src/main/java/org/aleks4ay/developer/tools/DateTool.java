@@ -1,5 +1,9 @@
 package org.aleks4ay.developer.tools;
 
+import java.time.LocalDate;
+
+import static java.time.temporal.ChronoUnit.DAYS;
+
 public class DateTool {
 
     public static void main(String[] args) {
@@ -22,5 +26,9 @@ public class DateTool {
             return "";
         }
         return year < 100 ? "20" + year : String.valueOf(year);
+    }
+
+    public static long getPeriod (LocalDate dateStart, LocalDate dateEnd) {
+        return DAYS.between(dateStart, dateEnd) + 1;
     }
 }

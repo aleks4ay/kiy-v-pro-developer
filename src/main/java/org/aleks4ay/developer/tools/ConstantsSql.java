@@ -4,7 +4,7 @@ public final class ConstantsSql {
 
     public static final String PARAMETER = "<PARAMETER>";
     public static final String BY_YEAR = " and EXTRACT(year FROM j.t_create) = <PARAMETER> ";
-    public static final String BY_DATE_CREATE = " and j.t_create in (<PARAMETER>) ";
+    public static final String BY_DATE_CREATE = " and j.t_create >= '<PARAMETER> 00:00:00.0' "; //" and j.t_create in (<PARAMETER>) ";
     public static final String BY_TYPE = " and d.type in (<PARAMETER>) ";
     public static final String BY_STATUS = " and d.status in (<PARAMETER>)";
     public static final String BY_STATUS_NEW = " and d.status = 'NEW' ";

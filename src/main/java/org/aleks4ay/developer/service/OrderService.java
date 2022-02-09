@@ -5,6 +5,7 @@ import org.aleks4ay.developer.model.*;
 import org.aleks4ay.developer.tools.DateTool;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -42,14 +43,15 @@ public class OrderService extends AbstractService<Order> {
     }
 
     public List<Order> getOrdersWithDescriptionsManager(Page page, SortWay sortWay, Set<StatusName> statusNameSet,
-                                                        Set<TypeName> typeNameSet, List<LocalDateTime> dateList, String numbers) {
+                   Set<TypeName> typeNameSet, LocalDate dateStart, String numbers, String developerName, String managerName) {
 
         String statuses = statusNameSet.isEmpty() ? "" : BY_STATUS.replace(PARAMETER, getStatuses(statusNameSet));
         String types = typeNameSet.isEmpty() ? "" : BY_TYPE.replace(PARAMETER, getTypes(typeNameSet));
-        String dates = dateList.isEmpty() ? "" : BY_DATE_CREATE.replace(PARAMETER, getDates(dateList));
         String number = numbers.isEmpty() ? "" : BY_NUMBER.replace(PARAMETER, numbers);
-        String sqlOrder = ORDER_BASE + statuses + types + dates + number;
-        String sqlDescription = DESCRIPTION_START + statuses + types + DESCRIPTION_END;
+        String dates = dateStart == null ? "" : BY_DATE_CREATE.replace(PARAMETER, dateStart.toString());
+        String developer = developerName.isEmpty() ? "" : BY_DEVELOPER.replace(PARAMETER, developerName);
+        String sqlOrder = ORDER_BASE + statuses + types + dates + developer + number;
+        String sqlDescription = DESCRIPTION_START + statuses + types + developer + DESCRIPTION_END;
         return findAll(page, sqlOrder, sortWay, sqlDescription);
     }
 
@@ -124,16 +126,6 @@ public class OrderService extends AbstractService<Order> {
         StringBuilder sb = new StringBuilder("'");
         String body = typeNameSet.stream()
                 .map(Enum::toString)
-                .collect(Collectors.joining("', '"));
-
-        return sb.append(body).append("'").toString();
-    }
-
-    private String getDates(List<LocalDateTime> dateList) {
-        StringBuilder sb = new StringBuilder("'");
-
-        String body = dateList.stream()
-                .map(d -> Timestamp.valueOf(d).toString())
                 .collect(Collectors.joining("', '"));
 
         return sb.append(body).append("'").toString();
