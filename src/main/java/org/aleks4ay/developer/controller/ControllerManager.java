@@ -12,6 +12,7 @@ import javafx.scene.text.Text;
 import org.aleks4ay.developer.dao.ConnectionPool;
 import org.aleks4ay.developer.dao.OrderDao;
 import org.aleks4ay.developer.model.*;
+import org.aleks4ay.developer.service.ManagerEngine;
 import org.aleks4ay.developer.service.OrderService;
 import org.aleks4ay.developer.tools.ConstantsSql;
 import org.aleks4ay.developer.tools.FileWriter;
@@ -29,7 +30,7 @@ public class ControllerManager implements Initializable {
     private Button selectedDateButton;
     private final Set<StatusName> statusNameSet = new HashSet<>();
     private final Set<TypeName> typeNameSet = new HashSet<>();
-    private LocalDate dateStart_;
+    private LocalDate dateStart;
     private final Set<Button> dateButtons = new HashSet<>();
     private final Set<CheckBox> checkBoxes = new HashSet<>();
     private final Set<CheckBox> checkBoxesType = new HashSet<>();
@@ -41,6 +42,8 @@ public class ControllerManager implements Initializable {
     public static SortWay sortWay = SortWay.NUMBER;
     private int selectedRow = 0;
     private final Page page = new Page(positionOnPage);
+    private String managerId = "";
+    private String developerIds = "";
 
     private final ObservableList<Order> listOrderManager = FXCollections.observableArrayList();
     private final ObservableList<DescriptionFind> listDescriptionManager = FXCollections.observableArrayList();
@@ -49,11 +52,6 @@ public class ControllerManager implements Initializable {
     @FXML private Button parsing_next;
     @FXML private Button parsing_previous;
     @FXML private Button b_year;
-    @FXML private Button b_month;
-    @FXML private Button b_30_day;
-    @FXML private Button b_week;
-    @FXML private Button b_day;
-
 
     @FXML private Label info_position;
     @FXML private Text timeUpdate;
@@ -99,7 +97,6 @@ public class ControllerManager implements Initializable {
     @FXML private TableColumn<DescriptionFind, String> time20;
     @FXML private TableColumn<DescriptionFind, Button> add_item;
 
-//    @FXML private MenuButton menuSorting;
 //    @FXML private MenuButton menuType;
     @FXML private MenuButton menuManager;
     @FXML private MenuButton menuDeveloper;
@@ -121,6 +118,8 @@ public class ControllerManager implements Initializable {
         initCheckBoxes();
         initTypes();
         initDateButtons();
+        initDesigners();
+//        initManagers();
         updateOrderStatusesToShow();
         updateAllView();
         initKbTabTwo();
@@ -170,6 +169,28 @@ public class ControllerManager implements Initializable {
         typeNameSet.addAll(Arrays.asList(TypeName.NEW, TypeName.KB, TypeName.FACTORY));
     }
 
+//    private void initManagers() {
+//        Map<String, String> managers = new ManagerEngine().detManagers(ConnectionPool.getInstance());
+//        for (Map.Entry<String, String> entry : managers.entrySet()) {
+//            MenuItem menuItem = new MenuItem();
+//            menuItem.setText(entry.getValue() + "_2");
+//            menuItem.setId("m4_" + entry.getKey());
+//            menuItem.setOnAction(this::menuManager);
+//            menuManager.getItems().add(menuItem);
+//        }
+//    }
+
+    private void initDesigners() {
+        Map<String, String>  designers = new ManagerEngine().detDesigners(ConnectionPool.getInstance());
+        for (Map.Entry<String, String> d : designers.entrySet()) {
+            MenuItem menuItem = new MenuItem();
+            menuItem.setText(d.getKey());
+            menuItem.setId("m5_" + d.getValue());
+            menuItem.setOnAction(this::menuDeveloper);
+            menuDeveloper.getItems().add(menuItem);
+        }
+    }
+
     private void updateAllView() {
         try {
             Thread.sleep(50);
@@ -186,10 +207,8 @@ public class ControllerManager implements Initializable {
         listOrderManager.clear();
         parsing_next.setDisable(false);
         String numbersOrderLike = getNumbersOrderLike();
-        String developerName = getDeveloperLike();
-        String managerName = "";//getManagerLike();
         List<Order> orderList = orderService.getOrdersWithDescriptionsManager(page, sortWay, statusNameSet, typeNameSet,
-                dateStart_, numbersOrderLike, developerName, managerName);
+                dateStart, numbersOrderLike, developerIds, managerId);
 
         listOrderManager.addAll(orderList);
         if (listOrderManager.size() == 0 && page.getPosition() > 0) {
@@ -221,10 +240,6 @@ public class ControllerManager implements Initializable {
                 : "0-0-0-0";
     }
 
-    private String getDeveloperLike() {
-        return infoDeveloper.getText().equals("Все")  ? ""
-                : infoDeveloper.getText();
-    }
 
     private void initKbTabTwo() {
         viewSelectedDescription();
@@ -234,7 +249,7 @@ public class ControllerManager implements Initializable {
         size_a.setCellValueFactory(new PropertyValueFactory<>("sizeA"));
         size_b.setCellValueFactory(new PropertyValueFactory<>("sizeB"));
         size_c.setCellValueFactory(new PropertyValueFactory<>("sizeC"));
-        amount.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        amount.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         type.setCellValueFactory(new PropertyValueFactory<>("typeString"));
         status.setCellValueFactory(new PropertyValueFactory<>("statusString"));
         designer.setCellValueFactory(new PropertyValueFactory<>("designer"));
@@ -332,14 +347,21 @@ public class ControllerManager implements Initializable {
 
     public void menuManager(ActionEvent event) {
         MenuItem item = (MenuItem) event.getSource();
-        String manager = item.getText().equalsIgnoreCase("Выбрать всех") ? "Все" : item.getText();
-        infoManager.setText(manager);
+        String rawId = item.getId().split("_")[1];
+        managerId = rawId.length() == 1 ? "" : rawId.replaceAll("@", " ");
+        String managerName = item.getText().equalsIgnoreCase("Выбрать всех") ? "Все" : item.getText();
+        infoManager.setText(managerName);
+        initKbTabOne();
+        initKbTabTwo();
     }
 
     public void menuDeveloper(ActionEvent event) {
         MenuItem item = (MenuItem) event.getSource();
-        String developer = item.getText().equalsIgnoreCase("Выбрать всех") ? "Все" : item.getText();
-        infoDeveloper.setText(developer);
+        developerIds = item.getId().equalsIgnoreCase("m5_1") ? "" : item.getId();
+        String developerName = item.getText().equalsIgnoreCase("Выбрать всех") ? "Все" : item.getText();
+        infoDeveloper.setText(developerName);
+        initKbTabOne();
+        initKbTabTwo();
     }
 
     @FXML
@@ -353,8 +375,9 @@ public class ControllerManager implements Initializable {
             numberOfStatuses = checkBox.isSelected() ? numberOfStatuses + 1 : numberOfStatuses - 1;
             check_all.setSelected(numberOfStatuses == 6);
         }
-        initKbTabOne();
-        initKbTabTwo();
+        updateAllView();
+//        initKbTabOne();
+//        initKbTabTwo();
     }
 
     @FXML
@@ -369,42 +392,42 @@ public class ControllerManager implements Initializable {
         }
         selectedDateButton = ((Button)event.getSource());
         selectedDateButton.getStyleClass().add("dayClick");
-        long period = DAYS.between(dateStart_, LocalDate.now()) + 1;
+        long period = DAYS.between(dateStart, LocalDate.now()) + 1;
 
         info_day.setText(String.valueOf(period));
-//        dateStart_ = startDay;
+//        updateAllView();
         initKbTabOne();
         initKbTabTwo();
     }
 
     public void forAll(ActionEvent event) {
-        dateStart_ = LocalDate.of(2021, 5, 1);
+        dateStart = LocalDate.of(2021, 5, 1);
         setDate(event);
     }
 
     public void forYear(ActionEvent event) {
-        dateStart_ = LocalDate.of(LocalDate.now().getYear(), 1, 1);
+        dateStart = LocalDate.of(LocalDate.now().getYear(), 1, 1);
         setDate(event);
     }
 
     public void forThirty(ActionEvent event) {
-        dateStart_ = LocalDate.now().minusDays(29);
+        dateStart = LocalDate.now().minusDays(29);
         setDate(event);
     }
 
     public void forMonth(ActionEvent event) {
-        dateStart_ = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), 1);
+        dateStart = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), 1);
         setDate(event);
     }
 
     public void forWeek(ActionEvent event) {
         int dayOfWeek = LocalDate.now().getDayOfWeek().getValue();
-        dateStart_ = LocalDate.now().minusDays(dayOfWeek - 1);
+        dateStart = LocalDate.now().minusDays(dayOfWeek - 1);
         setDate(event);
     }
 
     public void forDay(ActionEvent event) {
-        dateStart_ = LocalDate.now();
+        dateStart = LocalDate.now();
         setDate(event);
     }
 }

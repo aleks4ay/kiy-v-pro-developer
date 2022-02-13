@@ -4,6 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class OtherDao {
 
@@ -59,6 +63,40 @@ public class OtherDao {
             connectionBase.closeConnection(connection);
         }
     }
+
+    public Map<String, String> selectBase(String sql) {
+        Connection connection = connectionBase.getConnection();
+        Map<String, String> result = new HashMap<>();
+        try (Statement statement = connection.createStatement()){
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next()) {
+                result.put(rs.getString(1), rs.getString(2));
+            }
+        } catch (SQLException e) {
+            log.warn("Exception during doing Sql: '{}'.", sql, e);
+            return null;
+        } finally {
+            connectionBase.closeConnection(connection);
+        }
+        return result;
+    }
+
+//    public List<String> selectBaseAsList(String sql) {
+//        Connection connection = connectionBase.getConnection();
+//        List<String> result = new ArrayList<>();
+//        try (Statement statement = connection.createStatement()){
+//            ResultSet rs = statement.executeQuery(sql);
+//            while (rs.next()) {
+//                result.add(rs.getString(1));
+//            }
+//        } catch (SQLException e) {
+//            log.warn("Exception during doing Sql: '{}'.", sql, e);
+//            return null;
+//        } finally {
+//            connectionBase.closeConnection(connection);
+//        }
+//        return result;
+//    }
 
     public void updateSql(String sql) {
         Connection connection = connectionBase.getConnection();

@@ -178,10 +178,10 @@
                                                              </font>
                                                              <items>
                                                                  <MenuItem id="m4_1" mnemonicParsing="false" onAction="#menuManager" text="Выбрать всех" />
-                                                                 <MenuItem id="m4_2" mnemonicParsing="false" onAction="#menuManager" text="Вареня Н. Р." />
-                                                                 <MenuItem id="m4_3" mnemonicParsing="false" onAction="#menuManager" text="Соломко Н. О." />
-                                                                 <MenuItem id="m4_4" mnemonicParsing="false" onAction="#menuManager" text="Холохоренко Д. П." />
-                                                                 <MenuItem id="m4_5" mnemonicParsing="false" onAction="#menuManager" text="Саламатова Е. С." />
+                                                                 <MenuItem id="m4_@@@@@1" mnemonicParsing="false" onAction="#menuManager" text="Вареня Н. Р." />
+                                                                 <MenuItem id="m4_@@@@3V" mnemonicParsing="false" onAction="#menuManager" text="Соломко Н. О." />
+                                                                 <MenuItem id="m4_@@@@@A" mnemonicParsing="false" onAction="#menuManager" text="Холохоренко Д. П." />
+                                                                 <MenuItem id="m4_@@@@@9" mnemonicParsing="false" onAction="#menuManager" text="Саламатова Е. С." />
                                                              </items>
                                                          </MenuButton>
                                                          <Label fx:id="infoManager" maxHeight="1.7976931348623157E308" text="Все" textFill="BLUE" wrapText="true">
@@ -208,10 +208,6 @@
                                                              </font>
                                                              <items>
                                                                  <MenuItem id="m5_1" mnemonicParsing="false" onAction="#menuDeveloper" text="Выбрать всех" />
-                                                                 <MenuItem id="m5_2" mnemonicParsing="false" onAction="#menuDeveloper" text="Дячок Д." />
-                                                                 <MenuItem id="m5_3" mnemonicParsing="false" onAction="#menuDeveloper" text="Мосиенко В." />
-                                                                 <MenuItem id="m5_4" mnemonicParsing="false" onAction="#menuDeveloper" text="Сергиенко А." />
-                                                                 <MenuItem id="m5_5" mnemonicParsing="false" onAction="#menuDeveloper" text="Мигашко А." />
                                                              </items>
                                                          </MenuButton>
                                                          <Label fx:id="infoDeveloper" maxHeight="1.7976931348623157E308" text="Все" textFill="BLUE" wrapText="true">

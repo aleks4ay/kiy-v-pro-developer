@@ -138,7 +138,7 @@ public enum StatusName implements Comparable<StatusName>{
                 result.addAll(Arrays.asList(NOT_TRACKED, CANCELED, UNKNOWN));
                 break;
             }
-            default: {
+            case "check_new": {
                 result.add(NEW);
             }
         }

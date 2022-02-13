@@ -4,9 +4,7 @@ import org.aleks4ay.developer.dao.*;
 import org.aleks4ay.developer.model.*;
 import org.aleks4ay.developer.tools.DateTool;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -43,14 +41,18 @@ public class OrderService extends AbstractService<Order> {
     }
 
     public List<Order> getOrdersWithDescriptionsManager(Page page, SortWay sortWay, Set<StatusName> statusNameSet,
-                   Set<TypeName> typeNameSet, LocalDate dateStart, String numbers, String developerName, String managerName) {
+                   Set<TypeName> typeNameSet, LocalDate dateStart, String numbers, String developerIds, String managerId) {
 
         String statuses = statusNameSet.isEmpty() ? "" : BY_STATUS.replace(PARAMETER, getStatuses(statusNameSet));
+        if (statuses.isEmpty()) {
+            return new ArrayList<>();
+        }
         String types = typeNameSet.isEmpty() ? "" : BY_TYPE.replace(PARAMETER, getTypes(typeNameSet));
         String number = numbers.isEmpty() ? "" : BY_NUMBER.replace(PARAMETER, numbers);
         String dates = dateStart == null ? "" : BY_DATE_CREATE.replace(PARAMETER, dateStart.toString());
-        String developer = developerName.isEmpty() ? "" : BY_DEVELOPER.replace(PARAMETER, developerName);
-        String sqlOrder = ORDER_BASE + statuses + types + dates + developer + number;
+        String developer = developerIds.isEmpty() ? "" : BY_DEVELOPER.replace(PARAMETER, getDevelopers(developerIds));
+        String manager = managerId.isEmpty() ? "" : BY_MANAGER.replace(PARAMETER, managerId);
+        String sqlOrder = ORDER_BASE + statuses + types + dates + developer + manager + number;
         String sqlDescription = DESCRIPTION_START + statuses + types + developer + DESCRIPTION_END;
         return findAll(page, sqlOrder, sortWay, sqlDescription);
     }
@@ -118,6 +120,14 @@ public class OrderService extends AbstractService<Order> {
         String body = statusNameSet.stream()
                 .map(Enum::toString)
                 .collect(Collectors.joining("', '"));
+
+        return sb.append(body).append("'").toString();
+    }
+
+    private String getDevelopers(String developerIds) {
+        String[] ids = developerIds.replace("m5_", "").split(DELIMITER);
+        StringBuilder sb = new StringBuilder("'");
+        String body = String.join("', '", ids);
 
         return sb.append(body).append("'").toString();
     }

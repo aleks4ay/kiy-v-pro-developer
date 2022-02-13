@@ -3,6 +3,7 @@ package org.aleks4ay.developer.tools;
 public final class ConstantsSql {
 
     public static final String PARAMETER = "<PARAMETER>";
+    public static final String DELIMITER = "_@_";
     public static final String BY_YEAR = " and EXTRACT(year FROM j.t_create) = <PARAMETER> ";
     public static final String BY_DATE_CREATE = " and j.t_create >= '<PARAMETER> 00:00:00.0' "; //" and j.t_create in (<PARAMETER>) ";
     public static final String BY_TYPE = " and d.type in (<PARAMETER>) ";
@@ -11,8 +12,8 @@ public final class ConstantsSql {
     public static final String BY_STATUS_KB = "  and d.status in ('KB_NEW','KB_START','KB_QUESTION','KB_CONTINUED') ";
     public static final String BY_NUMBER = " and (j.doc_number like '%<PARAMETER>' or j.doc_number like '%<PARAMETER>%' " +
             " or j.doc_number like '<PARAMETER>%') ";
-    public static final String BY_MANAGER = " and o.manager = '<PARAMETER>' ";
-    public static final String BY_DEVELOPER = " and d.designer_name = '<PARAMETER>' ";
+    public static final String BY_MANAGER = " and o.id_manager = '<PARAMETER>' ";
+    public static final String BY_DEVELOPER = " and d.designer_name in (<PARAMETER>) ";
 
     public static final String SORT_ORDER_BY_NUMBER = " order by j.doc_number;";
     public static final String SORT_ORDER_BY_DATE_CREATE = " order by j.t_create;";
@@ -25,6 +26,10 @@ public final class ConstantsSql {
 
 
     public static final String TMC_GET_ALL = "SELECT * FROM tmc;";
+    public static final String WORKER_ALL = "select id, name from worker;";
+    public static final String MANAGERS_ALL = "select distinct w.id, w.name, w.parent_id from worker w " +
+            "INNER JOIN orders o on o.id_manager = w.id and w.parent_id = '     Z';";
+    public static final String DEVELOPER_ALL = "select distinct pseudo_name, name from developer where role ='developer' and enabled = 1;";
 
     public static final String ORDER_BASE = "select distinct o.id, j.doc_number, j.t_create, o.t_factory, o.duration, " +
             " c.name as client, w.name as manager, o.status" +
